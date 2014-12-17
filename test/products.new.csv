@@ -1,0 +1,81 @@
+store,sku,qty,is_in_stock,geschiktmenu,name,smaak,type_vlees,shelf,weight
+admin,PUURZALM,33,1,Ja,Puur zalm - Petsfish,ZALM,COMPLETE GEMALEN,Binnencel,0.5
+admin,MAKREEL100%,29,1,Ja,PUUR Makreel - Petsfish,MAKREEL,COMPLETE GEMALEN,Binnencel,1.0
+admin,KONIJNMALING/500,78,1,Ja,Zuiver Konijn - enkelvoudige maling,KONIJN,COMPLETE GEMALEN,Paris,0.5
+admin,EENDMALING/500,49,1,Ja,Eend - enkelvoudige maling - 500 gram,EEND,COMPLETE GEMALEN,Paris,0.5
+admin,KIPMALING/250,8,1,Ja,Zuiver Kip  - enkelvoudige maling - 250 gram,KIP,COMPLETE GEMALEN,Paris,0.25
+admin,KIPMALING/500,38,1,Ja,Zuiver Kip  - enkelvoudige maling - 500 gram,KIP,COMPLETE GEMALEN,Paris,0.5
+admin,FAZANTMIX/250,64,1,Ja,Fazant - enkelvoudige maling - 250 gram,FAZANT,COMPLETE GEMALEN,Paris,0.25
+admin,FAZANTMIX/500,138,1,Ja,Fazant - enkelvoudige maling - 500 gram,FAZANT,COMPLETE GEMALEN,Paris,0.5
+admin,GEITMIX/500,92,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling - 500 gram,GEIT,COMPLETE GEMALEN,Paris,0.5
+admin,GEITMALING/250,87,1,Ja,Geit - Enkelvoudige maling - 250 gram,GEIT,COMPLETE GEMALEN,Paris,0.25
+admin,GEITZUIVER,722,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling,GEIT,COMPLETE GEMALEN,Paris,0.25
+admin,KALKOENZUIVER/250,53,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 250 gram,KALKOEN,COMPLETE GEMALEN,Paris,0.25
+admin,PATRIJSZUIVER/250,18,1,Ja,Patrijs - OerVoer Zuiver,PATRIJS,COMPLETE GEMALEN,,0.25
+admin,KALKOENZUIVER/HOOFD,868,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling,KALKOEN,COMPLETE GEMALEN,Paris,0.25
+admin,ZUIVERLAM/HOOFD,838,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling,LAM,COMPLETE GEMALEN,Paris,0.25
+admin,RUNDZUIVER/HOOFD,921,1,Ja,Rund - Zuiver - OerVoer,RUND,COMPLETE GEMALEN,Paris,0.25
+admin,RUNDZUIVER/250,38,1,Ja,Rund - Zuiver - OerVoer - 250 gram,RUND,COMPLETE GEMALEN,Paris,0.25
+admin,RUNDZUIVER/500,35,1,Ja,Rund - Zuiver - OerVoer - 500 gram,RUND,COMPLETE GEMALEN,Paris,0.5
+admin,WGANSZUIVER/HOOFD,842,1,Ja,Gans (Wild) - OerVoer Zuiver,GANS,COMPLETE GEMALEN,Paris,0.25
+admin,WGANSZUIVER/500,52,1,Ja,Gans (Wild) - OerVoer Zuiver - 500 gram,GANS,COMPLETE GEMALEN,Paris,0.5
+admin,FAZHERT/500,7,1,Ja,Fazant/Hert - OerVoer Zuiver - 500 gram,,COMPLETE GEMALEN,Paris,0.5
+admin,KONIJN0002,39,1,Ja,Konijn karkas-Middel - 160 gram,KONIJN,COMPLEET KARKAS,binnencel,0.35
+admin,KONIJN0003,87,1,Ja,Konijn karkas-Groot - 550 gram,KONIJN,COMPLEET KARKAS,Binnencel,0.55
+admin,PARELHOENKARKAS,8,1,Ja,Parelhoenkarkas,PARELHOEN,COMPLEET KARKAS,Binnencel,0.2
+admin,DUIFKARKAS,16,1,Ja,Duifkarkas met orgaan,DUIF,COMPLEET KARKAS,Binnencel,0.12
+admin,KWARTELKARKAS,6,1,Ja,Kwartelkarkas met orgaan,KWARTEL,COMPLEET KARKAS,Binnencel,0.08
+admin,KONIJNKARKAS,28,1,Ja,Konijn karkas,KONIJN,COMPLEET KARKAS,Binnencel,0.25
+admin,PATRIJSKARKAS,17,1,Ja,Patrijs - Karkas met orgaan,PATRIJS,COMPLEET KARKAS,Binnencel,0.225
+admin,PATRIJS-01,7,1,Ja,Patrijs - Karkas met orgaan,PATRIJS,COMPLEET KARKAS,Binnencel,0.225
+admin,DUIF-05,47,1,Ja,Duifkarkas met orgaan - per 3 stuks,DUIF,COMPLEET KARKAS,Binnencel,0.4
+admin,REE0001,6,1,Ja,Ree spiervlees - 250 gram,REE,SPIERVLEES,Binnencel,0.25
+admin,REE0002,47,1,Ja,Ree spiervlees - 500 gram,REE,SPIERVLEES,Binnencel,0.5
+admin,REESPIER,876,1,Ja,Ree spiervlees,REE,SPIERVLEES,Binnencel,0.25
+admin,RUNDERKOPHUID,89,1,Ja,Runderkop vlees,RUND,SPIERVLEES,Binnencel,0.25
+admin,HERT250GRAM,62,1,Ja,Hert spiervlees - 250 gram,HERT,SPIERVLEES,Binnencel,0.25
+admin,HERT500GRAM,49,1,Ja,Hert spiervlees - 500 gram,HERT,SPIERVLEES,Binnencel,0.5
+admin,RUNDHALS,75,1,Ja,Rund - gemalen halsvlees,RUND,SPIERVLEES,Binnencel,0.15
+admin,GEITVLEES/500,58,1,Ja,Geit - Vlees,GEIT,SPIERVLEES,Binnencel,0.5
+admin,KIP0002,19,1,Ja,Kippenmaagjes - 150 gram,KIP,ORGAAN,Orgaanbank,0.15
+admin,KIPPENMAAGJES,2,1,Ja,Kippenmaagjes,KIP,ORGAAN,Orgaanbank,0.15
+admin,KIPPENHARTJES,21,1,Ja,Kippenhartjes,KIP,ORGAAN,Orgaanbank,0.15
+admin,EENDENHARTEN,37,1,Ja,Eendenhartjes,EEND,ORGAAN,Orgaanbank,0.15
+admin,EENDENMAGEN,14,1,Ja,Eendenmaagjes,EEND,ORGAAN,Orgaanbank,0.15
+admin,RUNDERHART,42,1,Ja,Runderhart,RUND,ORGAAN,Orgaanbank,0.5
+admin,RUNDERLEVER,10,1,Ja,Runderlever,RUND,ORGAAN,Orgaanbank,0.15
+admin,RUNDHART,78,1,Ja,Runderhart,RUND,ORGAAN,Orgaanbank,0.15
+admin,LAMSHART/150,47,1,Ja,Lam - Hart,LAM,ORGAAN,Orgaanbank,0.15
+admin,LAMNIER/100,48,1,Ja,Lam - Nier,LAM,ORGAAN,Orgaanbank,0.1
+admin,LAMLEVER/100,58,1,Ja,Lam - Lever,LAM,ORGAAN,Orgaanbank,0.1
+admin,GEITHART/150,50,1,Ja,Geit - Hart,GEIT,ORGAAN,Orgaanbank,0.15
+admin,GEITLEVER/150,48,1,Ja,Geit - Lever,GEIT,ORGAAN,Orgaanbank,0.15
+admin,KIPLEVER/60,59,1,Ja,Kip - Lever,KIP,ORGAAN,Orgaanbank,0.06
+admin,EEND0002,38,1,Ja,Eendennekken,EEND,ZACHT BOT,Binnencel,0.25
+admin,KIP0003,23,1,Ja,Kipkarkas - kwart - 75- 100 gram,KIP,ZACHT BOT,Binnencel,0.075
+admin,KIP0005,79,1,Ja,Kipkarkas - heel - 150- 250 g,KIP,ZACHT BOT,Binnencel,0.15
+admin,EEND0011,57,1,Ja,Eendenkarkas - half - 240 gram,EEND,ZACHT BOT,Binnencel,0.24
+admin,EEND0012,10,1,Ja,Eendenkarkas - heel,EEND,ZACHT BOT,Binnencel,1.2
+admin,KIP0010,42,1,Ja,Kippennekken - 6 stuks,KIP,ZACHT BOT,Binnencel,0.25
+admin,EENDENKARKAS,13,1,Ja,Eendenkarkas (tam),EEND,ZACHT BOT,Binnencel,0.13
+admin,EENDBOTMALING/250,51,1,Ja,Eend - Botmaling,EEND,ZACHT BOT,Binnencel,0.25
+admin,ZALM0001,15,1,Ja,Zalm - Kop,ZALM,VIS,Binnencel,0.5
+admin,ZALM0002,19,1,Ja,Zalm- Lijf - groot - 500g,ZALM,VIS,Binnencel,0.5
+admin,ZALM0003,8,1,Ja,Zalm - Lijf - middel - 250g,ZALM,VIS,Binnencel,0.25
+admin,ZALM0004,14,1,Ja,Zalm - Lijf - klein - 125g,ZALM,VIS,Binnencel,0.125
+admin,KABE0002,17,1,Ja,Kabeljauw - Lijf - groot - 500g,KABELJAUW,VIS,Binnencel,0.5
+admin,KABE0003,11,1,Ja,Kabeljauw - Lijf - middel - 250g,KABELJAUW,VIS,Binnencel,0.225
+admin,KABE0004,15,1,Ja,Kabeljauw - Lijf - klein - 100g,KABELJAUW,VIS,Binnencel,0.125
+admin,KABE0001,16,1,Ja,Kabeljauw - Kop,KABELJAUW,VIS,Binnencel,0.75
+admin,KABELJAUW/HOOFD,14,1,Ja,Kabeljauw - Lijf,KABELJAUW,VIS,Binnencel,0.125
+admin,ZALMLIJF,5,1,Ja,Zalm - Lijf,ZALM,VIS,Binnencel,0.125
+admin,ZUIVERZALM/250,2,1,Ja,Zalm - OerVoer Zuiver,ZALM,VIS,Binnencel,0.25
+admin,DARFPENSLAM,16,1,Ja,Pens van de lam - Gemalen - DARF,LAM,PENS,Orgaanbank,0.5
+admin,DARFPENSRUND,43,1,Ja,Pens van de rund - Gemalen - DARF,RUND,PENS,Orgaanbank,0.5
+admin,LAMPENSGEMALEN/250,85,1,Ja,OerVoer Lamspens - Gemalen - 250 gram,LAM,PENS,Orgaanbank,0.25
+admin,RUNDPENS/500,56,1,Ja,OerVoer Runderpens,RUND,PENS,Orgaanbank,0.5
+admin,OZGEITENPENS/250,95,1,Ja,Geitenpens - OerVoer Zuiver,GEIT,PENS,orgaanbank,0.25
+admin,FAZANTSTICKS,14,1,Ja,Fazant Drumsticks,FAZANT,HARD BOT,Binnencel,0.18
+admin,GEITKARKAS,57,1,Ja,Geitkarkas,GEIT,HARD BOT,Binnencel,0.25
+admin,HERTNEK,47,1,Ja,Hertennekken,HERT,HARD BOT,Binnencel,0.3
+admin,REENEK/200,59,1,Ja,Reenekken,REE,HARD BOT,Binnencel,0.2
