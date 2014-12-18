@@ -91,6 +91,29 @@ class Handlers:
         self.buffer.set_text(self.results[0])
         response = self.dialog.run()
         
+    def on_brieven( self, button ):
+        dieren = []
+        self.dialog = self.builder.get_object('dialog1')
+        self.buffer = self.builder.get_object('picklijstresultaten')
+        self.next   = self.builder.get_object('button7')
+        self.previous = self.builder.get_object('button6')
+        self.first = self.builder.get_object('button9')
+        self.position = 0
+        for index, row in enumerate(self.store):
+            if row[0]:
+                dieren.append(row[2])
+                order = self.find_order(index)
+                if order:
+                    result = self.oervoer.process_order(order) #TODO add factor!
+                    d = Delivery(self.testdir, order, result)
+                    res = d.csvout(True)
+                    print res
+                    self.results[index] = res
+                else:
+                    self.results[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
+        self.buffer.set_text(self.results[0])
+        response = self.dialog.run()
+        
     def on_connect( self, button ):
         warning('connecting to mysql server...', self.window)
         print 'connect'

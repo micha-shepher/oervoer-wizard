@@ -18,11 +18,12 @@ class Delivery(object):
         self.order = order
         self.delivery = delivery
         
-    def bol(self, csv=False):
+    def bol(self, csv=False, brieven=False):
         
         total = 0.0
-        picklist = 'Eigenaar: {0}, dier: {1}\n'.format(self.order.owner, self.order.animal)
-        
+        picklist = ''
+        if not brieven:
+            picklist = 'Eigenaar: {0}, dier: {1}\n'.format(self.order.owner, self.order.animal)
         deliv = {}
         for i in self.delivery:
             if deliv.has_key(i.sku):
@@ -32,12 +33,16 @@ class Delivery(object):
                 
         for i in sorted(deliv.items(), key=itemgetter(1)):
             a,b,c,d,e,f = i[1]
-            row =(Globals.VLEES_TYPES[a],b,c[:40],d,e,f*1000)
-            picklist += '%-20s %-20s %-40s %-15s %3s x %-10g\n' % row
+            if brieven:
+                row =(Globals.VLEES_TYPES[a],c[:40],e,f*1000)
+                picklist += '%-20s %-40s %3s x %-10g\n' % row
+            else:
+                row =(Globals.VLEES_TYPES[a],b,c[:40],d,e,f*1000)
+                picklist += '%-20s %-20s %-40s %-15s %3s x %-10g\n' % row
             self.f.writerow(row)
             total += e*f
         picklist += 'Totaal pakket gewicht: {0}\n\n'.format(total) 
         return picklist
     
-    def csvout(self):
-        return self.bol(True)
+    def csvout(self, brieven=False):
+        return self.bol(True, brieven)

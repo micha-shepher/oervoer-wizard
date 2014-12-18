@@ -12,6 +12,11 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-justify-fill</property>
   </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">edit-copy</property>
+  </object>
   <object class="GtkListStore" id="orders">
     <columns>
       <!-- column-name Uitvoeren -->
@@ -214,7 +219,7 @@
                 <property name="receives_default">True</property>
                 <property name="image">image1</property>
                 <property name="always_show_image">True</property>
-                <signal name="activate" handler="on_connect" swapped="no"/>
+                <signal name="clicked" handler="on_connect" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -230,7 +235,6 @@
                 <property name="receives_default">True</property>
                 <property name="image">image2</property>
                 <property name="always_show_image">True</property>
-                <signal name="activate" handler="gtk_widget_show" swapped="no"/>
                 <signal name="clicked" handler="on_picklijst" swapped="no"/>
               </object>
               <packing>
@@ -286,6 +290,22 @@
                 <property name="position">4</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="brieven">
+                <property name="label" translatable="yes">Brieven</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">image3</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_brieven" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -319,12 +339,11 @@
   <object class="GtkTextBuffer" id="picklijstresultaten"/>
   <object class="GtkDialog" id="dialog1">
     <property name="can_focus">False</property>
-    <property name="type">popup</property>
     <property name="title" translatable="yes">Picklijst</property>
     <property name="window_position">center-on-parent</property>
     <property name="default_width">800</property>
     <property name="default_height">800</property>
-    <property name="icon_name">text-x-generic</property>
+    <property name="icon">logo7-350.png</property>
     <property name="type_hint">dialog</property>
     <property name="transient_for">window1</property>
     <child internal-child="vbox">
