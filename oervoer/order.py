@@ -30,6 +30,7 @@ class Order(object):
         self.donts = [i.upper() for i in rec[self.RAS+1:]]
         self.include = True
         self.factor = 1.0
+        self.result = None
 
     def is_allergic(self,stuff):
         '''true if animal is allergic to stuff'''
@@ -58,3 +59,10 @@ class Order(object):
     
     def get_ras(self):
         return self.ras
+
+    def set_result(self, result):
+        self.result = result
+    
+    def get_result(self):
+        return self.result
+

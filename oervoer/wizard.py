@@ -6,6 +6,7 @@ from delivery import Delivery
 from globals import Globals
 from gi.repository import Gtk, Pango
 import subprocess
+import datetime
 
 def warning( warning, window ):
     dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO,
@@ -25,6 +26,8 @@ class Handlers:
         self.results = []
         self.testdir = testdir
         self.builder = builder
+        self.brief = file('../data/brief.txt','r').read()
+        self.out = None
         for row in self.store:
             self.results.append('geen resultaten voor {0},{1}'.format(row[1], row[2]))
             print self.results[-1]
@@ -104,14 +107,28 @@ class Handlers:
                 dieren.append(row[2])
                 order = self.find_order(index)
                 if order:
-                    result = self.oervoer.process_order(order) #TODO add factor!
-                    d = Delivery(self.testdir, order, result)
-                    res = d.csvout(True)
-                    print res
-                    self.results[index] = res
+					#TODO: detect if order needs to be processed or not!
+                    #result = self.oervoer.process_order(order) #TODO add factor!
+                    result = order.get_result()
+                    if not result:
+                        self.results[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2])
+                    else:
+                        d = Delivery(self.testdir, order, result)
+                        res = d.csvout(True)
+                        print res
+                        if order.get_ras() == 'KAT':
+                            weight = 35*2*float(row[6])*order.get_weight()
+                        else:
+                            weight = 25*2*float(row[6])*order.get_weight()
+                        brief = self.brief.format("{:%d %M %Y}".format(datetime.date.today()),
+                                  order.get_owner(),
+                                  order.get_kind(),
+                                order.get_animal(), order.get_weight(), weight,
+                                order.get_kind(), order.get_kind())
+                        self.results[index] = brief+res
                 else:
                     self.results[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
-        self.buffer.set_text(self.results[0])
+        self.buffer.set_text(self.results[index])
         response = self.dialog.run()
         
     def on_connect( self, button ):

@@ -191,6 +191,7 @@ class Oervoer(object):
             result = self.make_100(order)
         self.correct_result(order, result)
         self.update_inventory(result)
+        order.set_result(result)
         return result
 
     def make_combi(self, order):
