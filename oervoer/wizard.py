@@ -24,13 +24,17 @@ class Handlers:
         self.window = window
         self.oervoer = None
         self.results = []
+        self.picklists = []
+        self.letters = []
         self.testdir = testdir
         self.builder = builder
         self.brief = file('../data/brief.txt','r').read()
         self.out = None
         for row in self.store:
-            self.results.append('geen resultaten voor {0},{1}'.format(row[1], row[2]))
-            print self.results[-1]
+            line ='geen resultaten voor {0},{1}'.format(row[1], row[2])
+            self.picklists.append(line)
+            self.letters.append(line)
+
     def apply_css(self):
         
         provider = Gtk.CssProvider()
@@ -75,6 +79,8 @@ class Handlers:
         dieren = []
         self.dialog = self.builder.get_object('dialog1')
         self.buffer = self.builder.get_object('picklijstresultaten')
+        textview=self.builder.get_object('textview1')
+        textview.set_buffer(self.buffer)
         self.next   = self.builder.get_object('button7')
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
@@ -88,16 +94,19 @@ class Handlers:
                     d = Delivery(self.testdir, order, result)
                     res = d.csvout()
                     print res
-                    self.results[index] = res
+                    self.picklists[index] = res
                 else:
-                    self.results[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
-        self.buffer.set_text(self.results[0])
+                    self.picklists[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
+        self.buffer.set_text(self.picklists[0])
+        self.results = self.picklists
         response = self.dialog.run()
         
     def on_brieven( self, button ):
         dieren = []
         self.dialog = self.builder.get_object('dialog1')
-        self.buffer = self.builder.get_object('picklijstresultaten')
+        self.buffer = self.builder.get_object('briefresultaten')
+        textview=self.builder.get_object('textview1')
+        textview.set_buffer(self.buffer)
         self.next   = self.builder.get_object('button7')
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
@@ -107,28 +116,28 @@ class Handlers:
                 dieren.append(row[2])
                 order = self.find_order(index)
                 if order:
-					#TODO: detect if order needs to be processed or not!
-                    #result = self.oervoer.process_order(order) #TODO add factor!
                     result = order.get_result()
                     if not result:
-                        self.results[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2])
+                        self.letters[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2])
                     else:
                         d = Delivery(self.testdir, order, result)
                         res = d.csvout(True)
                         print res
+                        weight = 2*row[6]*order.get_weight()
                         if order.get_ras() == 'KAT':
-                            weight = 35*2*float(row[6])*order.get_weight()
+                            weight *= 35
                         else:
-                            weight = 25*2*float(row[6])*order.get_weight()
-                        brief = self.brief.format("{:%d %M %Y}".format(datetime.date.today()),
-                                  order.get_owner(),
-                                  order.get_kind(),
+                            weight *= 25
+                        brief = self.brief.format("{:%d %B %Y}".format(datetime.date.today()),
+                                order.get_owner(),
+                                order.get_kind(),
                                 order.get_animal(), order.get_weight(), weight,
                                 order.get_kind(), order.get_kind())
-                        self.results[index] = brief+res
+                        self.letters[index] = brief+res
                 else:
-                    self.results[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
-        self.buffer.set_text(self.results[index])
+                    self.letters[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
+        self.buffer.set_text(self.letters[index])
+        self.results = self.letters
         response = self.dialog.run()
         
     def on_connect( self, button ):
@@ -136,7 +145,7 @@ class Handlers:
         print 'connect'
 
     def on_factor_clicked( self, *args ):
-        print 'factor cliscked'
+        print 'factor clicked'
 
     def on_uitvoeren_changed( self, widget, path ):
         self.store[path][0] = not self.store[path][0]
@@ -176,7 +185,8 @@ class Handlers:
             self.next.set_sensitive(False)
         
     def on_print( self, *args ):
-        print 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2])
+        warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
+                self.window)
         try:
             lpr =  subprocess.Popen("/usr/bin/lpr", stdin=subprocess.PIPE)
             lpr.stdin.write(self.results[self.position])
@@ -222,6 +232,7 @@ class BuilderApp:
         window.show_all()
         textview=self.builder.get_object('textview1')
         textview.modify_font(Pango.FontDescription('Monospace 9'))
+        textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
     def load_store(self, store, testdir):
         
