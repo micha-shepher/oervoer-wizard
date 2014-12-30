@@ -7,7 +7,6 @@ from globals import Globals
 from gi.repository import Gtk, Pango
 import subprocess
 import datetime
-from Tix import ROW
 
 def warning( warning, window ):
     dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO,
@@ -29,7 +28,12 @@ class Handlers:
         self.letters = []
         self.testdir = testdir
         self.builder = builder
-        self.brief = file('../data/brief.txt','r').read()
+        self.kat100    = file('../data/briefkat100.txt','r').read()
+        self.hond100   = file('../data/briefhond100.txt','r').read()
+        self.katcombi  = file('../data/briefkatcombi.txt','r').read()
+        self.hondcombi = file('../data/briefhondcombi.txt','r').read()
+        self.katplus   = file('../data/briefkatplus.txt','r').read()
+        self.hondplus  = file('../data/briefhondplus.txt','r').read()
         self.out = None
         for row in self.store:
             line ='geen resultaten voor {0},{1}'.format(row[1], row[2])
@@ -127,6 +131,18 @@ class Handlers:
                     if not result:
                         self.letters[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2])
                     else:
+                        if   order.get_ras() == 'KAT' and order.get_kind() == '100':
+                            self.brief = self.kat100
+                        elif order.get_ras() == 'HOND' and order.get_kind() == '100':
+                            self.brief = self.hond100
+                        elif order.get_ras() == 'KAT' and order.get_kind() == 'COMBI':
+                            self.brief = self.katcombi
+                        elif order.get_ras() == 'HOND' and order.get_kind() == 'COMBI':
+                            self.brief = self.hondcombi
+                        elif order.get_ras() == 'KAT' and order.get_kind() == 'PLUS':
+                            self.brief = self.katplus
+                        else:
+                            self.brief = self.hondplus
                         d = Delivery(self.testdir, order, result)
                         res = d.csvout(True)
                         print res
