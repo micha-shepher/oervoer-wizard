@@ -7,6 +7,7 @@ from globals import Globals
 from gi.repository import Gtk, Pango
 import subprocess
 import datetime
+from Tix import ROW
 
 def warning( warning, window ):
     dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO,
@@ -85,6 +86,7 @@ class Handlers:
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
         self.position = 0
+        self.type = 'Picklijst'
         for index, row in enumerate(self.store):
             if row[0]:
                 dieren.append(row[2])
@@ -94,12 +96,16 @@ class Handlers:
                     d = Delivery(self.testdir, order, result)
                     res = d.csvout()
                     print res
-                    self.picklists[index] = res
+                    self.picklists[index] = res,order.get_owner(), order.get_animal()
                 else:
-                    self.picklists[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
-        self.buffer.set_text(self.picklists[0])
+                    self.picklists[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2]),'',''
+        self.buffer.set_text(self.picklists[0][0])
+        self.dialog.set_title('Picklijst voor {0},{1}'.format(*self.picklists[0][1:]))
         self.results = self.picklists
         response = self.dialog.run()
+        
+    def on_orders_row_changed(self,row):
+        print row
         
     def on_brieven( self, button ):
         dieren = []
@@ -111,6 +117,7 @@ class Handlers:
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
         self.position = 0
+        self.type = 'Brief'
         for index, row in enumerate(self.store):
             if row[0]:
                 dieren.append(row[2])
@@ -133,10 +140,11 @@ class Handlers:
                                 order.get_kind(),
                                 order.get_animal(), order.get_weight(), weight,
                                 order.get_kind(), order.get_kind())
-                        self.letters[index] = brief+res
+                        self.letters[index] = brief+res, order.get_owner(), order.get_animal()
                 else:
                     self.letters[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
-        self.buffer.set_text(self.letters[index])
+        self.buffer.set_text(self.letters[0][0])
+        self.dialog.set_title("Brief voor {0},{1}".format(*self.letters[0][1:]))
         self.results = self.letters
         response = self.dialog.run()
         
@@ -159,18 +167,55 @@ class Handlers:
         print 'factor changed'
 
     def on_include_clicked( self, *args ):
-        print 'include changed'
+        self.vermijd = file('../data/smaak.dat').readlines() # temporary
+        i, j, cursor = (0,0,0)
+        path = self.builder.get_object('treeview1').get_cursor()
+        index = path[0] if path else 0
+        print 'index = {0}'.format(index)
+        self.currentorder = self.find_order(index)
+        donts = self.currentorder.get_donts()
+        for row in self.vermijd:
+            row = row.strip()
+            if row.find('key') != -1:
+                key = row.split(':')[1]
+                grid = self.builder.get_object('grid{0}'.format(key))
+                for btn in grid.get_children():
+                    grid.remove(btn)
+                i, j, cursor = (0,0,0)
+            else:
+                row = row.upper()
+                button = Gtk.CheckButton(label=row, active=row in donts)
+                #button.set_active(row in donts)
+                grid.attach(button, i, j, 1, 1)
+                cursor += 1
+                i = cursor / 8
+                j = cursor % 8
 
+        self.dialogvermijd = self.builder.get_object('dialogvermijd')
+        self.dialogvermijd.show_all()
+        self.dialogvermijd.run()
+        
+    def on_vermijdsave_clicked(self, *args):
+        buttons = []
+        for i in ('vis', 'gevogelte', 'kleindier', 'grootdier', 'orgaan'):
+            buttons.extend(self.builder.get_object('grid{0}'.format(i)).get_children())
+        donts = [btn.get_label() for btn in buttons if btn.get_active()]
+        self.currentorder.set_donts(donts)    
+        self.dialogvermijd.hide()
+        
+    def on_vermijdcancel_clicked(self, *args):
+        self.dialogvermijd.hide()
+        
     def on_pakketgewicht_edited( self, *args ):
         print 'pakketgewicht edited'
 
     def on_quit_picklijst( self, *args ):
         self.dialog.hide()
-        print 'quitting textview'
 
     def on_first( self, *args ):
         self.position = 0
-        self.buffer.set_text(self.results[0])
+        self.buffer.set_text(self.results[0][0])
+        self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[0][1:]))
         self.first.set_sensitive(False)
         self.previous.set_sensitive(False)
         self.next.set_sensitive(True)
@@ -178,11 +223,13 @@ class Handlers:
     def on_next( self, *args ):
         if self.position < len(self.results)-1:
             self.position += 1
-            self.buffer.set_text(self.results[self.position])
+            self.buffer.set_text(self.results[self.position][0])
+            self.dialog.set_title('{0} voor {1},{2}',)
             self.previous.set_sensitive(True)
             self.first.set_sensitive(True)
         if self.position == len(self.results)-1:
             self.next.set_sensitive(False)
+        self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
         
     def on_print( self, *args ):
         warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
@@ -196,11 +243,12 @@ class Handlers:
     def on_previous( self, *args ):
         if self.position > 0:
             self.position -= 1
-            self.buffer.set_text(self.results[self.position])
+            self.buffer.set_text(self.results[self.position][0])
             self.next.set_sensitive(True)
             self.first.set_sensitive(True)
         if self.position == 0:
             self.previous.set_sensitive(False)
+        self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
         
     def on_quit_clicked( self, *args):
         Gtk.main_quit()

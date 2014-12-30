@@ -36,6 +36,12 @@ class Order(object):
         '''true if animal is allergic to stuff'''
         return stuff in self.donts
     
+    def get_donts(self):
+        return self.donts
+    
+    def set_donts(self, donts):
+        self.donts = donts
+
     def get_days(self):
         return round(self.package / (self.weight * Globals.FACTOR[self.ras]))
 
