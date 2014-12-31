@@ -97,6 +97,9 @@ class Handlers:
                 order = self.find_order(index)
                 if order:
                     result = self.oervoer.process_order(order) #TODO add factor!
+                    if self.oervoer.no_vis[0]:
+                        warning('Geen {0} voor {1} afzondering'.format(*self.oervoer.no_vis[1:]), self.window)
+                        self.oervoer.no_vis = False, None, None
                     d = Delivery(self.testdir, order, result)
                     res = d.csvout()
                     print res
@@ -277,6 +280,11 @@ class Handlers:
         self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
         
     def on_quit_clicked( self, *args):
+        orderfile = file('../test/orders.csv', 'w')
+        orderfile.write(self.oervoer.orderhead)
+        for order in self.oervoer.ordlist:
+            orderfile.write(order.get_base()+','+','.join(order.get_donts())+'\n')
+        orderfile.close()    
         Gtk.main_quit()
 
 

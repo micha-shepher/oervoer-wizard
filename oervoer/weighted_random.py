@@ -21,11 +21,15 @@ class WeightedRandom(object):
             sig += weights[i]
             self.sum.append(sig)
         #self.sum.append(20*sig)
-        
+    
     def rand(self):
-        r = random.randint(0, self.sum[-1])
-        i = 0
-        while r > self.sum[i]:
-            i += 1
+        try:
+            r = random.randint(0, self.sum[-1])
+            i = 0
+            while r > self.sum[i]:
+                i += 1
+        except:
+            print 'lege lijst!'
+            raise ValueError, 'empty list'
         return i
         

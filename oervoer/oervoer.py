@@ -26,9 +26,12 @@ class Oervoer(object):
         self.productname = productname
         self.products  = file(productname,  'r').readlines()
         self.prodlists = {}
-        self.orders    = file(ordername,    'r').readlines()[1:]
+        orderlines = file(ordername,    'r').readlines()
+        self.orderhead = orderlines.pop(0)
+        self.orders = orderlines
         self.picklists = file(picklistname, 'w')
         self.ordlist   = []
+        self.no_vis = False, None, None
         for i in Globals.VLEES_TYPES:
             self.prodlists[i] = []
             
@@ -135,16 +138,22 @@ class Oervoer(object):
         ##############################
         # select vis
         ##############################
-        
-        total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
-        package_rest -= total_vis
+        products_in_order = []
+        try:
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
+            package_rest -= total_vis
+        except NoProductsException:
+            total_vis = 0
         ##############################
         # select pens if not kat
         ##############################
         if order.ras != 'KAT':
-            total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
-            products_in_order.extend(selection)
-            package_rest -= total_pens
+            try:
+                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
+                products_in_order.extend(selection)
+                package_rest -= total_pens
+            except NoProductsException:
+                total_pens = 0
             
         ##############################
         # select gemalen
@@ -215,16 +224,24 @@ class Oervoer(object):
         ##############################
         # select vis
         ##############################
+        products_in_order = []
         
-        total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
-        package_rest -= total_vis
+        try:
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
+            package_rest -= total_vis
+        except NoProductsException, e:
+            self.no_vis = True, 'VIS', order.get_animal()
+            total_vis = 0
         ##############################
         # select pens if not kat
         ##############################
         if order.ras != 'KAT':
-            
-            total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
-
+            try:  
+                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
+            except NoProductsException, e:
+                self.no_vis = True, 'PENS', order.get_animal()
+                total_pens = 0
+                
             products_in_order.extend(selection)
             package_rest -= total_pens
             

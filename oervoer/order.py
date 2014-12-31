@@ -22,6 +22,7 @@ class Order(object):
     def __init__(self,order):
         '''order = line from csv file, unparsed'''
         rec = order.strip().split(',')
+        self.base = rec[:self.RAS+1]
         self.owner, self.animal = rec[:self.GESLACHT]
         self.weight = float(rec[self.GEWICHT])
         self.package = float(rec[self.PAKKETKG])
@@ -32,6 +33,9 @@ class Order(object):
         self.factor = 1.0
         self.result = None
 
+    def get_base(self):
+        return ','.join(self.base)
+    
     def is_allergic(self,stuff):
         '''true if animal is allergic to stuff'''
         return stuff in self.donts
