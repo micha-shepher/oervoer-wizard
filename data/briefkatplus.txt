@@ -1,7 +1,7 @@
 {0} 
 													
 
-{1},
+Beste {1},
 
 Hierbij ontvang je je {2} OerVoer pakket.
 {3} weegt {4} kg en heeft gemiddeld {5} gram verse voeding per dag nodig verdeeld over 2 maaltijden.

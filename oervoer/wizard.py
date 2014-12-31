@@ -108,9 +108,19 @@ class Handlers:
         self.results = self.picklists
         response = self.dialog.run()
         
-    def on_orders_row_changed(self,row):
-        print row
+    def on_orders_row_changed(self):
+        pass
         
+    def on_cursor_changed(self, tv):
+        row = tv.get_cursor()[0]
+        status = self.builder.get_object('statusbar1')
+        vermijdstatus = self.builder.get_object('vermijdstatus')
+        self.currentorder = self.find_order(row)
+        donts = self.currentorder.get_donts()
+        for st in status, vermijdstatus:
+            st.pop(0)
+            st.push(0, 'zonder {0}'.format(', '.join(donts)))
+
     def on_brieven( self, button ):
         dieren = []
         self.dialog = self.builder.get_object('dialog1')
@@ -187,7 +197,6 @@ class Handlers:
         i, j, cursor = (0,0,0)
         path = self.builder.get_object('treeview1').get_cursor()
         index = path[0] if path else 0
-        print 'index = {0}'.format(index)
         self.currentorder = self.find_order(index)
         donts = self.currentorder.get_donts()
         for row in self.vermijd:
@@ -218,6 +227,7 @@ class Handlers:
         donts = [btn.get_label() for btn in buttons if btn.get_active()]
         self.currentorder.set_donts(donts)    
         self.dialogvermijd.hide()
+        self.on_cursor_changed(self.builder.get_object('treeview1'))
         
     def on_vermijdcancel_clicked(self, *args):
         self.dialogvermijd.hide()
