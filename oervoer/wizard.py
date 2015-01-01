@@ -111,7 +111,7 @@ class Handlers:
         self.results = self.picklists
         response = self.dialog.run()
         
-    def on_orders_row_changed(self):
+    def on_orders_row_changed(self, *args):
         pass
         
     def on_cursor_changed(self, tv):
@@ -159,7 +159,7 @@ class Handlers:
                         d = Delivery(self.testdir, order, result)
                         res = d.csvout(True)
                         print res
-                        weight = 2*row[6]*order.get_weight()
+                        weight = 2*float(row[6])*order.get_weight()
                         if order.get_ras() == 'KAT':
                             weight *= 35
                         else:
@@ -190,10 +190,10 @@ class Handlers:
 
     def on_factor_changed( self, widget, path, value ):
         try:
-            self.store[path][6] = float(value)
+            fv = float(value)
+            self.store[path][6] = value
         except ValueError:
-            print '%s is not a floating point number' % value 
-        print 'factor changed'
+            warning( '%s is geen decimaal' % value, self.window)
 
     def on_include_clicked( self, *args ):
         self.vermijd = file('../data/smaak.dat').readlines() # temporary
@@ -323,8 +323,15 @@ class BuilderApp:
         self.ordlist = self.oervoer.parse_orders()
         store.clear()
         for order in self.ordlist:
-            store.append([True, order.get_owner(), order.get_animal(), order.get_ras(), order.get_kind(), 
-                          order.get_weight(), 1.0, order.get_package(), True])
+            store.append([True, 
+                          order.get_owner(), 
+                          order.get_animal(), 
+                          order.get_ras(), 
+                          order.get_kind(), 
+                          '{0}'.format(order.get_weight()), 
+                          '1.0', 
+                          '{0}'.format(order.get_package()), 
+                          True])
     
     def about_activate(self, action):
         about_dlg = self.builder.get_object('aboutdialog1')

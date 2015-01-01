@@ -31,11 +31,11 @@
       <!-- column-name Pakket -->
       <column type="gchararray"/>
       <!-- column-name Gewicht -->
-      <column type="gdouble"/>
+      <column type="gchararray"/>
       <!-- column-name Factor -->
-      <column type="gdouble"/>
+      <column type="gchararray"/>
       <!-- column-name PakketGewicht -->
-      <column type="gdouble"/>
+      <column type="gchararray"/>
       <!-- column-name Betaald -->
       <column type="gboolean"/>
     </columns>
@@ -77,6 +77,7 @@
                 <property name="vscroll_policy">natural</property>
                 <property name="model">orders</property>
                 <property name="enable_grid_lines">horizontal</property>
+                <property name="enable_tree_lines">True</property>
                 <signal name="cursor-changed" handler="on_cursor_changed" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection1">
@@ -118,7 +119,10 @@
                   <object class="GtkTreeViewColumn" id="treeviewdier">
                     <property name="title" translatable="yes">Dier</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext2"/>
+                      <object class="GtkCellRendererText" id="cellrenderertext2">
+                        <property name="foreground">DarkBlue</property>
+                        <property name="weight">600</property>
+                      </object>
                       <attributes>
                         <attribute name="text">2</attribute>
                       </attributes>
@@ -149,9 +153,15 @@
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewgewicht">
+                    <property name="fixed_width">5</property>
                     <property name="title" translatable="yes">Gewicht</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext4"/>
+                      <object class="GtkCellRendererText" id="cellrenderertext4">
+                        <property name="width">6</property>
+                        <property name="alignment">right</property>
+                        <property name="width_chars">6</property>
+                        <property name="max_width_chars">6</property>
+                      </object>
                       <attributes>
                         <attribute name="text">5</attribute>
                       </attributes>
@@ -165,6 +175,9 @@
                     <signal name="clicked" handler="on_factor_clicked" swapped="no"/>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext6">
+                        <property name="alignment">right</property>
+                        <property name="width_chars">6</property>
+                        <property name="max_width_chars">6</property>
                         <signal name="edited" handler="on_factor_changed" swapped="no"/>
                       </object>
                       <attributes>
@@ -180,10 +193,14 @@
                     <property name="clickable">True</property>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext7">
+                        <property name="alignment">right</property>
+                        <property name="width_chars">6</property>
+                        <property name="max_width_chars">6</property>
                         <signal name="edited" handler="on_pakketgewicht_edited" swapped="no"/>
                       </object>
                       <attributes>
                         <attribute name="text">7</attribute>
+                        <attribute name="placeholder-text">2</attribute>
                       </attributes>
                     </child>
                   </object>
