@@ -66,7 +66,9 @@ class Oervoer(object):
         # make a distinction between hard and soft bone
         if vlees == Globals.BOT:
             if order.ras == 'HOND':
-                thelist = self.prodlists[Globals.ZACHTBOT] + self.prodlists[Globals.HARDBOT]
+                thelist = []
+                for taste in (Globals.ZACHTBOT, Globals.MIDDELBOT, Globals.HARDBOT):
+                    thelist += self.prodlists[taste]
             else:
                 thelist = self.prodlists[Globals.ZACHTBOT]
         else:
@@ -91,12 +93,16 @@ class Oervoer(object):
         total_weight = 0.0
         
         try:
+            # force selection of liver if orgaan
+            if vleessoort == Globals.ORGAAN:
+                found = False
+                for prod in prodlist:
+                    if prod.smaak.split(',')[0] == 'LEVER' and not prod.smaak in order.donts and not found:
+                        total_weight += prod.get_weight()
+                        l.append(prod)
+                        found = True  
             while total_weight < weight:
                 prod = prodlist[wr.rand()]
-            #prod.qty -= 1
-            #if prod.qty == 0:
-            #    prodlist.remove(prod)
-                            
                 total_weight += prod.get_weight()
                 l.append(prod)
         except ValueError:

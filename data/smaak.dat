@@ -7,6 +7,8 @@ key:vis
 	meerval
 	schol
 	zalm
+	kop.zalm
+	kop.makreel
 key:gevogelte
 	duif
 	eend
@@ -61,6 +63,8 @@ key:orgaan
 	nier.geit
 	nier.lam
 	nier.schaap
+key:pensbot
 	pens
 	hard.bot
+	middel.bot
 	zacht.bot

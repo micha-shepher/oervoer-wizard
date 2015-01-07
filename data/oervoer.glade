@@ -732,6 +732,59 @@
                 <property name="tab_fill">False</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkViewport" id="viewport7">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkGrid" id="gridpensbot">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child type="tab">
+              <object class="GtkLabel" id="label4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Pens &amp; Bot</property>
+              </object>
+              <packing>
+                <property name="position">5</property>
+                <property name="tab_fill">False</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>

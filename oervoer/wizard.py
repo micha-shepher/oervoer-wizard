@@ -207,6 +207,7 @@ class Handlers:
             row = row.strip()
             if row.find('key') != -1:
                 key = row.split(':')[1]
+                print 'grid{0}'.format(key)
                 grid = self.builder.get_object('grid{0}'.format(key))
                 for btn in grid.get_children():
                     grid.remove(btn)
