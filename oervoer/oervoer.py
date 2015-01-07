@@ -140,7 +140,7 @@ class Oervoer(object):
         ##############################
         products_in_order = []
         try:
-            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest * 0.15)
             package_rest -= total_vis
         except NoProductsException:
             total_vis = 0
@@ -149,7 +149,7 @@ class Oervoer(object):
         ##############################
         if order.ras != 'KAT':
             try:
-                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
+                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package() * 0.15)
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException:
@@ -227,7 +227,7 @@ class Oervoer(object):
         products_in_order = []
         
         try:
-            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest/14.0)
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*0.15)
             package_rest -= total_vis
         except NoProductsException, e:
             self.no_vis = True, 'VIS', order.get_animal()
@@ -237,7 +237,7 @@ class Oervoer(object):
         ##############################
         if order.ras != 'KAT':
             try:  
-                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()/14.0)
+                total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()*0.15)
             except NoProductsException, e:
                 self.no_vis = True, 'PENS', order.get_animal()
                 total_pens = 0

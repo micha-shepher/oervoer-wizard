@@ -5,6 +5,7 @@ from oervoer import Oervoer
 from delivery import Delivery
 from globals import Globals
 from gi.repository import Gtk, Pango
+from printing import PrintingApp
 import subprocess
 import datetime
 
@@ -159,7 +160,7 @@ class Handlers:
                         d = Delivery(self.testdir, order, result)
                         res = d.csvout(True)
                         print res
-                        weight = 2*float(row[6])*order.get_weight()
+                        weight = float(row[6])*order.get_weight()
                         if order.get_ras() == 'KAT':
                             weight *= 35
                         else:
@@ -260,14 +261,20 @@ class Handlers:
             self.next.set_sensitive(False)
         self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
         
-    def on_print( self, *args ):
+    def on_print_old( self, *args ):
         warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
-                self.window)
+                self.window)        
         try:
             lpr =  subprocess.Popen("/usr/bin/lpr", stdin=subprocess.PIPE)
-            lpr.stdin.write(self.results[self.position])
-        except:
-            pass
+            lpr.stdin.write(self.results[self.position][0])
+        except Exception as e:
+            print e.message
+
+    def on_print( self, *args ):
+        warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
+                self.window)        
+        file('/tmp/wizardprint','w').write(self.results[self.position][0])
+        print_app = PrintingApp( '/tmp/wizardprint', self.window)
 
     def on_previous( self, *args ):
         if self.position > 0:

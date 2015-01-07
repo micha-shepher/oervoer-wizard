@@ -7,7 +7,7 @@ import re
 
 class Globals(object):
     MEALFACTOR  = 4  # included products that are bigger than meal size by this factor
-    MEALFACTOR2 = 0.33# included products smaller than meal size by this factor
+    MEALFACTOR2 = 0.20# included products smaller than meal size by this factor
     pat         = re.compile('(.*?),')
     CATFACTOR   = 0.035 # 35 gram / kg / day
     DOGFACTOR   = 0.025 # 25 gram / kg / day
