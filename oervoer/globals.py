@@ -13,6 +13,7 @@ class Globals(object):
     DOGFACTOR   = 0.025 # 25 gram / kg / day
     FACTOR      = {'KAT':CATFACTOR, 'HOND':DOGFACTOR}
     tries       = 10
+    LIKEFACTOR  = 4.0 # sets the selection likelihood to be times this factor.
     VIS         = 'VIS'
     PENS        = 'PENS'
     ORGAAN      = 'ORGAAN'
@@ -20,8 +21,9 @@ class Globals(object):
     ZACHTBOT    = 'ZACHT BOT'
     MIDDELBOT   = 'MIDDEL BOT'
     HARDBOT     = 'HARD BOT'
-    GEMALEN     = 'COMPLETE GEMALEN'
+    GEMALEN     = 'COMPLEET GEMALEN'
     KARKAS      = 'COMPLEET KARKAS'
     BOT         = 'BOT'
-    VLEES_TYPES = [VIS, PENS, SPIER, ZACHTBOT, MIDDELBOT, HARDBOT, KARKAS, ORGAAN, GEMALEN]
+    VISGEMALEN  = 'VIS GEMALEN'
+    VLEES_TYPES = [VIS, PENS, SPIER, ZACHTBOT, MIDDELBOT, HARDBOT, KARKAS, ORGAAN, GEMALEN, VISGEMALEN]
     TESTENV     = 'OERVOERTESTENV'

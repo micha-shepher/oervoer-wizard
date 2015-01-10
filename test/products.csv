@@ -1,287 +1,323 @@
-store,sku,qty,is_in_stock,geschiktmenu,name,smaak,type_vlees,shelf,weight,verpakt_per
-admin,BOEK0001,9,1,Nee,Voer voor Carnivoren,,,,0,1
-admin,BOEK0002,5,1,Nee,Het grote Hondenkoekboek,,,,0,1
-admin,BOEK0003,4,1,Nee,Gezond koken voor honden,,,,0,1
-admin,K90001,0,0,Nee,K9Natural Snack - Lam,Lam,Snack,,0,1
-admin,K90003,1,1,Nee,K9Natural - Gevriesdroogd Rundvlees - 500gram,Rund,Complete Gemalen,,0,1
-admin,K90004,0,0,Nee,K9Natural - Gevriesdroogd Rundvlees - 3.66kg,Rund,Gedroogd,,0,1
-admin,K90006,11,1,Nee,K9Natural - Gevriesdroogd Lamsvlees - 500gram,Lam,Gedroogd,,0,1
-admin,K90007,5,1,Nee,K9Natural - Gevriesdroogd Lamsvlees - 3.66kg,Lam,Gedroogd,,0,1
-admin,VETRA0002/30,22,1,Nee,Vetra Omegard Krillolie - 30 capsules,,Supplement,,0,1
-admin,VETRA0002/60,18,1,Nee,Vetra Omegard Krillolie,,Supplement,,0,1
-admin,VETRA0002/180,26,1,Nee,Vetra Omegard Krillolie,,Supplement,,0,1
-admin,VETRA0003/30,13,1,Nee,Vetra AspitolPlus Groenlipmossel - 30 softgel capsules,,Supplement,,0,1
-admin,VETRA0003/60,14,1,Nee,Vetra AspitolPlus Groenlipmossel - 60 softgelcapsules,,Supplement,,0,1
-admin,VETRA0003/180,25,1,Nee,Vetra AspitolPlus Groenlipmossel-180 softgel capsules,,Supplement,,0,1
-admin,VETRA0004/60,11,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,Supplement,,0,1
-admin,VETRA0004/150,16,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,Supplement,,0,1
-admin,EEND0002,40,1,Ja,Eendennekken,Eend,Zacht Bot,Binnencel,0.25,2
-admin,ZALM0001,15,1,Ja,Zalm - Kop,Zalm,Vis,Binnencel,0.5,1
-admin,ZALM0002,20,0,Ja,Zalm- Lijf - groot - 500g,Zalm,Vis,Binnencel,0.5,1
-admin,ZALM0003,10,1,Ja,Zalm - Lijf - middel - 250g,Zalm,Vis,Binnencel,0.25,1
-admin,ZALM0004,20,0,Ja,Zalm - Lijf - klein - 125g,Zalm,Vis,Binnencel,0.125,1
-admin,KABE0002,20,0,Ja,Kabeljauw - Lijf - groot - 500g,Kabeljauw,Vis,Binnencel,0.5,1
-admin,KABE0003,20,1,Ja,Kabeljauw - Lijf - middel - 250g,Kabeljauw,Vis,Binnencel,0.225,1
-admin,KABE0004,20,1,Ja,Kabeljauw - Lijf - klein - 100g,Kabeljauw,Vis,Binnencel,0.125,1
-admin,KABE0001,20,1,Ja,Kabeljauw - Kop,Kabeljauw,Vis,Binnencel,0.75,1
-admin,KIP0003,23,1,Ja,Kipkarkas - kwart - 75- 100 gram,Kip,Zacht Bot,Binnencel,0.075,1
-admin,KIP0004,0,0,Ja,Kipkarkas - groot- 300 gram,Kip,Zacht Bot,Binnencel,0.3,1
-admin,KIP0005,80,1,Ja,Kipkarkas - heel - 150- 250 g,Kip,Zacht Bot,Binnencel,0.15,1
-admin,GEMALENPLUS,770,1,Nee,OerVoer Gemalen Plus,,,,10,1
-admin,100%OERVOER,627,1,Nee,100% OerVoer,,,,10,1
-admin,EEND0004,0,0,Nee,Eendenpootjes,Eend,Snack,,0,1
-admin,KIP0002,20,1,Ja,Kippenmaagjes - 150 gram,Kip,Orgaan,Orgaanbank,0.15,1
-admin,KIP0008,0,0,Ja,Kippenmaagjes - 250 gram,Kip,Orgaan,Orgaanbank,0.25,1
-admin,EEND0013,0,0,Ja,Eendenkarkas - kwart - 130 gram,Eend,Zacht Bot,Binnencel,0.13,1
-admin,EEND0011,60,1,Ja,Eendenkarkas - half - 240 gram,Eend,Zacht Bot,Binnencel,0.24,1
-admin,EEND0012,10,0,Ja,Eendenkarkas - heel,Eend,Zacht Bot,Binnencel,1.2,1
-admin,OERCOMBI,710,1,Nee,OerVoer Combinatie,,,,10,1
-admin,KONIJN0001,0,0,Ja,Konijn karkas-Klein - 120 gram,Konijn,Compleet Karkas,Binnencel,0.25,1
-admin,KONIJN0002,50,1,Ja,Konijn karkas-Middel - 160 gram,Konijn,Compleet Karkas,binnencel,0.35,1
-admin,KONIJN0003,93,1,Ja,Konijn karkas-Groot - 550 gram,Konijn,Compleet Karkas,Binnencel,0.55,1
-admin,REE0001,6,1,Ja,Ree spiervlees - 250 gram,Ree,Spiervlees,Binnencel,0.25,1
-admin,REE0002,48,1,Ja,Ree spiervlees - 500 gram,Ree,Spiervlees,Binnencel,0.5,1
-admin,FAZANT0001,0,0,Ja,Fazant karkas met organen,Fazant,Compleet Karkas,Binnencel,0.8,1
-admin,EEND0014,0,0,Ja,Wilde eendenkarkas met organen,Eend,Compleet Karkas,Binnencel,0.35,1
-admin,KIP0009,0,0,Ja,Kippennekken-2 stuks,Kip,Zacht Bot,Binnencel,0.1,2
-admin,KIP0010,44,1,Ja,Kippennekken - 6 stuks,Kip,Zacht Bot,Binnencel,0.25,6
-admin,KABELJAUW/HOOFD,20,0,Ja,Kabeljauw - Lijf,Kabeljauw,Vis,Binnencel,0.125,1
-admin,PARELHOENKARKAS,22,1,Ja,Parelhoenkarkas,Parelhoen,Compleet Karkas,Binnencel,0.2,1
-admin,GEVOGELTEPAK,998,1,Nee,OerVoer Gevogelte Pakket,,Complete Gemalen,,1.5,1
-admin,VISPAKKET,77,1,Nee,OerVoer Vispakket,Vis diverse,Vis,,1,1
-admin,DUIFKARKAS,21,1,Ja,Duifkarkas met orgaan,Duif,Compleet Karkas,Binnencel,0.12,3
-admin,KWARTELKARKAS,8,1,Ja,Kwartelkarkas met orgaan,Kwartel,Compleet Karkas,Binnencel,0.08,5
-admin,GANSKARKAS,0,0,Ja,Ganskarkas met orgaan,Gans,Compleet Karkas,Binnencel,0.2,1
-admin,DARFNATUURMIX,0,0,Nee, Natuur Mix KVV - DARF,,Complete Gemalen,Buitencel,5,1
-admin,DARFKVVEEND,8,1,Nee,Eend mix KVV - DARF,Eend,Complete Gemalen,Buitencel,5,1
-admin,DARFKVVKONIJN,8,1,Nee,Konijn mix KVV - DARF,Konijn,Complete Gemalen,Buitencel,5,1
-admin,DARFKVVKALKOEN,6,1,Nee,Kalkoen mix KVV - DARF,Kalkoen,Complete Gemalen,Buitencel,5,1
-admin,DARFGEITKIP,7,1,Nee,Geit/Kip mix  - DARF,"Geit , Kip",Complete Gemalen,Buitencel,5,1
-admin,DARFLAMKIP,6,0,Nee,Lam/Kip mix  - DARF,"Kip , Lam",Complete Gemalen,Buitencel,5,1
-admin,DARFEKOKAT,10,1,Nee,EKO Kat KVV  - DARF,,Complete Gemalen,Buitencel,2.5,1
-admin,DARFPENSLAM,19,1,Ja,Pens van de lam - Gemalen - DARF,Lam,Pens,Orgaanbank,0.5,1
-admin,DARFPENSGEIT,0,0,Ja,Pens van de geit - Gemalen - DARF,Geit,Pens,Orgaanbank,0.5,1
-admin,DARFPENSRUND,43,1,Ja,Pens van de rund - Gemalen - DARF,Rund,Pens,Orgaanbank,0.5,1
-admin,HARINGMAIN,25,1,Nee,Haring,Haring,Vis,Binnencel,0.1,1
-admin,KATGEMALENPLUS,946,1,Nee,OerVoer Gemalen Plus - Kat,,,,5,1
-admin,KATCOMBINATIE,951,1,Nee,OerVoer Combinatie - Kat,,,,5,1
-admin,KAT100%OERVOER,926,1,Nee,100% OerVoer - Kat,,,,5,1
-admin,KONIJNKARKAS,37,1,Ja,Konijn karkas,Konijn,Compleet Karkas,Binnencel,0.25,1
-admin,VETRAKRILLOLIE,32,1,Nee,Vetra Omegard Krillolie,,Supplement,,0,1
-admin,VETRAGROENLIPMOSSEL,44,1,Nee,Vetra AspitolPlus Groenlipmossel,,Supplement,,0,1
-admin,VETRABIOFLEXA,37,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,Supplement,,0,1
-admin,KIPPENNEKKEN/HOOFD,40,1,Nee,Kippennekken,Kip,Zacht Bot,Binnencel,0.13,1
-admin,KIPPENMAAGJES,2,1,Ja,Kippenmaagjes,Kip,Orgaan,Orgaanbank,0.15,1
-admin,KIPPENHARTJES,23,1,Ja,Kippenhartjes,Kip,Orgaan,Orgaanbank,0.15,1
-admin,KIPKARKAS/HOOFD,34,1,Nee,"Kipkarkas, polderhoen",Kip,Zacht Bot,Binnencel,0.1,1
-admin,REESPIER,898,1,Ja,Ree spiervlees,Ree,Spiervlees,Binnencel,0.25,1
-admin,EENDENKARKAS,14,1,Ja,Eendenkarkas (tam),Eend,Zacht Bot,Binnencel,0.13,1
-admin,EENDENHARTEN,40,1,Ja,Eendenhartjes,Eend,Orgaan,Orgaanbank,0.15,1
-admin,EENDENMAGEN,15,1,Ja,Eendenmaagjes,Eend,Orgaan,Orgaanbank,0.15,1
-admin,ZALMLIJF,7,1,Ja,Zalm - Lijf,Zalm,Vis,Binnencel,0.125,1
-admin,RUNDERKOPHUID,95,1,Ja,Runderkop vlees,Rund,Spiervlees,Binnencel,0.25,1
-admin,RUNDERHART,46,1,Ja,Runderhart,Rund,Orgaan,Orgaanbank,0.5,1
-admin,KATTESTCOMBI,954,1,,OerVoer Combinatie - Kat - Testpakket,,,,0.7,1
-admin,KATTESTPLUS,973,1,Nee,OerVoer Gemalen Plus - Kat - Testpakket,,,,0.7,1
-admin,WILDMIXKAT,0,0,Nee,Bandit Wildmix (kat),,Complete Gemalen,,0.3,1
-admin,KATMIXBIO,21,1,Nee,Bandit Biologische Katmix,,Complete Gemalen,Buitencel,0.3,1
-admin,HERTSPIER,876,1,Nee,Hert spiervlees,Hert,Spiervlees,Binnencel,0.25,1
-admin,HERT250GRAM,64,1,Ja,Hert spiervlees - 250 gram,Hert,Spiervlees,Binnencel,0.25,1
-admin,HERT500GRAM,50,1,Ja,Hert spiervlees - 500 gram,Hert,Spiervlees,Binnencel,0.5,1
-admin,EASYANTLER,100,1,Nee,Easy Antlers - Hertengewei,Hert,Snack,,0,1
-admin,ANTEASYSMALL,1,0,Nee,Antlers Easy small,Hert,Snack,,0,1
-admin,ANTEASYMED,0,0,Nee,Antlers Easy medium,Hert,Snack,,0,1
-admin,ANTEASYLARGE,7,1,Nee,Antlers Easy large,Hert,Snack,,0,1
-admin,ANTEASYXL,2,0,Nee,Easy Antlers - Hertengewei XL,Hert,Snack,,0,1
-admin,PRIMEFULVIC,959,1,Nee,PrimeFulvic - Fulvinezuur,,,,0,1
-admin,"PRIMEFULVIC-0,5L",12,1,Nee,"PrimeFulvic - 0,5 liter",,,,0,1
-admin,PRIMEFULVIC-1L,9,1,Nee,PrimeFulvic - 1 liter,,,,0,1
-admin,KOKOSOLIE,0,0,Nee,Kokosolie - Original Superfoods,,,,0,1
-admin,BANDITVISMIX,0,0,Nee,Bandit Vismix (kat),Vis diverse,Vis,,0.3,1
-admin,LAMSHARTGEDROOGD,0,0,Nee,Bandit - Lamshart gedroogd,Lam,Snack,,0,1
-admin,PATRIJSKARKAS,40,1,Ja,Patrijs - Karkas met orgaan,Patrijs,Compleet Karkas,Binnencel,0.225,1
-admin,PUURZALM,34,1,Ja,Puur zalm - Petsfish,Zalm,Complete Gemalen,Binnencel,0.5,1
-admin,KABELJAUWHUID,6,1,Nee,Funny Fish Kabeljauwhuid,Kabeljauw,Snack,,0,1
-admin,FUNNYFISHFILET-100,39,1,Nee,Funny Fish filet - 100 gram,Schol,Snack,,0,1
-admin,FUNNYKREEFT,0,0,Nee,Funny Fish Kreeft,Kreeft,Snack,,0,1
-admin,OERVOERGEMENGD,95,1,,OerVoer Pakket - Gemalen gemengd (3 smaken) - 15KG,,,,10,1
-admin,PATRIJS-01,20,1,Ja,Patrijs - Karkas met orgaan,Patrijs,Compleet Karkas,Binnencel,0.225,1
-admin,PATRIJS-03,0,0,Ja,Patrijs - Karkas met orgaan,Patrijs,Compleet Karkas,Binnencel,0.675,1
-admin,DUIF-01,0,0,Ja,Duifkarkas met orgaan,Duif,Compleet Karkas,Binnencel,0.14,1
-admin,DUIF-05,60,1,Ja,Duifkarkas met orgaan - per 3 stuks,Duif,Compleet Karkas,Binnencel,0.4,3
-admin,KWARTEL-01,0,0,Ja,Kwartelkarkas met orgaan - per stuk,Kwartel,Compleet Karkas,Binnencel,0.08,1
-admin,KWARTEL-05,8,1,Nee,Kwartelkarkas met orgaan - per 5 stuks,Kwartel,Compleet Karkas,Binnencel,0.4,5
-admin,DARFPUPPY,10,1,Nee,Puppy mix  - DARF,,Complete Gemalen,Buitencel,5,1
-admin,DARFWILD,5,1,Nee,Wild mix - DARF,,Complete Gemalen,Buitencel,5,1
-admin,BOSDUIFZUIVER,0,0,Ja,Bosduif  - enkelvoudige maling,Duif,Complete Gemalen,Paris,0.25,1
-admin,HAASKARKAS,0,0,Ja,OerVoer - Haaskarkas,Haas,Hard Bot,Binnencel,0.2,1
-admin,COMBIPAKKET5KG,995,1,,OerVoer Combinatie - 5KG pakket,,,,5,1
-admin,FUNNYFISHFILET-50,7,1,Nee,Funny Fish filet - 50 gram,Schol,Snack,,0,1
-admin,FUNNYFISHFILET,1000,1,Nee,Funny Fish filet,Schol,Snack,,0,1
-admin,FUNNYFISHKRAB,0,0,Nee,Funny Fish Krab,Krab,Snack,,0,1
-admin,FUNNYFISHMEERVAL,10,1,Nee,Funny Fish Meerval,Meerval,Snack,,0,1
-admin,100%OERVOER-5KG,991,1,Nee,100% OerVoer pakket - 5KG,,,,5,1
-admin,GEMALENPLUS-5KG,995,1,Nee,OerVoer Gemalen Plus Pakket - 5KG,,,,5,1
-admin,COMBIPAKKET10KG,855,1,Nee,OerVoer Combinatie - 10KG pakket,,,,10,1
-admin,COMBI17/5,993,1,Nee,OerVoer Combinatie - 17.5KG,,,,10,1
-admin,ZIWIVENISON/HOOFD,990,1,Nee,ZiwiPeak Daily Dog Venison - Hert / Wild,Hert,Complete Gemalen,,0,1
-admin,ZIWIVENISON-1KG,4,1,Nee,Ziwipeak Daily Dog Venison - Hert - 1 KG,Hert,Complete Gemalen,,0,1
-admin,ZIWIVENISON-5KG,0,0,Nee,Ziwipeak Daily Dog Venison - Hert - 5 KG,Hert,Complete Gemalen,,0,1
-admin,MAKREEL100%,29,1,Ja,PUUR Makreel - Petsfish,Makreel,Complete Gemalen,Binnencel,1,1
-admin,HERTZUIVER,976,1,Nee,Hert - enkelvoudige maling,Hert,Complete Gemalen,Paris,0.25,1
-admin,HERTMIX/250,0,0,Ja,Hert - enkelvoudige maling -250 gram,Hert,Complete Gemalen,Paris,0.25,1
-admin,HERTMIX/500,0,0,Ja,Hert - enkelvoudige maling -500 gram,Hert,Complete Gemalen,Paris,0.5,1
-admin,FAZANTZUIVER,80,1,Nee,Fazant - enkelvoudige maling,Fazant,Complete Gemalen,Paris,0.25,1
-admin,RUNDERLEVER,10,1,Ja,Runderlever,Rund,Orgaan,Orgaanbank,0.15,1
-admin,RUNDHART,82,1,Ja,Runderhart,Rund,Orgaan,Orgaanbank,0.15,1
-admin,RUNDHALS,75,1,Ja,Rund - gemalen halsvlees,Rund,Spiervlees,Binnencel,0.15,1
-admin,100%OERVOER-10KG,820,1,Nee,100% OerVoer pakket - 10KG,,,,10,1
-admin,HAASMALING/500,0,0,Ja,Zuiver Haas - enkelvoudige maling,Haas,Complete Gemalen,Paris,0.5,1
-admin,KONIJNMALING/500,79,1,Ja,Zuiver Konijn - enkelvoudige maling,Konijn,Complete Gemalen,Paris,0.5,1
-admin,ZIWILAM,92,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam,Lam,Complete Gemalen,,0,1
-admin,ZIWILAM/1KG,4,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 1KG,Lam,Complete Gemalen,,0,1
-admin,ZIWILAM/5KG,0,0,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 5KG,Lam,Complete Gemalen,,0,1
-admin,ZIWIVIS/1KG,3,1,Nee,ZiwiPeak Daily Dog Venison - Vis - 1 KG,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWIKATVIS/113gram,15,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis - 113 gram,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWIKATVENISON/400gram,16,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison - 400 gram,,Complete Gemalen,,0,1
-admin,ZIWIKATLAm/400gram,16,1,Nee,ZiwiPeak Daily Cat Cuisine - Lam - 400 gram,Lam,Complete Gemalen,,0,1
-admin,ORIJENTUNDRA,996,1,Nee,Orijen Tundra Freeze Dried,,Complete Gemalen,,0,1
-admin,ORIJENTUNDRA/12,12,1,Nee,Orijen Tundra Freeze Dried - 12 Medaillons,,Complete Gemalen,,0,1
-admin,ORIJENTUNDRA/30,11,1,Nee,Orijen Tundra Freeze Dried - 30 Medaillons,,Complete Gemalen,,0,1
-admin,ZIWIHOOFER,16,1,Nee,ZiwiPeak - Deer Hoofer (Hertenhoef),Hert,Snack,,0,1
-admin,ZPVENSION/85,1,1,Nee,ZiwiPeak - Good Dog treats - Venison - 85gram,,Snack,,0,1
-admin,ZIWICATTREAT,22,1,Nee,ZiwiPeak - Good Cat Treats - Lam en Lever,Lam,Snack,,0,1
-admin,ORIJENRED,97,1,Nee,Orijen - Regional Red,,Complete Gemalen,,0,1
-admin,ORIJENRED/12,10,1,Nee,Orijen - Regional Red - 12 medaillons,,Complete Gemalen,,0,1
-admin,ORIJENRED/30,14,1,Nee,Orijen - Regional Red - 30 medaillons,,Complete Gemalen,,0,1
-admin,ZIWIVIS/5KG,0,0,Nee,ZiwiPeak Daily Dog Venison - Vis - 5 KG,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWIVIS/HOOFD,988,1,Nee,ZiwiPeak Daily Dog Cuisine - Venison en Vis,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWIKATVIS/400gram,16,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis - 400 gram,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWIKATVIS,995,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis,Vis diverse,Complete Gemalen,,0,1
-admin,ZIWICATTREATVF,8,1,Nee,ZiwiPeak - Good Cat Treats - Venison & Fish,Vis diverse,Snack,,0,1
-admin,EENDMALING/500,49,1,Ja,Eend - enkelvoudige maling - 500 gram,Eend,Complete Gemalen,Paris,0.5,1
-admin,EENDMALING/250,0,0,Ja,Eend - enkelvoudige maling - 250 gram,Eend,Complete Gemalen,Paris,0.25,1
-admin,EENDMALING,919,1,Nee,Eend - OerVoer Zuiver,Eend,Complete Gemalen,Paris,0.25,1
-admin,KIPMALING/250,8,1,Ja,Zuiver Kip  - enkelvoudige maling - 250 gram,Kip,Complete Gemalen,Paris,0.25,1
-admin,KIPMALING/500,38,1,Ja,Zuiver Kip  - enkelvoudige maling - 500 gram,Kip,Complete Gemalen,Paris,0.5,1
-admin,KIPMALING,913,1,Nee,Zuiver Kip - enkelvoudige maling,Kip,Complete Gemalen,Paris,0.25,1
-admin,PUURPROBIO/50,6,1,Nee,Puur - Probiotica hond / kat - 50 gram,,,,0,1
-admin,PUURPROBIO/150,16,1,Nee,Puur - Probiotica hond / kat - 150 gram,,,,0,1
-admin,PUURPROBIO,990,1,Nee,Puur - Probiotica hond / kat / paard,,,,0,1
-admin,PAARDZUIVER/500,0,0,,Paard - enkelvoudige maling,Paard,,,0.5,1
-admin,SCHAAP/250,0,0,Ja,Schaap - enkelvoudige maling,Schaap,Complete Gemalen,,0.25,1
-admin,LAMPENSSTUK,0,0,,OerVoer Lamspens - Stuk,Lam,Pens,,0.25,1
-admin,LAMPENSSTUK/250,0,0,Ja,OerVoer Lamspens - Stuk - 250 gram,Lam,Pens,,0.25,1
-admin,LAMPENSSTUK/500,0,0,Ja,OerVoer Lamspens - Stuk - 500 gram,Lam,Pens,,0.5,1
-admin,LAMPENSGEMALEN,984,1,Nee,OerVoer Lamspens - Gemalen,Lam,Pens,Orgaanbank,0.25,1
-admin,LAMPENSGEMALEN/250,94,1,Ja,OerVoer Lamspens - Gemalen - 250 gram,Lam,Pens,Orgaanbank,0.25,1
-admin,LAMPENSGEMALEN/500,0,0,Ja,OerVoer Lamspens - Gemalen - 500 gram,Lam,Pens,Orgaanbank,0.5,1
-admin,RUNDPENS/500,59,1,Ja,OerVoer Runderpens,Rund,Pens,Orgaanbank,0.5,1
-admin,FAZANTMIX/250,66,1,Ja,Fazant - enkelvoudige maling - 250 gram,Fazant,Complete Gemalen,Paris,0.25,1
-admin,FAZANTMIX/500,138,1,Ja,Fazant - enkelvoudige maling - 500 gram,Fazant,Complete Gemalen,Paris,0.5,1
-admin,GEITMIX/500,92,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling - 500 gram,Geit,Complete Gemalen,Paris,0.5,1
-admin,HARTHOOGLANDER,0,0,Nee,Hart - Schotse Hooglander,Rund,Orgaan,orgaanbank,0.25,1
-admin,FAZANTSTICKS,17,1,Ja,Fazant Drumsticks,Fazant,Hard Bot,Binnencel,0.18,3
-admin,GEITMALING/250,89,1,Ja,Geit - Enkelvoudige maling - 250 gram,Geit,Complete Gemalen,Paris,0.25,1
-admin,GEITZUIVER,739,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling,Geit,Complete Gemalen,Paris,0.25,1
-admin,KALKOENZUIVER/250,57,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 250 gram,Kalkoen,Complete Gemalen,Paris,0.25,1
-admin,PUURSPIJSHK/100,5,1,Nee,Puur - Spijsvertering - Hond en Kat,,,,0,1
-admin,PUURSPIJSPP/600,0,0,Nee,Puur - Spijsvertering - Paard en Pony,,,,0,1
-admin,PATRIJSZUIVER/250,19,0,Ja,Patrijs - OerVoer Zuiver,Patrijs,Complete Gemalen,,0.25,1
-admin,VERMXKAT,11,1,Nee,Verm-X - Snoepjes voor katten,,,,0,1
-admin,VERMXHOND/KOEK,993,1,Nee,Verm-X - Koekjes voor honden,,,,0,1
-admin,VERMXHOND/KOEK100,20,1,Nee,Verm-X - Koekjes voor honden - 100 gram,,,,0,1
-admin,VERMXHOND/KOEK650,4,1,Nee,Verm-X - Koekjes voor honden - 600 gram,,,,0,1
-admin,VERMXHOND/VLOEI,10,1,Nee,Verm-X - Vloeibaar voor honden,,,,0,1
-admin,VLOVRIJ/HOOFD,987,1,Nee,VloVrij vlooiendruppels - Ecostyle,,,,0,1
-admin,ESVLOVRIJ/KLEIN,1,1,Nee,VloVrij vlooiendruppels - kleine hond - Ecostyle,,,,0,1
-admin,ESVLOVRIJ/GROOT,4,1,Nee,VloVrij vlooiendruppels - grote hond - Ecostyle,,,,19,1
-admin,ESVLOVRIJ/OPDIER,5,1,Nee,VloVrij Spray - Op het dier - Ecostyle,,,,0,1
-admin,ESVLOVRIJ/SPRAY,1,1,Nee,VloVrij Omgevingsspray - EcoStyle,,,,0,1
-admin,VERMXPAARD/VLOEI,2,1,Nee,Verm-X - Vloeibaar voor Paarden en Pony's,,,,0,1
-admin,PUUROMEGA3/HOOFD,996,1,Nee,Puur - Omega 3,,,,0,1
-admin,PUUROMEGA3/100,1,1,Nee,Puur - Omega 3 - 100ml,,,,0,1
-admin,PUUROMEGA3/200,1,1,Nee,Puur - Omega 3 - 200ml,,,,0,1
-admin,OER1000001,6,1,Nee,Espree - Tea tree & Aloe shampoo,,,,0,1
-admin,OER1000002,17,1,Nee,Spiering - Funny Fish,,Snack,,0,1
-admin,HAAS/HOOFD,749,1,Nee,Haas - OerVoer Zuiver - enkelvoudige maling,Haas,Complete Gemalen,Paris,0.25,1
-admin,HAASMALING/250,0,0,Ja,Haas - OerVoer Zuiver - enkelvoudige maling,Haas,Complete Gemalen,Paris,0.25,1
-admin,DARFEKOKATZALM,8,1,Nee,EKO Kat KVV - Zalm - DARF,Zalm,Complete Gemalen,Buitencel,2.5,1
-admin,ORIJENBISON45,2,1,Nee,Free Range Bison - Orijen - 45,,,,0,1
-admin,ORIJENLAMB45,2,1,Nee,Ranch Raised Lamb - Orijen - 45,Lam,Snack,,0,1
-admin,SMKIPRUND,1000,1,Nee,SmaakMaker - Kip en Rund menu,"Kip , Rund",Complete Gemalen,,2,1
-admin,KALKOENZUIVER/500,0,0,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 500 gram,Kalkoen,Complete Gemalen,Paris,0.5,1
-admin,KALKOENZUIVER/HOOFD,907,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling,Kalkoen,Complete Gemalen,Paris,0.25,1
-admin,ZUIVERLAM/HOOFD,858,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling,Lam,Complete Gemalen,Paris,0.25,1
-admin,ZUIVERLAM/250,0,0,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 250 gram,Lam,Complete Gemalen,Paris,0.25,1
-admin,ZUIVERLAM/500,0,0,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 500 gram,Lam,Complete Gemalen,Paris,0.5,1
-admin,ZUIVERKONIJN/HOOFD,877,1,Nee,Konijn - OerVoer Zuiver - enkelvoudige maling,Konijn,Complete Gemalen,Paris,0.25,1
-admin,KONIJNZUIVER/250,0,0,Nee,Zuiver Konijn - enkelvoudige maling - 250 gram,Konijn,Complete Gemalen,Paris,0.25,1
-admin,ZUIVERZALM/250,5,1,Ja,Zalm - OerVoer Zuiver,Zalm,Vis,Binnencel,0.25,1
-admin,THIEVES,12,1,Nee,Thieves - Desinfecterende zeep,,,,0,1
-admin,ZIWILAM/25KG,5,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 2.5KG,Lam,Gedroogd,,0,1
-admin,OZGEITENPENS/250,100,1,Ja,Geitenpens - OerVoer Zuiver,Geit,Pens,orgaanbank,0.25,1
-admin,GANZENPOOT,43,1,Nee,Ganzen pootjes(Gevriesdroogd),Gans,Snack,,0,1
-admin,DIGESTZYMEZ,4,1,Nee,Digestzymez ,,,,0,1
-admin,PROBIOGOODPET,11,1,Nee,Probiotica Dr. GoodPet,,,,0,1
-admin,FLAVRSHAKR,4,1,Nee,Flav’r Shak’r,,,,0,1
-admin,DEERSHANK,41,1,Nee,Deer Shank Bone (Full) - Hertenbot,Hert,Snack,,0,1
-admin,DOGTREATLAM,8,1,Nee,ZiwiPeak - Good Dog treats - Lam,Lam,Snack,,0,1
-admin,CATCUISINEVENISON,29,1,Nee,Daily Cat Cuisine - Blik - Venison / Hert,Hert,Complete Gemalen,,0,1
-admin,ORIJENDUCK/HOOFD,994,1,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen,Eend,Snack,,0,1
-admin,ORIJENDUCK45,0,0,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen - 45 ,Eend,Snack,,0,1
-admin,ORIJENDUCK80,2,1,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen - 80,Eend,Snack,,0,1
-admin,MOA750ML,0,0,Nee,MOA (Mother of All) ,,,,0,1
-admin,ORIJENLAMB80,4,1,Nee,Ranch Raised Lamb - Orijen - 80,Lam,Snack,,0,1
-admin,ORIJENLAMBHOOFD,995,1,Nee,Ranch Raised Lamb - Orijen,Lam,Snack,,0,1
-admin,ORIJENBISON80,3,1,Nee,Free Range Bison - Orijen - 80 ,,,,0,1
-admin,ORIJENBISONHOOFD,995,1,Nee,Free Range Bison - Orijen,,,,0,1
-admin,COLLZILVER,11,1,Nee,"Colloïdaal Zilver, 10ppm - 500ml",,,,0,1
-admin,ZPVENISON/HOOFD,994,1,Nee,ZiwiPeak - Good Dog treats - Venison,,Snack,,0,1
-admin,ZPVENISON/450,6,1,Nee,ZiwiPeak - Good Dog treats - Venison - 450 gram,,Snack,,0,1
-admin,ZIWIVISVENI/25,3,1,Nee,ZiwiPeak Daily Dog Cuisine - Venison en Vis - 2.5 kilo,Vis diverse,,,0,1
-admin,RUNDZUIVER/HOOFD,933,1,Ja,Rund - Zuiver - OerVoer,Rund,Complete Gemalen,Paris,0.25,1
-admin,RUNDZUIVER/250,39,1,Ja,Rund - Zuiver - OerVoer - 250 gram,Rund,Complete Gemalen,Paris,0.25,1
-admin,RUNDZUIVER/500,36,1,Ja,Rund - Zuiver - OerVoer - 500 gram,Rund,Complete Gemalen,Paris,0.5,1
-admin,WGANSZUIVER/HOOFD,875,1,Ja,Gans (Wild) - OerVoer Zuiver,Gans,Complete Gemalen,Paris,0.25,1
-admin,WGANSZUIVER/250,0,0,Ja,Gans (Wild) - OerVoer Zuiver - 250 gram,Gans,Complete Gemalen,Paris,0.25,1
-admin,WGANSZUIVER/500,52,1,Ja,Gans (Wild) - OerVoer Zuiver - 500 gram,Gans,Complete Gemalen,Paris,0.5,1
-admin,FAZHERT/250,0,0,Ja,Fazant/Hert - OerVoer Zuiver - 250 gram,,Complete Gemalen,Paris,0.25,1
-admin,FAZHERT/500,7,1,Ja,Fazant/Hert - OerVoer Zuiver - 500 gram,,Complete Gemalen,Paris,0.5,1
-admin,FAZHERT/HOOFD,932,1,Ja,Fazant/Hert - OerVoer Zuiver,"Fazant , Hert",Complete Gemalen,Paris,0.25,1
-admin,COLLZILVER/1000,8,1,Nee,"Colloïdaal Zilver, 10ppm - 1000ml",,,,0,1
-admin,COLLZILVER/HOOFD,980,1,Nee,"Colloïdaal Zilver, 10ppm",,,,0,1
-admin,FUNNYMIX,13,1,Nee,Funny Fish Mix,"Makreel , Schol , Vis diverse , Zalm",Snack,,0,1
-admin,FUNNYBITESZALM,12,1,Nee,Funny Fish Bites - Zalm,Zalm,Snack,,0,1
-admin,ANCOROOT/HOOFD,10000,1,Nee,Anco boomwortel / Anco root,,Snack,,0,1
-admin,ANCOROOT/XS,5,1,Nee,Anco boomwortel / Anco root XS,,Snack,,0,1
-admin,ANCOROOT/S,2,1,Nee,Anco boomwortel / Anco root - S,,Snack,,0,1
-admin,ANCOROOT/M,3,1,Nee,Anco boomwortel / Anco root - M,,Snack,,0,1
-admin,ANCOROOT/L,2,1,Nee,Anco boomwortel / Anco root - L,,Snack,,0,1
-admin,ANCOROOT/XL,4,1,Nee,Anco boomwortel / Anco root - XL,,Snack,,0,1
-admin,RABBITEAR,8,1,Nee,Konijnenoren - Gedroogd,Konijn,Snack,,0,1
-admin,CHEWYHENNEP,2,1,Nee,Chewy - Het Henneptouw,,Snack,,0,1
-admin,HARRYHOPHOP,6,1,Nee,Harry de Hop Hop Vogel,,Snack,,0,1
-admin,LAMSHART,12,1,Nee,Lamshart,Lam,Orgaan,Binnencel,0.5,1
-admin,LAMSHART/150,50,1,Ja,Lam - Hart,Lam,Orgaan,Orgaanbank,0.15,1
-admin,LAMNIER/100,50,1,Ja,Lam - Nier,Lam,Orgaan,Orgaanbank,0.1,1
-admin,LAMLEVER/100,60,1,Ja,Lam - Lever,Lam,Orgaan,Orgaanbank,0.1,1
-admin,GEITHART/150,50,1,Ja,Geit - Hart,Geit,Orgaan,Orgaanbank,0.15,1
-admin,GEITLEVER/150,50,1,Ja,Geit - Lever,Geit,Orgaan,Orgaanbank,0.15,1
-admin,GEITVLEES/500,60,1,Ja,Geit - Vlees,Geit,Spiervlees,Binnencel,0.5,1
-admin,EENDBOTMALING/250,60,1,Ja,Eend - Botmaling,Eend,Zacht Bot,Binnencel,0.25,1
-admin,GEITKARKAS,60,1,Ja,Geitkarkas,Geit,Hard Bot,Binnencel,0.25,1
-admin,HERTNEK,50,1,Ja,Hertennekken,Hert,Hard Bot,Binnencel,0.3,1
-admin,REENEK/200,60,1,Ja,Reenekken,Ree,Hard Bot,Binnencel,0.2,1
-admin,KIPLEVER/60,60,1,Ja,Kip - Lever,Kip,Orgaan,Orgaanbank,0.06,1
-admin,SHELBYHENNEP,10,1,Nee,Shelby - De Hennep Muis,,Snack,,0,1
-admin,APKOKOSOLIE/HOOFD,12,1,Nee,Kokosolie - Biologisch en Extra Vierge,,Supplement,,0,1
-admin,APKOKOSOLIE/325,11,1,Nee,Kokosolie - Biologisch en Extra Vierge,,Supplement,,0,1
-admin,APKOKOSOLIE/1600,4,1,Nee,Kokosolie - Biologisch en Extra Vierge - 1600ml,,Supplement,,0,1
-admin,HAASHERT/HOOFD,0,0,Ja,Haas/Hert - OerVoer Zuiver,"Haas , Hert",Complete Gemalen,Paris,0.25,1
-admin,HAASHERT/250,43,1,Ja,Haas/Hert - OerVoer Zuiver - 250 gram,"Haas , Hert",Complete Gemalen,Paris,0.25,1
-admin,HAASHERT/500,43,1,Ja,Haas/Hert - OerVoer Zuiver -500 gram,"Haas , Hert",Complete Gemalen,Paris,0.5,1
-admin,KIPBORREL,34,1,Nee,Kip - Borrelpootjes,,,binnencel,0.18,3
-admin,PARELBORREL,36,1,Nee,Parelhoen Borrelpootjes,Parelhoen,,binnencel,0.18,3
-admin,ZIWIVENISON/2500,8,1,Nee,"Ziwipeak Daily Dog Venison - Hert - 2,5 KG",Hert,Complete Gemalen,,0,1
-admin,FULVINESPRAY,72,1,Nee,PrimeFulvic - Fulvinezuur Spray,,Drogisterij,,0,1
+store,sku,qty,is_in_stock,geschiktmenu,name,smaak,type_vlees,shelf,weight,verpakt_per,geschikt voor
+admin,K90003,0,0,Nee,K9Natural - Gevriesdroogd Rundvlees - 500gram,Rund,Compleet Gemalen,,0,1,Hond
+admin,GEVOGELTEPAK,997,1,Nee,OerVoer Gevogelte Pakket,,Compleet Gemalen,,1.5,,Hond
+admin,DARFNATUURMIX,4,1,Nee, Natuur Mix KVV - DARF,,Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFKVVEEND,6,1,Nee,Eend mix KVV - DARF,Eend,Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFKVVKONIJN,0,0,Nee,Konijn mix KVV - DARF,Konijn,Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFKVVKALKOEN,4,1,Nee,Kalkoen mix KVV - DARF,Kalkoen,Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFGEITKIP,5,1,Nee,Geit/Kip mix  - DARF,"Geit , Kip",Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFLAMKIP,6,0,Nee,Lam/Kip mix  - DARF,"Kip , Lam",Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFEKOKAT,6,1,Nee,EKO Kat KVV  - DARF,,Compleet Gemalen,Buitencel,2.5,1,Kat
+admin,WILDMIXKAT,0,0,Nee,Bandit Wildmix (kat),,Compleet Gemalen,,0.3,1,Kat
+admin,KATMIXBIO,0,0,Nee,Bandit Biologische Katmix,,Compleet Gemalen,Buitencel,0.3,1,Kat
+admin,DARFPUPPY,0,0,Nee,Puppy mix  - DARF,,Compleet Gemalen,Buitencel,5,1,Hond
+admin,DARFWILD,2,1,Nee,Wild mix - DARF,,Compleet Gemalen,Buitencel,5,1,"Hond , Hond en Kat , Kat"
+admin,BOSDUIFZUIVER,430,1,Ja,Bosduif  - enkelvoudige maling,Duif,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,ZIWIVENISON/HOOFD,986,1,Nee,ZiwiPeak Daily Dog Venison - Hert / Wild,Hert,Compleet Gemalen,,0,1,Hond
+admin,ZIWIVENISON-1KG,0,0,Nee,Ziwipeak Daily Dog Venison - Hert - 1 KG,Hert,Compleet Gemalen,,0,1,Hond
+admin,ZIWIVENISON-5KG,0,0,Nee,Ziwipeak Daily Dog Venison - Hert - 5 KG,Hert,Compleet Gemalen,,0,1,Hond
+admin,HERTZUIVER/HOOFD,976,1,Nee,Hert - enkelvoudige maling,Hert,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HERTMIX/250,0,0,Ja,Hert - enkelvoudige maling -250 gram,Hert,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HERTMIX/500,0,0,Ja,Hert - enkelvoudige maling -500 gram,Hert,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,FAZANTZUIVER/HOOFD,80,1,Nee,Fazant - enkelvoudige maling,Fazant,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAASMALING/500,29,1,Ja,Zuiver Haas - enkelvoudige maling,Haas,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,KONIJNMALING/500,9,1,Ja,Zuiver Konijn - enkelvoudige maling,Konijn,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,ZIWILAM,92,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam,Lam,Compleet Gemalen,,0,1,Hond
+admin,ZIWILAM/1KG,4,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 1KG,Lam,Compleet Gemalen,,0,1,Hond
+admin,ZIWILAM/5KG,0,0,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 5KG,Lam,Compleet Gemalen,,0,1,Hond
+admin,ZIWIVIS/1KG,0,0,Nee,ZiwiPeak Daily Dog Venison - Vis - 1 KG,Vis diverse,Compleet Gemalen,,0,1,Hond
+admin,ZIWIKATVIS/113gram,13,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis - 113 gram,Vis diverse,Compleet Gemalen,,0,1,Kat
+admin,ZIWIKATVENISON/400gram,16,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison - 400 gram,,Compleet Gemalen,,0,1,Kat
+admin,ZIWIKATLAm/400gram,16,1,Nee,ZiwiPeak Daily Cat Cuisine - Lam - 400 gram,Lam,Compleet Gemalen,,0,1,Kat
+admin,ORIJENTUNDRA,996,1,Nee,Orijen Tundra Freeze Dried,,Compleet Gemalen,,0,1,Hond
+admin,ORIJENTUNDRA/12,11,1,Nee,Orijen Tundra Freeze Dried - 12 Medaillons,,Compleet Gemalen,,0,1,Hond
+admin,ORIJENTUNDRA/30,0,0,Nee,Orijen Tundra Freeze Dried - 30 Medaillons,,Compleet Gemalen,,0,1,Hond
+admin,ORIJENRED,97,1,Nee,Orijen - Regional Red,,Compleet Gemalen,,0,1,Hond
+admin,ORIJENRED/12,10,1,Nee,Orijen - Regional Red - 12 medaillons,,Compleet Gemalen,,0,1,Hond
+admin,ORIJENRED/30,14,1,Nee,Orijen - Regional Red - 30 medaillons,,Compleet Gemalen,,0,1,Hond
+admin,ZIWIVIS/5KG,0,0,Nee,ZiwiPeak Daily Dog Venison - Vis - 5 KG,Vis diverse,Compleet Gemalen,,0,1,Hond
+admin,ZIWIVIS/HOOFD,982,1,Nee,ZiwiPeak Daily Dog Cuisine - Venison en Vis,Vis diverse,Compleet Gemalen,,0,1,Hond
+admin,ZIWIKATVIS/400gram,14,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis - 400 gram,Vis diverse,Compleet Gemalen,,0,1,Kat
+admin,ZIWIKATVIS,991,1,Nee,ZiwiPeak Daily Cat Cuisine - Venison en vis,Vis diverse,Compleet Gemalen,,0,1,Kat
+admin,EENDMALING/500,4,1,Ja,Eend - enkelvoudige maling - 500 gram,Eend,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,EENDMALING/250,11,1,Ja,Eend - enkelvoudige maling - 250 gram,Eend,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,EENDMALING/HOOFD,913,1,Nee,Eend - OerVoer Zuiver,Eend,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,KIPMALING/250,87,1,Ja,Zuiver Kip  - enkelvoudige maling - 250 gram,Kip,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,KIPMALING/500,34,1,Ja,Zuiver Kip  - enkelvoudige maling - 500 gram,Kip,Compleet Gemalen,Paris,0.5,1,Hond
+admin,KIPMALING/HOOFD,913,1,Nee,Zuiver Kip - enkelvoudige maling,Kip,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,SCHAAP/250,0,0,Ja,Schaap - enkelvoudige maling,Schaap,Compleet Gemalen,,0.25,1,"Hond , Hond en Kat , Kat"
+admin,FAZANTMIX/250,0,0,Ja,Fazant - enkelvoudige maling - 250 gram,Fazant,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,FAZANTMIX/500,0,0,Ja,Fazant - enkelvoudige maling - 500 gram,Fazant,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,GEITMIX/500,25,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling - 500 gram,Geit,Compleet Gemalen,Paris,0.5,1,Hond
+admin,GEITMALING/250,187,1,Ja,Geit - Enkelvoudige maling - 250 gram,Geit,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,GEITZUIVER/HOOFD,728,1,Nee,Geit - OerVoer Zuiver - enkelvoudige maling,Geit,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,KALKOENZUIVER/250,88,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 250 gram,Kalkoen,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,PATRIJSZUIVER/250,0,0,Ja,Patrijs - OerVoer Zuiver,Patrijs,Compleet Gemalen,,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAAS/HOOFD,706,1,Nee,Haas - OerVoer Zuiver - enkelvoudige maling,Haas,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAASMALING/250,0,0,Ja,Haas - OerVoer Zuiver - enkelvoudige maling,Haas,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,DARFEKOKATZALM,8,1,Nee,EKO Kat KVV - Zalm - DARF,Zalm,Compleet Gemalen,Buitencel,2.5,1,Kat
+admin,SMKIPRUND,1000,1,Nee,SmaakMaker - Kip en Rund menu,"Kip , Rund",Compleet Gemalen,,2,,Hond
+admin,KALKOENZUIVER/500,58,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 500 gram,Kalkoen,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,KALKOENZUIVER/HOOFD,858,1,Nee,Kalkoen - OerVoer Zuiver - Enkelvoudige maling,Kalkoen,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,ZUIVERLAM/HOOFD,804,1,Nee,Lam - OerVoer Zuiver - Enkelvoudige maling,Lam,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,ZUIVERLAM/250,90,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 250 gram,Lam,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,ZUIVERLAM/500,41,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 500 gram,Lam,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,ZUIVERKONIJN/HOOFD,790,1,Nee,Konijn - OerVoer Zuiver - enkelvoudige maling,Konijn,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,KONIJNZUIVER/250,100,0,Ja,Zuiver Konijn - enkelvoudige maling - 250 gram,Konijn,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,CATCUISINEVENISON,23,1,Nee,Daily Cat Cuisine - Blik - Venison / Hert,Hert,Compleet Gemalen,,0,1,Kat
+admin,RUNDZUIVER/HOOFD,856,1,Nee,Rund - Zuiver - OerVoer,Rund,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,RUNDZUIVER/250,44,1,Ja,Rund - Zuiver - OerVoer - 250 gram,Rund,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,RUNDZUIVER/500,100,1,Ja,Rund - Zuiver - OerVoer - 500 gram,Rund,Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,WGANSZUIVER/HOOFD,793,1,Nee,Gans (Wild) - OerVoer Zuiver,Gans,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,WGANSZUIVER/250,0,0,Ja,Gans (Wild) - OerVoer Zuiver - 250 gram,Gans,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,WGANSZUIVER/500,0,0,Ja,Gans (Wild) - OerVoer Zuiver - 500 gram,Gans,Compleet Gemalen,Paris,0.5,1,Hond
+admin,FAZHERT/250,0,0,Ja,Fazant/Hert - OerVoer Zuiver - 250 gram,,Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,FAZHERT/500,0,0,Ja,Fazant/Hert - OerVoer Zuiver - 500 gram,,Compleet Gemalen,Paris,0.5,1,"Hond , Kat"
+admin,FAZHERT/HOOFD,925,1,Nee,Fazant/Hert - OerVoer Zuiver,"Fazant , Hert",Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAASHERT/HOOFD,0,0,Nee,Haas/Hert - OerVoer Zuiver,"Haas , Hert",Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAASHERT/250,59,1,Ja,Haas/Hert - OerVoer Zuiver - 250 gram,"Haas , Hert",Compleet Gemalen,Paris,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HAASHERT/500,49,1,Ja,Haas/Hert - OerVoer Zuiver -500 gram,"Haas , Hert",Compleet Gemalen,Paris,0.5,1,"Hond , Hond en Kat , Kat"
+admin,DARFKATZALM/1,20,1,Ja,DARF - ZALM - KAT,"Kip , Rund , Zalm",Compleet Gemalen,Binnencel,0.3,1,Kat
+admin,DARFKATPER1,40,1,Ja,DARF - KAT - PER 1,"Kip , Rund",Compleet Gemalen,Binnencel,0.3,1,Kat
+admin,FAZANT0001,28,1,Ja,Fazant karkas met organen,Fazant,Compleet Karkas,Binnencel,0.8,1,Hond
+admin,EEND0014,36,1,Ja,Wilde eendenkarkas met organen,Eend,Compleet Karkas,Binnencel,0.35,1,Hond
+admin,DUIFKARKAS/HOOFD,21,1,Ja,Duifkarkas met orgaan,Duif,Compleet Karkas,Binnencel,0.14,3,"Hond , Hond en Kat , Kat"
+admin,KWARTELKARKAS/HOOFD,10000,1,Nee,Kwartelkarkas met orgaan,Kwartel,Compleet Karkas,Binnencel,0.08,5,"Hond , Hond en Kat , Kat"
+admin,GANSKARKAS,0,0,Ja,Ganskarkas met orgaan,Gans,Compleet Karkas,Binnencel,0.2,1,Hond
+admin,KONIJNKARKAS/HOOFD,37,1,Nee,Konijn karkas,Konijn,Compleet Karkas,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,DUIF-01,80,0,Ja,Duifkarkas met orgaan,Duif,Compleet Karkas,Binnencel,0.14,1,"Hond , Hond en Kat , Kat"
+admin,DUIF-05,35,1,Ja,Duifkarkas met orgaan - per 3 stuks,Duif,Compleet Karkas,Binnencel,0.4,3,"Hond , Hond en Kat , Kat"
+admin,KWARTEL-01,50,0,Ja,Kwartelkarkas met orgaan - per stuk,Kwartel,Compleet Karkas,Binnencel,0.08,1,"Hond , Hond en Kat , Kat"
+admin,KWARTEL-05,99,1,Ja,Kwartelkarkas met orgaan - per 5 stuks,Kwartel,Compleet Karkas,Binnencel,0.4,5,"Hond , Hond en Kat , Kat"
+admin,KONIJN0001,0,0,Ja,Konijn karkas-Klein - 120 gram,Konijn,"Compleet Karkas , Middel Bot",Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,KONIJN0002,72,1,Ja,Konijn karkas- half,Konijn,"Compleet Karkas , Middel Bot",binnencel,0.35,1,"Hond , Hond en Kat , Kat"
+admin,KONIJN0003,58,1,Ja,Konijn karkas-Heel- 550 gram,Konijn,"Compleet Karkas , Middel Bot",Binnencel,0.55,1,Hond
+admin,VLOVRIJ/HOOFD,987,1,Nee,VloVrij vlooiendruppels - Ecostyle,,Drogisterij,,0,1,Hond
+admin,ESVLOVRIJ/KLEIN,0,0,Nee,VloVrij vlooiendruppels - kleine hond - Ecostyle,,Drogisterij,,0,1,Hond
+admin,ESVLOVRIJ/GROOT,4,1,Nee,VloVrij vlooiendruppels - grote hond - Ecostyle,,Drogisterij,,19,1,Hond
+admin,ESVLOVRIJ/OPDIER,4,1,Nee,VloVrij Spray - Op het dier - Ecostyle,,Drogisterij,,0,1,"Hond , Hond en Kat , Kat"
+admin,ESVLOVRIJ/SPRAY,1,1,Nee,VloVrij Omgevingsspray - EcoStyle,,Drogisterij,,0,1,"Hond , Hond en Kat , Kat"
+admin,VERMXPAARD/VLOEI,2,1,Nee,Verm-X - Vloeibaar voor Paarden en Pony's,,Drogisterij,,0,1,Paard
+admin,OER1000001,2,1,Nee,Espree - Tea tree & Aloe shampoo,,Drogisterij,,0,1,Hond
+admin,THIEVES,12,1,Nee,Thieves - Desinfecterende zeep,,Drogisterij,,0,1,
+admin,COLLZILVER,12,1,Nee,"Colloïdaal Zilver, 10ppm - 500ml",,Drogisterij,,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Kat en Paard , Paard"
+admin,FULVINESPRAY,66,1,Nee,PrimeFulvic - Fulvinezuur Spray,,Drogisterij,,0,1,"Hond , Kat , Paard"
+admin,APPLAWSNC/27,16,1,Nee,Nature's Calling - Kattenbakvulling,,Drogisterij,,0,1,Kat
+admin,FTFKRUIDSPRAY,4,1,Nee,Kattenkruid - Spray,,Drogisterij,,0,1,Kat
+admin,VERMXKAT,1,1,Nee,Verm-X - Snoepjes voor katten,,"Drogisterij , Snack , Supplement",,0,1,Kat
+admin,VERMXHOND/KOEK,992,1,Nee,Verm-X - Koekjes voor honden,,"Drogisterij , Snack , Supplement",,0,1,Hond
+admin,VERMXHOND/KOEK100,19,1,Nee,Verm-X - Koekjes voor honden - 100 gram,,"Drogisterij , Snack , Supplement",,0,1,Hond
+admin,VERMXHOND/KOEK650,3,1,Nee,Verm-X - Koekjes voor honden - 600 gram,,"Drogisterij , Snack , Supplement",,0,1,Hond
+admin,VETRA0002/30,17,1,Nee,Vetra Omegard Krillolie - 30 capsules,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0002/60,33,1,Nee,Vetra Omegard Krillolie,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0002/180,16,1,Nee,Vetra Omegard Krillolie,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0003/30,31,1,Nee,Vetra AspitolPlus Groenlipmossel - 30 softgel capsules,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0003/60,32,1,Nee,Vetra AspitolPlus Groenlipmossel - 60 softgelcapsules,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0003/180,20,1,Nee,Vetra AspitolPlus Groenlipmossel-180 softgel capsules,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0004/60,31,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRA0004/150,22,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,"Drogisterij , Supplement",,0,1,"Hond , Kat"
+admin,VETRAKRILLOLIE/HOOFD,32,1,Nee,Vetra Omegard Krillolie,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Kat"
+admin,VETRAGROENLIPMOSSEL/HOOFD,44,1,Nee,Vetra AspitolPlus Groenlipmossel,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Kat"
+admin,VETRABIOFLEXA/HOOFD,37,1,Nee,Vetra Bioflexa II - MSM/ Glucosamine/ Chondroïtine,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Kat"
+admin,PRIMEFULVIC/HOOFD,959,1,Nee,PrimeFulvic - Fulvinezuur,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat , Paard"
+admin,"PRIMEFULVIC-0,5L",18,1,Nee,"PrimeFulvic - 0,5 liter",,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Kat en Paard , Paard"
+admin,PRIMEFULVIC-1L,15,1,Nee,PrimeFulvic - 1 liter,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Paard"
+admin,PUURPROBIO/50,3,1,Nee,Puur - Probiotica hond / kat - 50 gram,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Paard"
+admin,PUURPROBIO/150,14,1,Nee,Puur - Probiotica hond / kat - 150 gram,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Paard"
+admin,PUURPROBIO,985,1,Nee,Puur - Probiotica hond / kat / paard,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat , Paard"
+admin,PUURSPIJSHK/100,4,1,Nee,Puur - Spijsvertering - Hond en Kat,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Kat"
+admin,PUURSPIJSPP/600,0,0,Nee,Puur - Spijsvertering - Paard en Pony,,"Drogisterij , Supplement",,0,1,Paard
+admin,VERMXHOND/VLOEI,5,1,Nee,Verm-X - Vloeibaar voor honden,,"Drogisterij , Supplement",,0,1,Hond
+admin,PUUROMEGA3/HOOFD,996,1,Nee,Puur - Omega 3,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat , Paard"
+admin,PUUROMEGA3/100,1,1,Nee,Puur - Omega 3 - 100ml,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat , Paard"
+admin,PUUROMEGA3/200,1,1,Nee,Puur - Omega 3 - 200ml,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat , Paard"
+admin,DIGESTZYMEZ,2,1,Nee,Digestzymez ,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat"
+admin,PROBIOGOODPET,2,1,Nee,Probiotica Dr. GoodPet,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond, kat en paard , Kat"
+admin,FLAVRSHAKR,2,1,Nee,Flav’r Shak’r,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Kat"
+admin,MOA750ML,5,1,Nee,MOA (Mother of All) ,,"Drogisterij , Supplement",,0,1,"Hond , Hond en Paard , Paard"
+admin,COLLZILVER/1000,7,1,Nee,"Colloïdaal Zilver, 10ppm - 1000ml",,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Kat en Paard , Paard"
+admin,COLLZILVER/HOOFD,960,1,Nee,"Colloïdaal Zilver, 10ppm",,"Drogisterij , Supplement",,0,1,"Hond , Hond en Kat , Hond en Paard , Hond, kat en paard , Kat , Kat en Paard , Paard"
+admin,K90004,0,0,Nee,K9Natural - Gevriesdroogd Rundvlees - 3.66kg,Rund,Gedroogd,,0,1,Hond
+admin,K90006,8,1,Nee,K9Natural - Gevriesdroogd Lamsvlees - 500gram,Lam,Gedroogd,,0,1,Hond
+admin,K90007,3,1,Nee,K9Natural - Gevriesdroogd Lamsvlees - 3.66kg,Lam,Gedroogd,,0,1,Hond
+admin,ZIWILAM/25KG,5,1,Nee,ZiwiPeak Daily Dog Cuisine - Lam - 2.5KG,Lam,Gedroogd,,0,1,Hond
+admin,ZIWIVISVENI/25,0,0,Nee,ZiwiPeak Daily Dog Cuisine - Venison en Vis - 2.5 kilo,"Hert , Vis diverse",Gedroogd,,0,1,Hond
+admin,ZIWIVENISON/2500,6,1,Nee,"Ziwipeak Daily Dog Venison - Hert - 2,5 KG",Hert,Gedroogd,,0,1,Hond
+admin,ORIJENSIXFISH/227,4,1,Nee,Orijen Six Fish - Kat,Vis diverse,Gedroogd,,0,1,Kat
+admin,ORIJENCAT/227,4,1,Nee,Orijen - Regional Red - Kat,,Gedroogd,,0,1,Kat
+admin,PUURZALM,4,1,Ja,Puur zalm - Petsfish,Zalm,Gemalen Vis,Binnencel,0.5,1,"Hond , Kat"
+admin,MAKREEL100%,0,0,Ja,PUUR Makreel - Petsfish,Makreel,Gemalen Vis,Binnencel,1,1,Hond
+admin,ZUIVERZALM/250,100,0,Ja,Zalm - OerVoer Zuiver,Zalm,Gemalen Vis,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HEEKZUIVER/250,20,1,Ja,Heek - OerVoer Zuiver - 250 gram,Heek,Gemalen Vis,,0.25,1,Hond
+admin,HAASKARKAS,33,1,Ja,OerVoer - Haaskarkas,Haas,Hard Bot,Binnencel,0.2,1,Hond
+admin,FAZANTSTICKS,79,1,Ja,Fazant Drumsticks,Fazant,Hard Bot,Binnencel,0.18,3,"Hond , Hond en Kat , Kat"
+admin,GEITKARKAS,60,1,Ja,Geitkarkas,Geit,Hard Bot,Binnencel,0.25,1,Hond
+admin,HERTNEK,30,1,Ja,Hertennekken,Hert,Hard Bot,Binnencel,0.3,1,Hond
+admin,REENEK/200,60,1,Ja,Reenekken,Ree,Hard Bot,Binnencel,0.2,1,Hond
+admin,PARELHOENKARKAS,60,1,Ja,Parelhoenkarkas,Parelhoen,Middel Bot,Binnencel,0.2,1,"Hond , Hond en Kat , Kat"
+admin,EENDENKARKAS,0,0,Ja,Eendenkarkas (tam),Eend,Middel Bot,Binnencel,0.13,1,Hond
+admin,PATRIJSKARKAS,99,1,Ja,Patrijs - Karkas met orgaan,Patrijs,Middel Bot,Binnencel,0.225,1,"Hond , Hond en Kat , Kat"
+admin,PARELBORREL,0,0,Ja,Parelhoen Borrelpootjes,Parelhoen,Middel Bot,binnencel,0.18,3,"Hond , Hond en Kat , Kat"
+admin,KIP0002,60,1,Ja,Kippenmaagjes - 150 gram,kip.maag,Orgaan,Orgaanbank,0.15,1,"Hond , Kat"
+admin,KIP0008,0,0,Nee,Kippenmaagjes - 250 gram,kip.maag,Orgaan,Orgaanbank,0.25,1,"Hond , Kat"
+admin,KIPPENMAAGJES,65,1,Ja,Kippenmaagjes,kip.maag,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,KIPPENHARTJES,0,0,Ja,Kippenhartjes,kip.hart,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,EENDENHARTEN,40,1,Ja,Eendenhartjes,eend.hart,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,EENDENMAGEN,15,1,Ja,Eendenmaagjes,eend.maag,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,RUNDERHART,46,1,Ja,Runderhart,rund.hart,Orgaan,Orgaanbank,0.5,1,"Hond , Kat"
+admin,RUNDERLEVER,74,1,Ja,Runderlever,rund.lever,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,RUNDHART,45,1,Ja,Runderhart,Rund,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,HARTHOOGLANDER,0,0,Ja,Hart - Schotse Hooglander,Rund,Orgaan,orgaanbank,0.25,1,"Hond , Hond en Kat , Kat"
+admin,LAMSHART,25,1,Nee,Lamshart/ 500 ,Lam,Orgaan,orgaanbank,0.5,1,"Hond , Hond en Kat , Kat"
+admin,LAMSHART/150,50,1,Ja,Lam - Hart,Lam,Orgaan,Orgaanbank,0.15,1,"Hond , Kat"
+admin,LAMNIER/100,0,0,Ja,Lam - Nier,Lam,Orgaan,Orgaanbank,0.1,1,"Hond , Kat"
+admin,LAMLEVER/100,60,1,Ja,Lam - Lever,Lam,Orgaan,Orgaanbank,0.1,1,"Hond , Kat"
+admin,GEITHART/150,50,1,Ja,Geit - Hart,geit.hart,Orgaan,Orgaanbank,0.15,1,"Hond , Kat"
+admin,GEITLEVER/150,0,0,Ja,Geit - Lever,geit.lever,Orgaan,Orgaanbank,0.15,1,"Hond , Kat"
+admin,KIPLEVER/60,60,1,Ja,Kip - Lever,Kip,Orgaan,Orgaanbank,0.06,1,"Hond , Kat"
+admin,GEITORGAANMIX,100,1,Ja,"Geitorgaan, maling",Geit.hart.lever.nier.long,Orgaan,Paris,0.15,1,"Hond , Hond en Kat , Kat"
+admin,HERTHART,48,1,Ja,Hert - Hart,hert.hart,Orgaan,Orgaanbank,0.15,1,"Hond , Hond en Kat , Kat"
+admin,HERTLEVER,60,1,Ja,Hert - Lever,hert.lever,Orgaan,Orgaanbank,0.125,1,"Hond , Hond en Kat , Kat"
+admin,KIPHART/50,20,1,Ja,Kippenhartjes - 50 gram,kip.hart,Orgaan,,0.05,1,"Hond , Hond en Kat , Kat"
+admin,KIPMAAG/50,20,1,Ja,Kippenmaagjes - 50 gram,kip.maag,Orgaan,,0.05,1,"Hond , Hond en Kat , Kat"
+admin,EENDMAAG/50,20,1,Ja,Eendenmaagjes - 50 gram,eend.maag,Orgaan,,0.05,1,"Hond , Hond en Kat , Kat"
+admin,EENDHART/50,20,1,Ja,Eendenhartjes - 50 gram,eend.hart,Orgaan,,0.05,1,"Hond , Hond en Kat , Kat"
+admin,DARFPENSLAM,0,0,Ja,Pens van de lam - Gemalen - DARF,lam.pens,Pens,Orgaanbank,0.5,1,Hond
+admin,DARFPENSGEIT,0,0,Ja,Pens van de geit - Gemalen - DARF,geit.pens,Pens,Orgaanbank,0.5,1,Hond
+admin,DARFPENSRUND,0,0,Ja,Pens van de rund - Gemalen - DARF,rund.pens,Pens,Orgaanbank,0.5,1,Hond
+admin,LAMPENSSTUK/HOOFD,0,0,Nee,OerVoer Lamspens - Stuk,Lam,Pens,,0.25,1,Hond
+admin,LAMPENSSTUK/250,0,0,Ja,OerVoer Lamspens - Stuk - 250 gram,Lam,Pens,,0.25,1,Hond
+admin,LAMPENSSTUK/500,0,0,Ja,OerVoer Lamspens - Stuk - 500 gram,Lam,Pens,,0.5,1,Hond
+admin,LAMPENSGEMALEN/HOOFD,984,1,Nee,OerVoer Lamspens - Gemalen,Lam,Pens,Binnencel,0.25,1,Hond
+admin,LAMPENSGEMALEN/250,66,1,Ja,OerVoer Lamspens - Gemalen - 250 gram,lam.pens,Pens,Orgaanbank,0.25,1,Hond
+admin,LAMPENSGEMALEN/500,50,0,Ja,OerVoer Lamspens - Gemalen - 500 gram,lam.pens,Pens,Orgaanbank,0.5,1,Hond
+admin,RUNDPENS/500,57,1,Ja,OerVoer Rundpens - 500 ,rund.pens,Pens,Orgaanbank,0.5,1,Hond
+admin,OZGEITENPENS/250,97,1,Ja,Geitenpens - OerVoer Zuiver,Geit,Pens,Binnencel,0.25,1,Hond
+admin,OZGEITENPENS/500,100,1,Ja,Geitenpens - OerVoer Zuiver - 500 gram,geit.pens,Pens,Binnencel,0.5,1,Hond
+admin,OZGEITENPENS/HOOFD,1,1,Nee,OerVoer - Geitpens,geit.pens,Pens,Binnencel,0.25,1,Hond
+admin,RUNDPENS/250,80,1,Ja,OerVoer Rundpens - 250,rund.pens,Pens,Binnencel,0.25,1,Hond
+admin,RUNDPENS/HOOFD,1,1,Nee,OerVoer Rundpens,rund.pens,Pens,Binnencel,0.25,1,Hond
+admin,K90001,0,0,Nee,K9Natural Snack - Lam,Lam,Snack,,0,1,Hond
+admin,EEND0004,100,1,Nee,Eendenpootjes,Eend,Snack,,0,1,Hond
+admin,EASYANTLER/HOOFD,100,1,Nee,Easy Antlers - Hertengewei,Hert,Snack,,0,1,Hond
+admin,ANTEASYSMALL,1,0,Nee,Antlers Easy small,Hert,Snack,,0,1,Hond
+admin,ANTEASYMED,0,0,Nee,Antlers Easy medium,Hert,Snack,,0,1,Hond
+admin,ANTEASYLARGE,6,1,Nee,Antlers Easy large,Hert,Snack,,0,1,Hond
+admin,ANTEASYXL,2,0,Nee,Easy Antlers - Hertengewei XL,Hert,Snack,,0,1,Hond
+admin,LAMSHARTGEDROOGD,0,0,Nee,Bandit - Lamshart gedroogd,Lam,Snack,,0,1,Hond
+admin,KABELJAUWHUID,0,0,Nee,Funny Fish Kabeljauwhuid,Kabeljauw,Snack,,0,1,Hond
+admin,FUNNYFISHFILET-100,35,1,Nee,Funny Fish filet - 100 gram,Schol,Snack,,0,1,Hond
+admin,FUNNYKREEFT,0,0,Nee,Funny Fish Kreeft,Kreeft,Snack,,0,1,Hond
+admin,FUNNYFISHFILET-50,0,0,Nee,Funny Fish filet - 50 gram,Schol,Snack,,0,1,Hond
+admin,FUNNYFISHFILET,1000,1,Nee,Funny Fish filet,Schol,Snack,,0,1,Hond
+admin,FUNNYFISHKRAB,0,0,Nee,Funny Fish Krab,Krab,Snack,,0,1,Hond
+admin,FUNNYFISHMEERVAL,7,1,Nee,Funny Fish Meerval,Meerval,Snack,,0,1,Hond
+admin,ZIWIHOOFER,11,1,Nee,ZiwiPeak - Deer Hoofer (Hertenhoef),Hert,Snack,,0,1,Hond
+admin,ZPVENSION/85,0,0,Nee,ZiwiPeak - Good Dog treats - Venison - 85gram,,Snack,,0,1,Hond
+admin,ZIWICATTREAT,0,0,Nee,ZiwiPeak - Good Cat Treats - Lam en Lever,Lam,Snack,,0,1,Kat
+admin,ZIWICATTREATVF,3,1,Nee,ZiwiPeak - Good Cat Treats - Venison & Fish,Vis diverse,Snack,,0,1,Kat
+admin,OER1000002,9,1,Nee,Spiering - Funny Fish,,Snack,,0,1,"Hond , Hond en Kat , Kat"
+admin,ORIJENBISON45,0,0,Nee,Free Range Bison - Orijen - 45,,Snack,,0,1,Hond
+admin,ORIJENLAMB45,2,1,Nee,Ranch Raised Lamb - Orijen - 45,Lam,Snack,,0,1,Hond
+admin,GANZENPOOT,15,1,Nee,Ganzen pootjes(Gevriesdroogd),Gans,Snack,,0,1,Hond
+admin,DEERSHANK,40,1,Nee,Deer Shank Bone (Full) - Hertenbot,Hert,Snack,,0,1,Hond
+admin,DOGTREATLAM,0,0,Nee,ZiwiPeak - Good Dog treats - Lam,Lam,Snack,,0,1,Hond
+admin,ORIJENDUCK/HOOFD,989,1,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen,Eend,Snack,,0,1,Hond
+admin,ORIJENDUCK45,0,0,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen - 45 ,Eend,Snack,,0,1,Hond
+admin,ORIJENDUCK80,0,0,Nee,Brome Lake Duck (Eend) - Dog Treat- Orijen - 80,Eend,Snack,,0,1,Hond
+admin,ORIJENLAMB80,2,1,Nee,Ranch Raised Lamb - Orijen - 80,Lam,Snack,,0,1,Hond
+admin,ORIJENLAMBHOOFD,993,1,Nee,Ranch Raised Lamb - Orijen,Lam,Snack,,0,1,Hond
+admin,ORIJENBISON80,0,0,Nee,Free Range Bison - Orijen - 80 ,,Snack,,0,1,Hond
+admin,ORIJENBISONHOOFD,990,1,Nee,Free Range Bison - Orijen,,Snack,,0,1,Hond
+admin,ZPVENISON/HOOFD,991,1,Nee,ZiwiPeak - Good Dog treats - Venison,Hert,Snack,,0,1,Hond
+admin,ZPVENISON/450,4,1,Nee,ZiwiPeak - Good Dog treats - Venison - 450 gram,Hert,Snack,,0,1,Hond
+admin,FUNNYMIX,10,1,Nee,Funny Fish Mix,"Makreel , Schol , Vis diverse , Zalm",Snack,,0,1,Hond
+admin,FUNNYBITESZALM,9,1,Nee,Funny Fish Bites - Zalm,Zalm,Snack,,0,1,Hond
+admin,ANCOROOT/HOOFD,10000,1,Nee,Anco boomwortel / Anco root,,Snack,,0,1,Hond
+admin,ANCOROOT/XS,11,1,Nee,Anco boomwortel / Anco root XS,,Snack,,0,1,Hond
+admin,ANCOROOT/S,16,1,Nee,Anco boomwortel / Anco root - S,,Snack,,0,1,Hond
+admin,ANCOROOT/M,22,1,Nee,Anco boomwortel / Anco root - M,,Snack,,0,1,Hond
+admin,ANCOROOT/L,1,1,Nee,Anco boomwortel / Anco root - L,,Snack,,0,1,Hond
+admin,ANCOROOT/XL,4,1,Nee,Anco boomwortel / Anco root - XL,,Snack,,0,1,Hond
+admin,RABBITEAR,3,1,Nee,Konijnenoren - Gedroogd,Konijn,Snack,,0,1,Hond
+admin,CHEWYHENNEP,1,1,Nee,Chewy - Het Henneptouw,,Snack,,0,1,Kat
+admin,HARRYHOPHOP,4,1,Nee,Harry de Hop Hop Vogel,,Snack,,0,1,Kat
+admin,SHELBYHENNEP,8,1,Nee,Shelby - De Hennep Muis,,Snack,,0,1,Kat
+admin,ANCOCEANS,40,1,Nee,Anco Oceans Fish Cubes,Vis diverse,Snack,,0,1,"Hond , Hond en Kat , Kat"
+admin,VENDELISTICK,7,1,Nee,Herten Kauwstaafjes / Venison Deli Sticks,Hert,Snack,,0,1,Hond
+admin,GWPNANTLERS/HOOFD,12,1,Nee,Premium Original Hertengewei,Hert,Snack,,0,1,Hond
+admin,GWPNANTLER/SMALL,0,0,Nee,Premium Original Hertengewei - Small,Hert,Snack,,0,1,Hond
+admin,GWPNANTLER/MEDIUM,3,1,Nee,Premium Original Hertengewei - Medium,Hert,Snack,,0,1,Hond
+admin,GWPNANTLER/LARGE,2,1,Nee,Premium Original Hertengewei - Large,Hert,Snack,,0,1,Hond
+admin,SOCOCOS/100,8,1,Nee,Soopa Cocunut - Kokos snack,,Snack,,0,1,Hond
+admin,SOSWEPO/100,9,1,Nee,Soopa Sweet Potato - Zoete Aardappel,,Snack,,0,1,Hond
+admin,SOPAPAYA/100,10,1,Nee,Soopa Papaya,,Snack,,0,1,Hond
+admin,LAMSOOR/5,15,1,Nee,Lamsoren - Gedroogd,Lam,Snack,,0,5,Hond
+admin,FISHBONES,18,1,Nee,Anco Oceans Fish Skin Bones - Gedroogde Vissenhuid,Vis diverse,"Snack , Vis",,0,1,Hond
+admin,REE0001,36,1,Ja,Ree spiervlees - 250 gram,Ree,Spiervlees,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,REE0002,62,1,Ja,Ree spiervlees - 500 gram,Ree,Spiervlees,Binnencel,0.5,1,"Hond , Hond en Kat , Kat"
+admin,REESPIER/HOOFD,894,1,Nee,Ree spiervlees,Ree,Spiervlees,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,RUNDERKOPHUID,88,1,Ja,Runderkop vlees,Rund,Spiervlees,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HERTSPIER/HOOFD,874,1,Nee,Hert spiervlees,Hert,Spiervlees,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HERT250GRAM,25,1,Ja,Hert spiervlees - 250 gram,Hert,Spiervlees,Binnencel,0.25,1,"Hond , Hond en Kat , Kat"
+admin,HERT500GRAM,32,1,Ja,Hert spiervlees - 500 gram,Hert,Spiervlees,Binnencel,0.5,1,Hond
+admin,RUNDHALS,0,0,Ja,Rund - gemalen halsvlees,Rund,Spiervlees,Binnencel,0.15,1,"Hond , Hond en Kat , Kat"
+admin,GEITVLEES/500,0,0,Ja,Geit - Spiervlees,Geit,Spiervlees,Binnencel,0.5,1,"Hond , Kat"
+admin,APKOKOSOLIE/HOOFD,12,1,Nee,Kokosolie - Biologisch en Extra Vierge,,Supplement,,0,1,"Hond , Hond en Kat , Kat"
+admin,APKOKOSOLIE/325,16,1,Nee,Kokosolie - Biologisch en Extra Vierge,,Supplement,,0,1,"Hond , Hond en Kat , Kat"
+admin,APKOKOSOLIE/1600,6,1,Nee,Kokosolie - Biologisch en Extra Vierge - 1600ml,,Supplement,,0,1,"Hond , Hond en Kat , Kat"
+admin,ZALM0001,12,1,Ja,Zalm - Kop,zalm.kop,Vis,Binnencel,0.5,1,Hond
+admin,ZALM0002,0,0,Ja,Zalm- Lijf - groot - 500g,Zalm,Vis,Binnencel,0.5,1,Hond
+admin,ZALM0003,100,1,Ja,Zalm - Lijf - middel - 250g,Zalm,Vis,Binnencel,0.25,1,Hond
+admin,ZALM0004,20,0,Ja,Zalm - Lijf - klein - 125g,Zalm,Vis,Binnencel,0.125,1,"Hond , Hond en Kat , Kat"
+admin,KABE0002,0,0,Ja,Kabeljauw - Lijf - groot - 500g,Kabeljauw,Vis,Binnencel,0.5,1,Hond
+admin,KABE0003,20,1,Ja,Kabeljauw - Lijf - middel - 250g,Kabeljauw,Vis,Binnencel,0.225,1,Hond
+admin,KABE0004,20,1,Ja,Kabeljauw - Lijf - klein - 100g,Kabeljauw,Vis,Binnencel,0.125,1,"Hond , Hond en Kat , Kat"
+admin,KABE0001,19,1,Ja,Kabeljauw - Kop,Kabeljauw.kop,Vis,Binnencel,0.75,1,Hond
+admin,KABELJAUW/HOOFD,20,0,Nee,Kabeljauw - Lijf,Kabeljauw,Vis,Binnencel,0.125,1,"Hond , Hond en Kat , Kat"
+admin,VISPAKKET,72,1,Nee,OerVoer Vispakket,Vis diverse,Vis,,1,,Hond
+admin,HARING/HOOFD,25,1,Nee,Haring,Haring,Vis,Binnencel,0.1,1,"Hond , Kat"
+admin,ZALMLIJF/HOOFD,0,0,Ja,Zalm - Lijf,Zalm,Vis,Binnencel,0.125,1,"Hond , Hond en Kat , Kat"
+admin,BANDITVISMIX,0,0,Nee,Bandit Vismix (kat),Vis diverse,Vis,,0.3,1,Kat
+admin,HARING/100,20,1,Ja,Haring - 2 stuks - 100 gram,Haring,Vis,Binnencel,0.1,2,
+admin,HARING/250,20,1,Ja,Haring - 5 stuks - 250 gram,,Vis,Binnencel,0.25,1,
+admin,HARING/500,20,1,Ja,Haring - Groot - 500 gram,,Vis,Binnencel,0.5,1,
+admin,ROODBAARS/KOP,20,1,Ja,Roodbaars - Kop,roodbaars.kop,Vis,,0.5,1,Hond
+admin,EEND0002,64,1,Ja,Eendennekken,Eend,Zacht Bot,Binnencel,0.25,2,"Hond , Hond en Kat , Kat"
+admin,KIP0003,0,0,Ja,Kipkarkas - kwart - 75- 100 gram,Kip,Zacht Bot,Binnencel,0.075,1,"Hond , Hond en Kat , Kat"
+admin,KIP0004,7,1,Ja,Kipkarkas - groot- 300 gram,Kip,Zacht Bot,Binnencel,0.3,1,Hond
+admin,KIP0005,63,1,Ja,Kipkarkas - heel (klein) - 100- 120 g,Kip,Zacht Bot,Binnencel,0.15,1,"Hond , Hond en Kat , Kat"
+admin,EEND0013,0,0,Ja,Eendenkarkas - kwart - 130 gram,Eend,Zacht Bot,Binnencel,0.13,1,"Hond , Kat"
+admin,EEND0011,60,1,Ja,Eendenkarkas - half - 240 gram,Eend,Zacht Bot,Binnencel,0.24,1,Hond
+admin,EEND0012,10,0,Ja,Eendenkarkas - heel,Eend,Zacht Bot,Binnencel,1.2,1,Hond
+admin,KIP0009,0,0,Ja,Kippennekken-2 stuks,Kip,Zacht Bot,Binnencel,0.1,2,"Hond , Kat"
+admin,KIP0010,82,1,Ja,Kippennekken - 6 stuks,Kip,Zacht Bot,Binnencel,0.25,6,"Hond , Hond en Kat , Kat"
+admin,KIPPENNEKKEN/HOOFD,40,1,Nee,Kippennekken,Kip,Zacht Bot,Binnencel,0.13,1,"Hond , Hond en Kat , Kat"
+admin,KIPKARKAS/HOOFD,34,1,Nee,"Kipkarkas, polderhoen",Kip,Zacht Bot,Binnencel,0.1,1,"Hond , Hond en Kat , Kat"
+admin,EENDBOTMALING/250,60,1,Ja,Eend - Botmaling,Eend,Zacht Bot,Binnencel,0.25,1,"Hond , Kat"
+admin,KIPBORREL,36,1,Ja,Kip - Borrelpootjes,Kip,Zacht Bot,binnencel,0.18,3,"Hond , Hond en Kat , Kat"
+admin,BOEK0001,6,1,Nee,Voer voor Carnivoren,,,,0,1,"Hond , Hond en Kat , Kat"
+admin,BOEK0002,0,0,Nee,Het grote Hondenkoekboek,,,,0,1,Hond
+admin,BOEK0003,0,0,Nee,Gezond koken voor honden,,,,0,1,Hond
+admin,GEMALENPLUS,720,1,Nee,OerVoer Gemalen Plus,,,,10,,Hond
+admin,100%OERVOER,541,1,Nee,100% OerVoer,,,,10,,Hond
+admin,OERCOMBI,640,1,Nee,OerVoer Combinatie,,,,10,,Hond
+admin,KATGEMALENPLUS,937,1,Nee,OerVoer Gemalen Plus - Kat,,,,5,,Kat
+admin,KATCOMBINATIE,941,1,Nee,OerVoer Combinatie - Kat,,,,5,,Kat
+admin,KAT100%OERVOER,909,1,Nee,100% OerVoer - Kat,,,,5,,Kat
+admin,KATTESTCOMBI,950,1,Nee,OerVoer Combinatie - Kat - Testpakket,,,,0.7,1,Kat
+admin,KATTESTPLUS,968,1,Nee,OerVoer Gemalen Plus - Kat - Testpakket,,,,0.7,1,Kat
+admin,KOKOSOLIE,0,0,Nee,Kokosolie - Original Superfoods,,,,0,1,"Hond , Hond en Kat , Kat"
+admin,OERVOERGEMENGD,95,1,,OerVoer Pakket - Gemalen gemengd (3 smaken) - 15KG,,,,10,,
+admin,COMBIPAKKET5KG,991,1,,OerVoer Combinatie - 5KG pakket,,,,5,,
+admin,100%OERVOER-5KG,988,1,Nee,100% OerVoer pakket - 5KG,,,,5,,
+admin,GEMALENPLUS-5KG,993,1,Nee,OerVoer Gemalen Plus Pakket - 5KG,,,,5,,
+admin,COMBIPAKKET10KG,796,1,Nee,OerVoer Combinatie - 10KG pakket,,,,10,1,
+admin,COMBI17/5,0,0,Nee,OerVoer Combinatie - 17.5KG,,,,10,,
+admin,100%OERVOER-10KG,750,1,Nee,100% OerVoer pakket - 10KG,,,,10,,
+admin,PAARDZUIVER/500,0,0,Ja,Paard - enkelvoudige maling,Paard,,,0.5,1,"Hond , Hond en Kat , Kat"
+admin,APMEEL/500,11,1,Nee,Kokosmeel - Amanprana,,,,0,1,Hond
+admin,LLYSINE/100,12,1,Nee,L-Lysine - Phytonics,,,,0.1,1,"Hond , Hond en Kat , Kat"
+admin,CHOLODIN/HOOFD,1000,1,Nee,Cholodin®,,,,0,1,"Hond , Hond en Kat , Kat"
+admin,CHOLODIN/KAT,6,1,Nee,Cholodin - Kat - 50 tabletten,,,,0,1,Kat
+admin,CHOLODIN/HOND,6,1,Nee,Cholodin - Hond - 50 tabletten,,,,0,1,Hond

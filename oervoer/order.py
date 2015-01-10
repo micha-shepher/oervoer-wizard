@@ -28,10 +28,17 @@ class Order(object):
         self.package = float(rec[self.PAKKETKG])
         self.kind = rec[self.SOORT].upper()
         self.ras  = rec[self.RAS].upper()
+        self.prefers = []
         self.donts = [i.upper() for i in rec[self.RAS+1:]]
         self.include = True
         self.factor = 1.0
         self.result = None
+
+    def get_prefers(self):
+        return self.prefers
+
+    def set_prefers(self, value):
+        self.prefers = value
 
     def get_base(self):
         return ','.join(self.base)

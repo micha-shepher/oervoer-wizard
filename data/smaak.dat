@@ -5,10 +5,12 @@ key:vis
 	kreeft
 	makreel
 	meerval
+	roodbaars
 	schol
 	zalm
-	kop.zalm
-	kop.makreel
+	kabeljouw.kop
+	roodbaars.kop
+	zalm.kop
 key:gevogelte
 	duif
 	eend
@@ -31,38 +33,38 @@ key:kleindier
 	lam
 	schaap
 key:orgaan
-	hart.kip
-	hart.kalkoen
-	hart.hert
-	hart.paard
-	hart.rund
-	hart.geit
-	hart.lam
-	hart.schaap
-	lever.kip
-	lever.kalkoen
-	lever.hert
-	lever.paard
-	lever.rund
-	lever.geit
-	lever.lam
-	lever.schaap
-	maag.kip
-	maag.kalkoen
-	maag.hert
-	maag.paard
-	maag.rund
-	maag.geit
-	maag.lam
-	maag.schaap
-	nier.kip
-	nier.kalkoen
-	nier.hert
-	nier.paard
-	nier.rund
-	nier.geit
-	nier.lam
-	nier.schaap
+	kip.hart
+	kalkoen.hart
+	hert.hart
+	paard.hart
+	rund.hart
+	geit.hart
+	lam.hart
+	schaap.hart
+	kip.lever
+	kalkoen.lever
+	hert.lever
+	paard.lever
+	rund.lever
+	geit.lever
+	lam.lever
+	schaap.lever
+	kip.maag
+	kalkoen.maag
+	hert.maag
+	paard.maag
+	rund.maag
+	geit.maag
+	lam.maag
+	schaap.maag
+	kip.nier
+	kalkoen.nier
+	hert.nier
+	paard.nier
+	rund.nier
+	geit.nier
+	lam.nier
+	schaap.nier
 key:pensbot
 	pens
 	hard.bot

@@ -18,7 +18,7 @@ def warning( warning, window ):
     response = dialog.run()
     dialog.destroy()
 
-        
+
 class Handlers:
     def __init__(self, store, window, builder, testdir='../test'):
         self.store = store
@@ -35,9 +35,12 @@ class Handlers:
         self.hondcombi = file('../data/briefhondcombi.txt','r').read()
         self.katplus   = file('../data/briefkatplus.txt','r').read()
         self.hondplus  = file('../data/briefhondplus.txt','r').read()
+        self.vbutton   = builder.get_object('voorkeur_button')
+        self.vbutton.set_sensitive(False)
         self.out = None
+        self.donts_or_prefer = 'donts'
         for row in self.store:
-            line ='geen resultaten voor {0},{1}'.format(row[1], row[2])
+            line ='Geen resultaten voor {0},{1}'.format(row[1], row[2]), row[1], row[2]
             self.picklists.append(line)
             self.letters.append(line)
 
@@ -102,7 +105,7 @@ class Handlers:
                         warning('Geen {0} voor {1} afzondering'.format(*self.oervoer.no_vis[1:]), self.window)
                         self.oervoer.no_vis = False, None, None
                     d = Delivery(self.testdir, order, result)
-                    res = d.csvout()
+                    res = 'dier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\n{4}'.format(row[3],row[4],row[5], row[7], d.csvout())
                     print res
                     self.picklists[index] = res,order.get_owner(), order.get_animal()
                 else:
@@ -117,13 +120,13 @@ class Handlers:
         
     def on_cursor_changed(self, tv):
         row = tv.get_cursor()[0]
-        status = self.builder.get_object('statusbar1')
-        vermijdstatus = self.builder.get_object('vermijdstatus')
+        st = self.builder.get_object('statusbar1')
         self.currentorder = self.find_order(row)
-        donts = self.currentorder.get_donts()
-        for st in status, vermijdstatus:
-            st.pop(0)
-            st.push(0, 'zonder {0}'.format(', '.join(donts)))
+        st.pop(0)
+        if self.donts_or_prefer == 'donts':
+            st.push(0, 'zonder: {0}'.format(', '.join(self.currentorder.get_donts())))
+        else:
+            st.push(0, 'houdt van: {0}'.format(', '.join(self.currentorder.get_prefers())))
 
     def on_brieven( self, button ):
         dieren = []
@@ -172,7 +175,9 @@ class Handlers:
                                 order.get_kind(), order.get_kind())
                         self.letters[index] = brief+res, order.get_owner(), order.get_animal()
                 else:
-                    self.letters[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2])
+                    self.letters[index] = 'Geen bestelling voor {0},{1}'.format(row[1], row[2]), order.get_owner(), order.get_animal()
+            #else:
+            #    self.letters[index] = 'Geen bestelling voor {0},{1}'.format(row[1], row[2]), order.get_owner(), order.get_animal()
         self.buffer.set_text(self.letters[0][0])
         self.dialog.set_title("Brief voor {0},{1}".format(*self.letters[0][1:]))
         self.results = self.letters
@@ -207,7 +212,6 @@ class Handlers:
             row = row.strip()
             if row.find('key') != -1:
                 key = row.split(':')[1]
-                print 'grid{0}'.format(key)
                 grid = self.builder.get_object('grid{0}'.format(key))
                 for btn in grid.get_children():
                     grid.remove(btn)
@@ -221,22 +225,54 @@ class Handlers:
                 i = cursor / 8
                 j = cursor % 8
 
+        self.donts_or_prefer = 'donts'
+        st = self.builder.get_object('vermijdstatus')
+        st.pop(0)
+        st.push(0, 'zonder {0}'.format(', '.join(donts)))
+
+        self.vbutton.set_sensitive(True)
         self.dialogvermijd = self.builder.get_object('dialogvermijd')
+        self.dialogvermijd.set_title('Kies smaken te vermijden voor {0}'.format(self.currentorder.get_animal()))
         self.dialogvermijd.show_all()
         self.dialogvermijd.run()
         
+    def on_vermijd_clicked(self, *arg):
+        self.on_include_clicked(*arg)
+            
     def on_vermijdsave_clicked(self, *args):
         buttons = []
-        for i in ('vis', 'gevogelte', 'kleindier', 'grootdier', 'orgaan'):
+        for i in ('vis', 'gevogelte', 'kleindier', 'grootdier', 'orgaan', 'pensbot'):
             buttons.extend(self.builder.get_object('grid{0}'.format(i)).get_children())
-        donts = [btn.get_label() for btn in buttons if btn.get_active()]
-        self.currentorder.set_donts(donts)    
+        selections = [btn.get_label() for btn in buttons if btn.get_active()]
+        if self.donts_or_prefer == 'prefer':
+            self.currentorder.set_prefers(selections)    
+        else:
+            self.currentorder.set_donts(selections)
         self.dialogvermijd.hide()
         self.on_cursor_changed(self.builder.get_object('treeview1'))
         
     def on_vermijdcancel_clicked(self, *args):
         self.dialogvermijd.hide()
-        
+    
+    def on_voorkeur_clicked(self, *args):
+        donts   = self.currentorder.get_donts()
+        prefers = self.currentorder.get_prefers()
+        buttons = []
+        for i in ('vis', 'gevogelte', 'kleindier', 'grootdier', 'orgaan', 'pensbot'):
+            buttons.extend(self.builder.get_object('grid{0}'.format(i)).get_children())
+        for button in buttons:
+            label = button.get_label()
+            button.set_sensitive( not label in donts)
+            button.set_active( label in prefers)
+        self.dialogvermijd.set_title('Kies voorkeursmaken voor {0}'.format(self.currentorder.get_animal()))
+        self.donts_or_prefer = 'prefer'
+        st = self.builder.get_object('vermijdstatus')
+        st.pop(0)
+        st.push(0, 'voorkeursmaken: {0}'.format(', '.join(prefers)))
+        self.dialogvermijd = self.builder.get_object('dialogvermijd')
+        self.dialogvermijd.show_all()
+        self.dialogvermijd.run()
+                
     def on_pakketgewicht_edited( self, *args ):
         print 'pakketgewicht edited'
 
@@ -262,19 +298,12 @@ class Handlers:
             self.next.set_sensitive(False)
         self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
         
-    def on_print_old( self, *args ):
-        warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
-                self.window)        
-        try:
-            lpr =  subprocess.Popen("/usr/bin/lpr", stdin=subprocess.PIPE)
-            lpr.stdin.write(self.results[self.position][0])
-        except Exception as e:
-            print e.message
-
     def on_print( self, *args ):
-        warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
-                self.window)        
-        file('/tmp/wizardprint','w').write(self.results[self.position][0])
+        #warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
+        #        self.window)
+        f = file('/tmp/wizardprint','w')
+        f.write(self.results[self.position][0])
+        f.close()
         print_app = PrintingApp( '/tmp/wizardprint', self.window)
 
     def on_previous( self, *args ):
@@ -323,6 +352,7 @@ class BuilderApp:
         textview=self.builder.get_object('textview1')
         textview.modify_font(Pango.FontDescription('Monospace 9'))
         textview.set_wrap_mode(Gtk.WrapMode.WORD)
+        self.builder.get_object('treeview1').set_rules_hint(True)
 
     def load_store(self, store, testdir):
         

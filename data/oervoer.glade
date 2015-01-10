@@ -16,7 +16,17 @@
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">edit-copy</property>
+    <property name="stock">gtk-copy</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-delete</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-add</property>
   </object>
   <object class="GtkListStore" id="orders">
     <columns>
@@ -76,7 +86,8 @@
                 <property name="resize_mode">immediate</property>
                 <property name="vscroll_policy">natural</property>
                 <property name="model">orders</property>
-                <property name="enable_grid_lines">horizontal</property>
+                <property name="rules_hint">True</property>
+                <property name="enable_grid_lines">both</property>
                 <property name="enable_tree_lines">True</property>
                 <signal name="cursor-changed" handler="on_cursor_changed" swapped="no"/>
                 <child internal-child="selection">
@@ -264,6 +275,71 @@
               </packing>
             </child>
             <child>
+              <object class="GtkButton" id="brieven">
+                <property name="label" translatable="yes">Brieven</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">image3</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_brieven" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button11">
+                <property name="label" translatable="yes">Vermijdlijst</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">image4</property>
+                <property name="yalign">0.44999998807907104</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_vermijd_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="voorkeur_button">
+                <property name="label" translatable="yes">Voorkeurlijst</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">image5</property>
+                <property name="yalign">0.78999978303909302</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="on_voorkeur_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button5">
+                <property name="label">gtk-undo</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="button3">
                 <property name="label">gtk-save</property>
                 <property name="visible">True</property>
@@ -276,7 +352,7 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="position">6</property>
               </packing>
             </child>
             <child>
@@ -292,38 +368,7 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button5">
-                <property name="label">gtk-undo</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <property name="always_show_image">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="brieven">
-                <property name="label" translatable="yes">Brieven</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image">image3</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="on_brieven" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">5</property>
+                <property name="position">7</property>
               </packing>
             </child>
           </object>

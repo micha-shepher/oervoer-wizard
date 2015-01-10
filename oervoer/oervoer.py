@@ -43,6 +43,9 @@ class Oervoer(object):
             #p.dump()
             if p.get_type() in Globals.VLEES_TYPES and p.get_include() and p.get_qty() > 0:
                 self.prodlists[p.get_type()].append(p)
+        for x in self.prodlists.keys():
+            print x
+            print len(self.prodlists[x])
     
     def parse_orders(self):
         '''get the products in the lists
@@ -85,8 +88,13 @@ class Oervoer(object):
                 if not (vl.smaak in order.donts) and \
                    not (vl.smaak.split('.')[0] in order.donts):
                     outlist.append(vl)
-            
-        return WeightedRandom([p.get_qty() for p in outlist]), outlist
+        quantities = []
+        for p in outlist:
+            if p.smaak in order.get_prefers():
+                quantities.append(p.get_qty()*Globals.LIKEFACTOR)
+            else:
+                quantities.append(p.get_qty())    
+        return WeightedRandom(quantities), outlist
     
     def fill(self, order, wr, prodlist, weight, vleessoort ):
         l = []
@@ -153,18 +161,19 @@ class Oervoer(object):
         ##############################
         # select pens if not kat
         ##############################
-        if order.ras != 'KAT':
+        if order.ras != 'KAT' and not 'PENS' in order.donts:
             try:
                 total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package() * 0.15)
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException:
+                self.no_vis = True, 'PENS', order.get_animal()
                 total_pens = 0
             
         ##############################
         # select gemalen
         ##############################
-        _, selection = self.select_type('COMPLETE GEMALEN', order, meal_size, package_rest)
+        _, selection = self.select_type('COMPLEET GEMALEN', order, meal_size, package_rest)
         products_in_order.extend(selection)
         return products_in_order
                      
@@ -241,7 +250,7 @@ class Oervoer(object):
         ##############################
         # select pens if not kat
         ##############################
-        if order.ras != 'KAT':
+        if order.ras != 'KAT' and not 'PENS' in order.donts:
             try:  
                 total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()*0.15)
             except NoProductsException, e:
