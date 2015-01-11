@@ -8,6 +8,7 @@ from gi.repository import Gtk, Pango
 from printing import PrintingApp
 import subprocess
 import datetime
+import pickle
 
 def warning( warning, window ):
     dialog = Gtk.MessageDialog(message_type=Gtk.MessageType.INFO,
@@ -24,7 +25,10 @@ class Handlers:
         self.store = store
         self.window = window
         self.oervoer = None
-        self.results = []
+        if os.path.exists('/tmp/wizardresults'):
+            self.results = pickle.load(file('/tmp/wizardresults','r'))
+        else:
+            self.results = []
         self.picklists = []
         self.letters = []
         self.testdir = testdir
@@ -62,8 +66,9 @@ class Handlers:
         #    widget.forall(self.apply_css, provider)
 
     def on_saved( self, button ):
-        warning('saving...', self.window)
-        print 'saving..'
+        warning('opslaan resultaten in tijdelijk bestand...', self.window)
+        pickle.dump(self.results, file('/tmp/wizardresults', 'w'))
+        print 'opslaan in /tmp/wizardresults'
 
     def set_oervoer(self, oervoer):
         self.oervoer = oervoer
@@ -315,12 +320,17 @@ class Handlers:
         if self.position == 0:
             self.previous.set_sensitive(False)
         self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
-        
+        os
     def on_quit_clicked( self, *args):
+        os.rename('../test/orders.csv', '../test/orders.prev' )
         orderfile = file('../test/orders.csv', 'w')
         orderfile.write(self.oervoer.orderhead)
         for order in self.oervoer.ordlist:
-            orderfile.write(order.get_base()+','+','.join(order.get_donts())+'\n')
+            orderfile.write(order.get_base()+','
+                            +','.join(order.get_donts())
+                            +',|,'
+                            +','.join(order.get_prefers())
+                            +'\n')
         orderfile.close()    
         Gtk.main_quit()
 

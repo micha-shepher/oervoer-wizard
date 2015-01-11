@@ -103,12 +103,12 @@ class Oervoer(object):
         try:
             # force selection of liver if orgaan
             if vleessoort == Globals.ORGAAN:
-                found = False
                 for prod in prodlist:
-                    if prod.smaak.split(',')[0] == 'LEVER' and not prod.smaak in order.donts and not found:
+                    smaak = prod.smaak.split('.')
+                    if len(smaak) > 1 and Globals.LEVER in smaak and not prod.smaak in order.get_donts():
                         total_weight += prod.get_weight()
                         l.append(prod)
-                        found = True  
+                        break  
             while total_weight < weight:
                 prod = prodlist[wr.rand()]
                 total_weight += prod.get_weight()

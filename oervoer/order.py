@@ -28,9 +28,14 @@ class Order(object):
         self.package = float(rec[self.PAKKETKG])
         self.kind = rec[self.SOORT].upper()
         self.ras  = rec[self.RAS].upper()
-        self.prefers = []
-        self.donts = [i.upper() for i in rec[self.RAS+1:]]
-        self.include = True
+        rest = rec[self.RAS+1:]
+        if '|' in rest:
+            splitter = rest.index('|')
+            self.donts = [i.upper() for i in rest[:splitter]]
+            self.prefers = [i.upper() for i in rest[splitter+1:]]
+        else:
+            self.donts = [i.upper() for i in rest]
+            self.prefers = []
         self.factor = 1.0
         self.result = None
 
