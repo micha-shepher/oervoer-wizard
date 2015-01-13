@@ -62,7 +62,7 @@ class Order(object):
         return round(self.package / (self.weight * Globals.FACTOR[self.ras]))
 
     def get_meal_size(self):        
-        return self.weight * Globals.FACTOR[self.ras] / 2
+        return self.weight * self.factor * Globals.FACTOR[self.ras] / 2
     
     def get_weight(self):
         return self.weight
@@ -88,3 +88,8 @@ class Order(object):
     def get_result(self):
         return self.result
 
+    def get_factor(self):
+        return self.factor
+    
+    def set_factor(self, factor):
+        self.factor = factor

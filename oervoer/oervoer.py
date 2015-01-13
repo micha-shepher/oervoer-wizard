@@ -44,8 +44,7 @@ class Oervoer(object):
             if p.get_type() in Globals.VLEES_TYPES and p.get_include() and p.get_qty() > 0:
                 self.prodlists[p.get_type()].append(p)
         for x in self.prodlists.keys():
-            print x
-            print len(self.prodlists[x])
+            print x, len(self.prodlists[x])
     
     def parse_orders(self):
         '''get the products in the lists
@@ -67,6 +66,12 @@ class Oervoer(object):
         Since cats often have meals smaller than 100gr, raise an exception.'''
         outlist = []
         # make a distinction between hard and soft bone
+        if vlees in Globals.VLEES_DEELBAAR:
+            fact1 = Globals.MEALFACTOR
+            fact2 = Globals.MEALFACTOR2
+        else:
+            fact1 = Globals.MEALFACTOR3
+            fact2 = 1.0/Globals.MEALFACTOR3
         if vlees == Globals.BOT:
             if order.ras == 'HOND':
                 thelist = []
@@ -76,18 +81,27 @@ class Oervoer(object):
                 thelist = self.prodlists[Globals.ZACHTBOT]
         else:
             thelist = self.prodlists[vlees]
+        thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         for vl in thelist:
-            if vl.get_norm_weight() <= meal_size * Globals.MEALFACTOR and \
-               vl.get_norm_weight() >= meal_size * Globals.MEALFACTOR2 and \
+            if vl.get_norm_weight() <= meal_size * fact1 and \
+               vl.get_norm_weight() >= meal_size * fact2 and \
                not (vl.smaak in order.donts) and \
-               not (vl.smaak.split('.')[0] in order.donts):
+               not (vl.smaak.split('.')[0] in order.get_donts()) and\
+               not (vlees in order.get_donts()):
                 outlist.append(vl)
         if len(outlist) == 0:
-            # try again
+            # try again, choose products smaller than or greater than...
+            print "no products found for {0}".format(vlees)
+            if meal_size * fact1 < thelist[0].get_norm_weight(): # too small!
+                thelist = [p for p in thelist if p.get_norm_weight() <= Globals.SMALLMEAL]
+            else:
+                thelist = [p for p in thelist if p.get_norm_weight() >= Globals.BIGMEAL]
+                
             for vl in thelist:
                 if not (vl.smaak in order.donts) and \
                    not (vl.smaak.split('.')[0] in order.donts):
-                    outlist.append(vl)
+                        outlist.append(vl)
+                
         quantities = []
         for p in outlist:
             if p.smaak in order.get_prefers():
@@ -97,9 +111,15 @@ class Oervoer(object):
         return WeightedRandom(quantities), outlist
     
     def fill(self, order, wr, prodlist, weight, vleessoort ):
+        ''' fill a list with products of the soort '''
+        def is_fishhead(prod):
+            ''' take care that only one fish head is appended to list'''
+            tup = prod.smaak.split('.')
+            return len(tup) > 1 and tup[1] == Globals.HEAD
+
         l = []
         total_weight = 0.0
-        
+        fish_head_in_list = False
         try:
             # force selection of liver if orgaan
             if vleessoort == Globals.ORGAAN:
@@ -108,11 +128,16 @@ class Oervoer(object):
                     if len(smaak) > 1 and Globals.LEVER in smaak and not prod.smaak in order.get_donts():
                         total_weight += prod.get_weight()
                         l.append(prod)
-                        break  
+                        break
+
             while total_weight < weight:
                 prod = prodlist[wr.rand()]
-                total_weight += prod.get_weight()
-                l.append(prod)
+                isfh = is_fishhead(prod)
+                if not (isfh and fish_head_in_list):
+                    total_weight += prod.get_weight()
+                    l.append(prod)
+                if isfh:
+                    fish_head_in_list = True
         except ValueError:
             print wr.weights
             raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort)    
@@ -177,11 +202,11 @@ class Oervoer(object):
         products_in_order.extend(selection)
         return products_in_order
                      
-    def update_inventory(self, result):
+    def update_inventory(self, result, howmuch = 1):
         for resprod in result:
             for prod in self.prodlists[resprod.get_type()]:
                 if resprod.sku == prod.sku:
-                    prod.qty -= 1
+                    prod.qty -= howmuch
                     # print '%s was %d, now %d' %(prod.sku, prod.qty+1, prod.qty)b
  
     def correct_result(self, order, result):
@@ -214,6 +239,8 @@ class Oervoer(object):
         else:
             result = self.make_100(order)
         self.correct_result(order, result)
+        if order.result: # fix inventory after discarded order
+            self.update_inventory(order.result, -1)
         self.update_inventory(result)
         order.set_result(result)
         return result
@@ -251,7 +278,7 @@ class Oervoer(object):
         # select pens if not kat
         ##############################
         if order.ras != 'KAT' and not 'PENS' in order.donts:
-            try:  
+            try:
                 total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()*0.15)
             except NoProductsException, e:
                 self.no_vis = True, 'PENS', order.get_animal()

@@ -75,8 +75,6 @@ class PrintingApp:
             dialog.run()
             dialog.destroy()
 
-        Gtk.main_quit()
-
     def begin_print(self, operation, print_ctx, print_data):
         height = print_ctx.get_height() - self.HEADER_HEIGHT - self.HEADER_GAP
         print_data['lines_per_page'] = \

@@ -34,14 +34,16 @@ class Delivery(object):
         for i in sorted(deliv.items(), key=itemgetter(1)):
             a,b,c,d,e,f = i[1]
             if brieven:
-                row =(Globals.VLEES_TYPES[a],c[:40],e,f*1000)
-                picklist += '%-20s %-40s %3s x %-10g\n' % row
+                row =(Globals.VLEES_TYPES[a],c[:40],e)
+                picklist += '%-20s %-40s %3s\n' % row
             else:
                 row =(Globals.VLEES_TYPES[a],b,c[:40],d,e,f*1000)
                 picklist += '%-20s %-20s %-40s %-15s %3s x %-10g\n' % row
             self.f.writerow(row)
             total += e*f
-        picklist += 'Totaal pakket gewicht: {0}\n\n'.format(total) 
+            
+        if not brieven:
+            picklist += 'Totaal pakket gewicht: {0}\n\n'.format(total) 
         return picklist
     
     def csvout(self, brieven=False):

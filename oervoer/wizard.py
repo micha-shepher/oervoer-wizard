@@ -25,12 +25,17 @@ class Handlers:
         self.store = store
         self.window = window
         self.oervoer = None
-        if os.path.exists('/tmp/wizardresults'):
-            self.results = pickle.load(file('/tmp/wizardresults','r'))
+        if os.path.exists('/tmp/wizard.brief'):
+            self.letters = pickle.load(file('/tmp/wizard.brief','r'))
+            self.picklists = pickle.load(file('/tmp/wizard.pick','r'))
         else:
-            self.results = []
-        self.picklists = []
-        self.letters = []
+            self.picklists = []
+            self.letters = []
+            for row in self.store:
+                line ='Geen resultaten voor {0},{1}'.format(row[1], row[2]), row[1], row[2]
+                self.picklists.append(line)
+                self.letters.append(line)
+        self.results = []
         self.testdir = testdir
         self.builder = builder
         self.kat100    = file('../data/briefkat100.txt','r').read()
@@ -42,11 +47,10 @@ class Handlers:
         self.vbutton   = builder.get_object('voorkeur_button')
         self.vbutton.set_sensitive(False)
         self.out = None
+        self.portiestore = self.builder.get_object('portiestore')
+        self.portiestore.clear()
+
         self.donts_or_prefer = 'donts'
-        for row in self.store:
-            line ='Geen resultaten voor {0},{1}'.format(row[1], row[2]), row[1], row[2]
-            self.picklists.append(line)
-            self.letters.append(line)
 
     def apply_css(self):
         
@@ -67,8 +71,9 @@ class Handlers:
 
     def on_saved( self, button ):
         warning('opslaan resultaten in tijdelijk bestand...', self.window)
-        pickle.dump(self.results, file('/tmp/wizardresults', 'w'))
-        print 'opslaan in /tmp/wizardresults'
+        pickle.dump(self.picklists, file('/tmp/wizard.pick', 'w'))
+        pickle.dump(self.letters,   file('/tmp/wizard.brief', 'w'))
+        print 'opslaan in /tmp/wizard.pick en /tmp/wizard.brief'
 
     def set_oervoer(self, oervoer):
         self.oervoer = oervoer
@@ -98,25 +103,26 @@ class Handlers:
         self.next   = self.builder.get_object('button7')
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
-        self.position = 0
+        
         self.type = 'Picklijst'
         for index, row in enumerate(self.store):
             if row[0]:
                 dieren.append(row[2])
                 order = self.find_order(index)
                 if order:
-                    result = self.oervoer.process_order(order) #TODO add factor!
+                    result = self.oervoer.process_order(order) #mealsize adjusted by factor
                     if self.oervoer.no_vis[0]:
                         warning('Geen {0} voor {1} afzondering'.format(*self.oervoer.no_vis[1:]), self.window)
                         self.oervoer.no_vis = False, None, None
                     d = Delivery(self.testdir, order, result)
-                    res = 'dier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\n{4}'.format(row[3],row[4],row[5], row[7], d.csvout())
+                    res = '''dier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\nvermijd: {5}\nmaaltijd: {6}\n{4}'''.format(row[3],row[4],row[5], row[7], d.csvout(),
+                                                                        ','.join(order.get_donts()),order.get_meal_size())
                     print res
                     self.picklists[index] = res,order.get_owner(), order.get_animal()
                 else:
                     self.picklists[index] = 'geen bestelling voor {0},{1}'.format(row[1], row[2]),'',''
-        self.buffer.set_text(self.picklists[0][0])
-        self.dialog.set_title('Picklijst voor {0},{1}'.format(*self.picklists[0][1:]))
+        self.buffer.set_text(self.picklists[self.position][0])
+        self.dialog.set_title('Picklijst voor {0},{1}'.format(*self.picklists[self.position][1:]))
         self.results = self.picklists
         response = self.dialog.run()
         
@@ -127,6 +133,7 @@ class Handlers:
         row = tv.get_cursor()[0]
         st = self.builder.get_object('statusbar1')
         self.currentorder = self.find_order(row)
+        self.position = int(row.to_string())
         st.pop(0)
         if self.donts_or_prefer == 'donts':
             st.push(0, 'zonder: {0}'.format(', '.join(self.currentorder.get_donts())))
@@ -142,7 +149,7 @@ class Handlers:
         self.next   = self.builder.get_object('button7')
         self.previous = self.builder.get_object('button6')
         self.first = self.builder.get_object('button9')
-        self.position = 0
+        
         self.type = 'Brief'
         for index, row in enumerate(self.store):
             if row[0]:
@@ -183,8 +190,8 @@ class Handlers:
                     self.letters[index] = 'Geen bestelling voor {0},{1}'.format(row[1], row[2]), order.get_owner(), order.get_animal()
             #else:
             #    self.letters[index] = 'Geen bestelling voor {0},{1}'.format(row[1], row[2]), order.get_owner(), order.get_animal()
-        self.buffer.set_text(self.letters[0][0])
-        self.dialog.set_title("Brief voor {0},{1}".format(*self.letters[0][1:]))
+        self.buffer.set_text(self.letters[self.position][0])
+        self.dialog.set_title("Brief voor {0},{1}".format(*self.letters[self.position][1:]))
         self.results = self.letters
         response = self.dialog.run()
         
@@ -203,10 +210,11 @@ class Handlers:
         try:
             fv = float(value)
             self.store[path][6] = value
+            self.currentorder.set_factor(fv)
         except ValueError:
             warning( '%s is geen decimaal' % value, self.window)
 
-    def on_include_clicked( self, *args ):
+    def on_vermijd_clicked( self, *args ):
         self.vermijd = file('../data/smaak.dat').readlines() # temporary
         i, j, cursor = (0,0,0)
         path = self.builder.get_object('treeview1').get_cursor()
@@ -241,9 +249,89 @@ class Handlers:
         self.dialogvermijd.show_all()
         self.dialogvermijd.run()
         
-    def on_vermijd_clicked(self, *arg):
-        self.on_include_clicked(*arg)
-            
+    def populate_portie(self, avan, atot, bvan, btot):
+        store = self.builder.get_object('portiestore')
+        #store.clear()
+        for i, t in enumerate(Globals.VLEES_TYPES):
+            num2 = 0
+            num1 = len(self.oervoer.prodlists[t])
+            if t in Globals.VLEES_DEELBAAR:
+                van = avan/1000.0
+                tot = atot/1000.0
+            else:
+                van = bvan/1000.0
+                tot = btot/1000.0
+            for prod in self.oervoer.prodlists[t]:
+                if prod.get_norm_weight() >= van and\
+                   prod.get_norm_weight() <= tot and\
+                   not prod.smaak in self.currentorder.get_donts():
+                    num2 += 1
+            if len(store)<len(Globals.VLEES_TYPES):
+                store.append([t,str(num1),str(num2),num2>0])
+            else:
+                store[i][1:] = (str(num1),str(num2),num2>0)
+                #already in place
+    
+    def on_portie_quit(self, *arg):
+        self.portie.hide()
+        
+    def on_include_clicked(self, *arg):
+        self.portie = self.builder.get_object('dialogportie')
+        self.builder.get_object('entryras').set_text(self.currentorder.get_ras())
+        self.builder.get_object('entrynaam').set_text(self.currentorder.get_animal())
+        self.builder.get_object('entrygewicht').set_text(str(self.currentorder.get_weight()))
+        factor = self.currentorder.get_factor()
+        self.builder.get_object('entryfactor').set_text(str(factor))
+        meal = self.currentorder.get_meal_size() * 1000
+        self.builder.get_object('entrymaaltijd').set_text(str(meal))
+        factvvan = meal * Globals.MEALFACTOR2
+        factvtot = meal * Globals.MEALFACTOR
+        factovan = round(meal / Globals.MEALFACTOR3) 
+        factotot = meal * Globals.MEALFACTOR3
+
+        self.builder.get_object('entryvvan').set_text(str(factvvan))
+        self.builder.get_object('entryvtot').set_text(str(factvtot))
+        self.builder.get_object('entryovan').set_text(str(factovan))
+        self.builder.get_object('entryotot').set_text(str(factotot))
+        self.builder.get_object('entryvermijd').set_text(','.join(self.currentorder.get_donts()))
+        self.populate_portie(factvvan,factvtot,factovan,factotot)
+        
+        self.portie.show_all()
+        self.portie.run()
+
+    def on_entryfactor_activate(self, entryfactor, *args):
+        try:
+            factor = float(entryfactor.get_text())
+        except ValueError:
+            warning('{0} is geen acceptabele factor.'.format(entryfactor.get_text()), self.window)
+            return
+        if factor< 0.2 or factor > 5.0:
+            warning('factor moet tussen 0.2 en 5 liggen.', self.window)
+            return
+        
+        self.currentorder.set_factor(factor)
+        meal = self.currentorder.get_meal_size() * 1000
+        self.builder.get_object('entrymaaltijd').set_text(str(meal))
+        avan = self.builder.get_object('entryvvan')
+        atot = self.builder.get_object('entryvtot')
+        bvan = self.builder.get_object('entryovan')
+        btot = self.builder.get_object('entryotot')
+        factvvan = meal * Globals.MEALFACTOR2
+        factvtot = meal * Globals.MEALFACTOR
+        factovan = round(meal / Globals.MEALFACTOR3) 
+        factotot = meal * Globals.MEALFACTOR3
+        avan.set_text(str(factvvan))
+        atot.set_text(str(factvtot))
+        bvan.set_text(str(factovan))
+        btot.set_text(str(factotot))
+        self.populate_portie(factvvan, 
+                             factvtot, 
+                             factovan, 
+                             factotot)
+        
+    def on_portie_quit(self, *args):
+        self.portie.hide()
+                        
     def on_vermijdsave_clicked(self, *args):
         buttons = []
         for i in ('vis', 'gevogelte', 'kleindier', 'grootdier', 'orgaan', 'pensbot'):
@@ -307,7 +395,8 @@ class Handlers:
         #warning( 'printing results voor {0},{1}'.format(self.store[self.position][1],self.store[self.position][2]),
         #        self.window)
         f = file('/tmp/wizardprint','w')
-        f.write(self.results[self.position][0])
+        tb = self.buffer
+        f.write(tb.get_text(tb.get_start_iter(), tb.get_end_iter(), True))
         f.close()
         print_app = PrintingApp( '/tmp/wizardprint', self.window)
 
@@ -320,7 +409,7 @@ class Handlers:
         if self.position == 0:
             self.previous.set_sensitive(False)
         self.dialog.set_title('{0} voor {1},{2}'.format(self.type,*self.results[self.position][1:]))
-        os
+        
     def on_quit_clicked( self, *args):
         os.rename('../test/orders.csv', '../test/orders.prev' )
         orderfile = file('../test/orders.csv', 'w')
@@ -377,7 +466,7 @@ class BuilderApp:
                           order.get_ras(), 
                           order.get_kind(), 
                           '{0}'.format(order.get_weight()), 
-                          '1.0', 
+                          '{0}'.format(order.get_factor()),
                           '{0}'.format(order.get_package()), 
                           True])
     
