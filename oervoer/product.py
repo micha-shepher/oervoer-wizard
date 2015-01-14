@@ -60,4 +60,4 @@ class Product(object):
         return self.weight/self.verpakking
     
     def dump(self):
-        print '%s, type %s qty %s, weight %s, smaak %s' % (self.name, self.get_type(), self.get_qty(), self.weight, self.smaak)
+        print 'type %s, name %s qty %s, weight %s, smaak %s' % (self.get_type(), self.sku, self.get_qty(), self.weight, self.smaak)

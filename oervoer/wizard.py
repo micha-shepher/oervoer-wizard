@@ -25,10 +25,16 @@ class Handlers:
         self.store = store
         self.window = window
         self.oervoer = None
-        if os.path.exists('/tmp/wizard.brief'):
-            self.letters = pickle.load(file('/tmp/wizard.brief','r'))
-            self.picklists = pickle.load(file('/tmp/wizard.pick','r'))
-        else:
+        try:
+            self.letters = pickle.load(file('../data/wizard.brief','r'))
+            self.picklists = pickle.load(file('../data/wizard.pick','r'))
+            # take care the pickled picklist array not too short!
+            while len(self.store) > len(self.picklists):
+                self.picklists.append((1,1,1))
+            # take care the pickled letter array not too short!
+            while len(self.store) > len(self.letters):
+                self.letter.append((1,1,1))
+        except IOError:
             self.picklists = []
             self.letters = []
             for row in self.store:
@@ -71,9 +77,9 @@ class Handlers:
 
     def on_saved( self, button ):
         warning('opslaan resultaten in tijdelijk bestand...', self.window)
-        pickle.dump(self.picklists, file('/tmp/wizard.pick', 'w'))
-        pickle.dump(self.letters,   file('/tmp/wizard.brief', 'w'))
-        print 'opslaan in /tmp/wizard.pick en /tmp/wizard.brief'
+        pickle.dump(self.picklists, file('../data/wizard.pick', 'w'))
+        pickle.dump(self.letters,   file('../data/wizard.brief', 'w'))
+        print 'opslaan in wizard.pick en wizard.brief'
 
     def set_oervoer(self, oervoer):
         self.oervoer = oervoer
@@ -111,9 +117,9 @@ class Handlers:
                 order = self.find_order(index)
                 if order:
                     result = self.oervoer.process_order(order) #mealsize adjusted by factor
-                    if self.oervoer.no_vis[0]:
-                        warning('Geen {0} voor {1} afzondering'.format(*self.oervoer.no_vis[1:]), self.window)
-                        self.oervoer.no_vis = False, None, None
+                    for ex in self.oervoer.exceptions:
+                        warning('Geen {0} voor {1} afzondering'.format(*ex), self.window)
+                    self.oervoer.exceptions = []
                     d = Delivery(self.testdir, order, result)
                     res = '''dier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\nvermijd: {5}\nmaaltijd: {6}\n{4}'''.format(row[3],row[4],row[5], row[7], d.csvout(),
                                                                         ','.join(order.get_donts()),order.get_meal_size())
@@ -158,7 +164,8 @@ class Handlers:
                 if order:
                     result = order.get_result()
                     if not result:
-                        self.letters[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2])
+                        self.letters[index] = 'bestelling voor {0},{1} nog niet uitgevoerd. Kies "picklijst" eerst.'.format(row[1], row[2]),\
+                                              order.get_owner(), order.get_animal()
                     else:
                         if   order.get_ras() == 'KAT' and order.get_kind() == '100':
                             self.brief = self.kat100
@@ -217,6 +224,7 @@ class Handlers:
     def on_vermijd_clicked( self, *args ):
         self.vermijd = file('../data/smaak.dat').readlines() # temporary
         i, j, cursor = (0,0,0)
+        
         path = self.builder.get_object('treeview1').get_cursor()
         index = path[0] if path else 0
         self.currentorder = self.find_order(index)
@@ -264,7 +272,8 @@ class Handlers:
             for prod in self.oervoer.prodlists[t]:
                 if prod.get_norm_weight() >= van and\
                    prod.get_norm_weight() <= tot and\
-                   not prod.smaak in self.currentorder.get_donts():
+                   not prod.smaak in self.currentorder.get_donts() and\
+                   not prod.type  in self.currentorder.get_donts():
                     num2 += 1
             if len(store)<len(Globals.VLEES_TYPES):
                 store.append([t,str(num1),str(num2),num2>0])
@@ -310,6 +319,7 @@ class Handlers:
             return
         
         self.currentorder.set_factor(factor)
+        self.store[self.position][6] = str(factor)
         meal = self.currentorder.get_meal_size() * 1000
         self.builder.get_object('entrymaaltijd').set_text(str(meal))
         avan = self.builder.get_object('entryvvan')

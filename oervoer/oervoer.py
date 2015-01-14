@@ -31,7 +31,7 @@ class Oervoer(object):
         self.orders = orderlines
         self.picklists = file(picklistname, 'w')
         self.ordlist   = []
-        self.no_vis = False, None, None
+        self.exceptions = []
         for i in Globals.VLEES_TYPES:
             self.prodlists[i] = []
             
@@ -40,7 +40,7 @@ class Oervoer(object):
         '''
         for prod in self.products[1:]:
             p = Product(prod)
-            #p.dump()
+            p.dump()
             if p.get_type() in Globals.VLEES_TYPES and p.get_include() and p.get_qty() > 0:
                 self.prodlists[p.get_type()].append(p)
         for x in self.prodlists.keys():
@@ -79,6 +79,8 @@ class Oervoer(object):
                     thelist += self.prodlists[taste]
             else:
                 thelist = self.prodlists[Globals.ZACHTBOT]
+        elif vlees == Globals.VIS:
+            thelist = self.prodlists[Globals.VIS] + self.prodlists[Globals.VISGEMALEN]
         else:
             thelist = self.prodlists[vlees]
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
@@ -128,8 +130,9 @@ class Oervoer(object):
                     if len(smaak) > 1 and Globals.LEVER in smaak and not prod.smaak in order.get_donts():
                         total_weight += prod.get_weight()
                         l.append(prod)
-                        break
-
+                        if total_weight >= weight / 2.0:
+                            break
+            # complete the filling
             while total_weight < weight:
                 prod = prodlist[wr.rand()]
                 isfh = is_fishhead(prod)
@@ -182,7 +185,8 @@ class Oervoer(object):
             total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest * 0.15)
             package_rest -= total_vis
         except NoProductsException:
-            total_vis = 0
+            self.exceptions.append(('VIS', order.get_animal()))
+            
         ##############################
         # select pens if not kat
         ##############################
@@ -192,14 +196,16 @@ class Oervoer(object):
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException:
-                self.no_vis = True, 'PENS', order.get_animal()
-                total_pens = 0
+                self.exceptions.append(('PENS', order.get_animal()))
             
         ##############################
         # select gemalen
         ##############################
-        _, selection = self.select_type('COMPLEET GEMALEN', order, meal_size, package_rest)
-        products_in_order.extend(selection)
+        try:
+            _, selection = self.select_type('COMPLEET GEMALEN', order, meal_size, package_rest)
+            products_in_order.extend(selection)
+        except NoProductsException:
+            self.exceptions.append(('COMPLEET GEMALEN', order.get_animal()))
         return products_in_order
                      
     def update_inventory(self, result, howmuch = 1):
@@ -272,45 +278,60 @@ class Oervoer(object):
             total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*0.15)
             package_rest -= total_vis
         except NoProductsException, e:
-            self.no_vis = True, 'VIS', order.get_animal()
-            total_vis = 0
+            self.exceptions.append(('VIS', order.get_animal()))
+
         ##############################
         # select pens if not kat
         ##############################
         if order.ras != 'KAT' and not 'PENS' in order.donts:
             try:
                 total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package()*0.15)
+                products_in_order.extend(selection)
+                package_rest -= total_pens
             except NoProductsException, e:
-                self.no_vis = True, 'PENS', order.get_animal()
-                total_pens = 0
+                self.exceptions.append(('PENS', order.get_animal()))
                 
-            products_in_order.extend(selection)
-            package_rest -= total_pens
             
         ##############################
         # select ongemalen compleet
         ##############################
-        total_ongemalen_compleet, selection = self.select_type('COMPLEET KARKAS', order, meal_size, package_rest/2.0)
+        try:
+            total_ongemalen_compleet, selection = self.select_type('COMPLEET KARKAS', order, meal_size, package_rest/2.0)
+            products_in_order.extend(selection)
+            package_rest -= total_ongemalen_compleet
+        except NoProductsException, e:
+            self.exceptions.append(('COMPLEET KARKAS', order.get_animal()))
         
-        products_in_order.extend(selection)
-        package_rest -= total_ongemalen_compleet
         #################################
         # select ongemalen incompleet orgaan
         #################################
-        total_ongemalen_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
+        try:
+            total_ongemalen_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
+            products_in_order.extend(selection)
+        except NoProductsException, e:
+            self.exceptions.append(('ORGAAN', order.get_animal()))
+            total_ongemalen_orgaan = 0
         
-        products_in_order.extend(selection)
         ###################################
         # select ongemalen incompleet spier
         ###################################
-        total_ongemalen_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
+        try:
+            total_ongemalen_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
+        except NoProductsException, e:
+            self.exceptions.append(('SPIERVLEES', order.get_animal()))
+            total_ongemalen_spier = 0
+            selection = []
         
         products_in_order.extend(selection)
         package_rest -= (total_ongemalen_spier+total_ongemalen_orgaan)
         ####################################
         # select ongemalen incompleet bot
         ####################################
-        _, selection = self.select_type('BOT', order, meal_size, package_rest)
+        try:
+            _, selection = self.select_type('BOT', order, meal_size, package_rest)
+        except NoProductsException, e:
+            self.exceptions.append(('BOT', order.get_animal()))
+            selection = []
         
         products_in_order.extend(selection)
         return products_in_order

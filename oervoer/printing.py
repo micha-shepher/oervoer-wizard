@@ -36,7 +36,7 @@ class PrintingApp:
     def __init__(self, file2print, parent):
         self.operation = Gtk.PrintOperation()
         print_data = {'filename': os.path.abspath(file2print),
-                      'font_size': 12.0,
+                      'font_size': 10.0,
                       'lines_per_page': 0,
                       'lines': None,
                       'num_lines': 0,
@@ -102,38 +102,38 @@ class PrintingApp:
         cr = print_ctx.get_cairo_context()
         width = print_ctx.get_width()
 
-        cr.rectangle(0, 0, width, self.HEADER_HEIGHT)
-        cr.set_source_rgb(0.8, 0.8, 0.8)
-        cr.fill_preserve()
+        #cr.rectangle(0, 0, width, self.HEADER_HEIGHT)
+        #cr.set_source_rgb(0.8, 0.8, 0.8)
+        #cr.fill_preserve()
 
-        cr.set_source_rgb(0, 0, 0)
-        cr.set_line_width(1)
-        cr.stroke()
+        #cr.set_source_rgb(0, 0, 0)
+        #cr.set_line_width(1)
+        #cr.stroke()
 
-        layout = print_ctx.create_pango_layout()
-        desc = Pango.FontDescription('sans 14')
-        layout.set_font_description(desc)
+        #layout = print_ctx.create_pango_layout()
+        #desc = Pango.FontDescription('sans 14')
+        #layout.set_font_description(desc)
 
-        layout.set_text(print_data['filename'], -1)
-        (text_width, text_height) = layout.get_pixel_size()
+        #layout.set_text(print_data['filename'], -1)
+        #(text_width, text_height) = layout.get_pixel_size()
 
-        if text_width > width:
-            layout.set_width(width)
-            layout.set_ellipsize(Pango.EllipsizeMode.START)
-            (text_width, text_height) = layout.get_pixel_size()
+        #if text_width > width:
+        #    layout.set_width(width)
+        #    layout.set_ellipsize(Pango.EllipsizeMode.START)
+        #    (text_width, text_height) = layout.get_pixel_size()
 
-        cr.move_to((width - text_width) / 2,
-                   (self.HEADER_HEIGHT - text_height) / 2)
-        PangoCairo.show_layout(cr, layout)
+        #cr.move_to((width - text_width) / 2,
+        #           (self.HEADER_HEIGHT - text_height) / 2)
+        #PangoCairo.show_layout(cr, layout)
 
-        page_str = "%d/%d" % (page_num + 1, print_data['num_pages'])
-        layout.set_text(page_str, -1)
+        #page_str = "%d/%d" % (page_num + 1, print_data['num_pages'])
+        #layout.set_text(page_str, -1)
 
-        layout.set_width(-1)
-        (text_width, text_height) = layout.get_pixel_size()
-        cr.move_to(width - text_width - 4,
-                   (self.HEADER_HEIGHT - text_height) / 2)
-        PangoCairo.show_layout(cr, layout)
+        #layout.set_width(-1)
+        #(text_width, text_height) = layout.get_pixel_size()
+        #cr.move_to(width - text_width - 4,
+        #           (self.HEADER_HEIGHT - text_height) / 2)
+        #PangoCairo.show_layout(cr, layout)
 
         layout = print_ctx.create_pango_layout()
 

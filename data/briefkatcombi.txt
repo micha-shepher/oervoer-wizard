@@ -3,8 +3,23 @@
 Beste {1},
 
 Hierbij ontvang je je {2} OerVoer pakket.
-{3} weegt {4} kg en heeft gemiddeld {5} gram verse voeding nodig per dag, verdeeld over 2 maaltijden.
-In je {2} OerVoer pakket vind je naast gevarieerde stukjes vis, verschillende gemalen vleesmixen, karkassen met organen (compleet), karkassen zonder organen (bot), spiervlees en losse organen. 
-Complete karkassen kan je beschouwen als een complete maaltijd en hieraan hoeft dus niets meer toegevoegd te worden. De losse karkassen en botstructuren voer je bij voorkeur met wat spier- en/ of orgaanvlees om de ontlasting mooi soepel te houden. Wanneer je merkt dat jouw kat na een maaltijd met hoofdzakelijk bot wat meer moeite moet doen voor zijn ontlasting, of wanneer de ontlasting wat wittig van kleur is, dan bevat de maaltijd te veel bot. Je kunt dit compenseren door een volgende keer wat extra orgaan en/ of spiervlees aan zo’n maaltijd toe te voegen.
-Wissel de verschillende diersoorten bij voorkeur zoveel mogelijk af en wissel ook vette maaltijden als eend en zalm bij voorkeur af met magere als kip. Hierbij kan je uitgaan van één visdag per week. Te vaak een vette maaltijd achter elkaar kan leiden tot zachte ontlasting.
+{3} weegt {4} kg en heeft gemiddeld {5} gram verse voeding nodig per dag, 
+verdeeld over 2 maaltijden.
+In je {2} OerVoer pakket vind je naast gevarieerde stukjes vis, verschillende
+gemalen vleesmixen, karkassen met organen (compleet), karkassen zonder 
+organen (bot), spiervlees en losse organen. 
+Complete karkassen kan je beschouwen als een complete maaltijd en hieraan hoeft
+dus niets meer toegevoegd te worden. De losse karkassen en botstructuren voer je
+bij voorkeur met wat spier- en/ of orgaanvlees om de ontlasting mooi soepel 
+te houden. Wanneer je merkt dat jouw kat na een maaltijd met hoofdzakelijk bot 
+wat meer moeite moet doen voor zijn ontlasting, of wanneer de ontlasting wat 
+wittig van kleur is, dan bevat de maaltijd te veel bot. Je kunt dit compenseren 
+door een volgende keer wat extra orgaan en/ of spiervlees aan zo’n maaltijd toe
+te voegen.
+Wissel de verschillende diersoorten bij voorkeur zoveel mogelijk af en wissel
+ook vette maaltijden als eend en zalm bij voorkeur af met magere als kip. 
+Hierbij kan je uitgaan van één visdag per week. Te vaak een vette maaltijd 
+achter elkaar kan leiden tot zachte ontlasting.
+
 Dit {2} OerVoer pakket bevat:
+

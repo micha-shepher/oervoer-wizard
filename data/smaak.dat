@@ -1,4 +1,5 @@
 key:vis
+	vis
 	kabeljauw
 	haring
 	krab
@@ -11,6 +12,7 @@ key:vis
 	kabeljouw.kop
 	roodbaars.kop
 	zalm.kop
+    heek
 key:gevogelte
 	duif
 	eend
@@ -66,6 +68,9 @@ key:orgaan
 	lam.nier
 	schaap.nier
 key:pensbot
+    lam.pens
+    rund.pens
+    geit.pens
 	pens
 	hard.bot
 	middel.bot
