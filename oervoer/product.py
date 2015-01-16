@@ -18,6 +18,7 @@ class Product(object):
     SHELF = 8
     WEIGHT = 9  #float
     VERPAKKING = 10
+    KAT_HOND = 11
     
     def __init__(self, product):
         '''product in inventory'''
@@ -29,7 +30,7 @@ class Product(object):
             print 'produkt %s heeft geen vooraad.' % rec[self.NAME]
             self.qty = 0
         self.name = rec[self.NAME]
-        self.include = rec[self.GESCHIKT_MENU] == 'Ja'
+        self.include = rec[self.GESCHIKT_MENU].upper() == 'JA'
         self.smaak = rec[self.SMAAK].upper()
         self.type = rec[self.TYP_VLEES].upper()
         self.shelf = rec[self.SHELF]
@@ -43,7 +44,15 @@ class Product(object):
         except ValueError:
             self.weight = 0.0
             print 'produkt %s heeft geen gewicht.' % self.name
-            
+        try:
+            x = '.'.join(rec[self.KAT_HOND:]).upper()
+            self.kathond = {'KAT':'KAT' in x, 'HOND':'HOND' in x}
+        except IndexError:
+            self.kathond = {'KAT':True, 'HOND':True}
+                
+    def get_kathond(self, kathond):
+        return self.kathond[kathond]
+
     def get_type(self):
         return self.type
  

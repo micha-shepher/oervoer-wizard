@@ -32,9 +32,13 @@ class Oervoer(object):
         self.picklists = file(picklistname, 'w')
         self.ordlist   = []
         self.exceptions = []
+        self.random = False
         for i in Globals.VLEES_TYPES:
             self.prodlists[i] = []
-            
+    
+    def set_random(self, state):
+        self.random = state
+        
     def parse_products(self):
         '''get the products in the lists
         '''
@@ -81,15 +85,20 @@ class Oervoer(object):
                 thelist = self.prodlists[Globals.ZACHTBOT]
         elif vlees == Globals.VIS:
             thelist = self.prodlists[Globals.VIS] + self.prodlists[Globals.VISGEMALEN]
+        elif vlees == Globals.KARKAS:
+            thelist = []
+            for taste in Globals.KARKAS_DICT[order.ras]:
+                thelist += self.prodlists[taste]
         else:
             thelist = self.prodlists[vlees]
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         for vl in thelist:
             if vl.get_norm_weight() <= meal_size * fact1 and \
                vl.get_norm_weight() >= meal_size * fact2 and \
-               not (vl.smaak in order.donts) and \
-               not (vl.smaak.split('.')[0] in order.get_donts()) and\
-               not (vlees in order.get_donts()):
+               not (vl.smaak in order.donts) and             \
+               not (vl.smaak.split('.')[0] in order.get_donts()) and \
+               not (vlees in order.get_donts()) and \
+               vl.get_kathond(order.ras):
                 outlist.append(vl)
         if len(outlist) == 0:
             # try again, choose products smaller than or greater than...
@@ -106,10 +115,14 @@ class Oervoer(object):
                 
         quantities = []
         for p in outlist:
-            if p.smaak in order.get_prefers():
-                quantities.append(p.get_qty()*Globals.LIKEFACTOR)
+            if self.random:
+                quant = p.get_qty()
             else:
-                quantities.append(p.get_qty())    
+                quant = 1
+            if p.smaak in order.get_prefers():
+                quantities.append(quant*Globals.LIKEFACTOR)
+            else:
+                quantities.append(quant)    
         return WeightedRandom(quantities), outlist
     
     def fill(self, order, wr, prodlist, weight, vleessoort ):
@@ -126,21 +139,26 @@ class Oervoer(object):
             # force selection of liver if orgaan
             if vleessoort == Globals.ORGAAN:
                 for prod in prodlist:
-                    smaak = prod.smaak.split('.')
-                    if len(smaak) > 1 and Globals.LEVER in smaak and not prod.smaak in order.get_donts():
+                    if prod.smaak in order.get_donts():
+                        continue
+                    liver_found = prod.smaak.find(Globals.LEVER) > -1
+                    if (total_weight <= weight * Globals.LEVERDEEL and liver_found) or\
+                       (total_weight >  weight * Globals.LEVERDEEL and not liver_found):
                         total_weight += prod.get_weight()
                         l.append(prod)
-                        if total_weight >= weight / 2.0:
-                            break
+                    if total_weight >= weight:
+                        break
+                        
             # complete the filling
-            while total_weight < weight:
-                prod = prodlist[wr.rand()]
-                isfh = is_fishhead(prod)
-                if not (isfh and fish_head_in_list):
-                    total_weight += prod.get_weight()
-                    l.append(prod)
-                if isfh:
-                    fish_head_in_list = True
+            else:
+                while total_weight < weight:
+                    prod = prodlist[wr.rand()]
+                    isfh = is_fishhead(prod)
+                    if not (isfh and fish_head_in_list):
+                        total_weight += prod.get_weight()
+                        l.append(prod)
+                    if isfh:
+                        fish_head_in_list = True
         except ValueError:
             print wr.weights
             raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort)    
@@ -163,7 +181,7 @@ class Oervoer(object):
             x, y =  self.fill(order, wr, typlist, to_reach_weight, meal_type)
             qty.append(x)
             l.append(y)
-        total = min(qty, key=lambda x: to_reach_weight - x) # minimize delta from target weight
+        total = min(qty, key=lambda x: abs(to_reach_weight - x)) # minimize delta from target weight
         selection = l[ qty.index(total) ]
         return total, selection
         
@@ -222,6 +240,9 @@ class Oervoer(object):
         weights = [i.get_weight() for i in result] # weight vector
         pckg = order.get_package()
         looking4 = abs(pckg-sum(weights))          # looking for a product weighing about that.
+        if looking4 < 0.05 or sum(weights) < pckg: # not worth fixing if it ain't broke
+            print 'afwijking {0}'.format(looking4)
+            return # nothing to do
         min_val = min([abs(i-looking4) for i in weights]) # difference between closest product and delta in package.
         
         length = len(result)
@@ -231,8 +252,6 @@ class Oervoer(object):
                 if [p.sku for p in result].count(result[i].sku) > 1: # if the product is not unique
                     result.pop(i)
                     break
-        if length == len(result): # nothing popped, so remove the last one.
-            result.pop(-1)        # so pop the last product added.
         
                            
     def process_order(self, order):

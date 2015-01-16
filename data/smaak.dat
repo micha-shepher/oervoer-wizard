@@ -67,6 +67,7 @@ key:orgaan
 	geit.nier
 	lam.nier
 	schaap.nier
+    geit.orgaanmaling
 key:pensbot
     lam.pens
     rund.pens
@@ -75,3 +76,6 @@ key:pensbot
 	hard.bot
 	middel.bot
 	zacht.bot
+    compleetkarkas.zachtbot
+    compleetkarkas.middelbot
+    compleetkarkas.hardbot

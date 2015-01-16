@@ -432,7 +432,15 @@ class Handlers:
                             +'\n')
         orderfile.close()    
         Gtk.main_quit()
-
+        
+    def on_random_toggled(self, button):
+        self.oervoer.set_random(button.get_active())
+        if button.get_active():
+            warning( 'Vanaf nu is de productkeuze evenredig met de hoeveelheid.\nProductkeuze houdt wel rekening met de voorkeurlijst.', self.window)
+            button.set_label('evenredig')
+        else:
+            warning( 'Vanaf nu is de productkeuze gelijkmatig.\nProductkeuze houdt wel rekening met de voorkeurlijst.', self.window)
+            button.set_label('gelijkmatig')
 
 class BuilderApp:
     def __init__(self):
