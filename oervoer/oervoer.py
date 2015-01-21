@@ -13,6 +13,7 @@ from product import Product
 from globals import Globals
 from delivery import Delivery
 from weighted_random import WeightedRandom
+import csv
                    
 class NoProductsException(Exception):
     def __init__(self, desc):
@@ -24,7 +25,7 @@ class Oervoer(object):
     def __init__(self,productname, ordername, picklistname):
         '''initialize the inputs'''
         self.productname = productname
-        self.products  = file(productname,  'r').readlines()
+        self.products  = csv.DictReader(file(productname,  'r'))
         self.prodlists = {}
         orderlines = file(ordername,    'r').readlines()
         self.orderhead = orderlines.pop(0)
@@ -42,8 +43,8 @@ class Oervoer(object):
     def parse_products(self):
         '''get the products in the lists
         '''
-        for prod in self.products[1:]:
-            p = Product(prod)
+        for prod in self.products:
+            p = Product(prod) # prod is a dictionary
             p.dump()
             if p.get_type() in Globals.VLEES_TYPES and p.get_include() and p.get_qty() > 0:
                 self.prodlists[p.get_type()].append(p)
@@ -97,7 +98,7 @@ class Oervoer(object):
                vl.get_norm_weight() >= meal_size * fact2 and \
                not (vl.smaak in order.donts) and             \
                not (vl.smaak.split('.')[0] in order.get_donts()) and \
-               not (vlees in order.get_donts()) and \
+               not (vl.get_type() in order.get_donts()) and \
                vl.get_kathond(order.ras):
                 outlist.append(vl)
         if len(outlist) == 0:
@@ -151,7 +152,9 @@ class Oervoer(object):
                         
             # complete the filling
             else:
-                while total_weight < weight:
+                toomany = 0
+                while total_weight < weight and not toomany > 30:
+                    toomany += 1
                     prod = prodlist[wr.rand()]
                     isfh = is_fishhead(prod)
                     if not (isfh and fish_head_in_list):
@@ -159,6 +162,8 @@ class Oervoer(object):
                         l.append(prod)
                     if isfh:
                         fish_head_in_list = True
+                if toomany > 30:
+                    raise NoProductsException('Kan lijst {0} niet voldoen, misschien viskop beperking?'.format(vleessoort))
         except ValueError:
             print wr.weights
             raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort)    

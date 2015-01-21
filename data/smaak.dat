@@ -9,7 +9,7 @@ key:vis
 	roodbaars
 	schol
 	zalm
-	kabeljouw.kop
+	kabeljauw.kop
 	roodbaars.kop
 	zalm.kop
     heek
@@ -73,9 +73,9 @@ key:pensbot
     rund.pens
     geit.pens
 	pens
-	hard.bot
-	middel.bot
-	zacht.bot
-    compleetkarkas.zachtbot
-    compleetkarkas.middelbot
-    compleetkarkas.hardbot
+	hard bot
+	middel bot
+	zacht bot
+    compleet karkas.zacht bot
+    compleet karkas.middel bot
+    compleet karkas.hard bot

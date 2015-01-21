@@ -121,8 +121,9 @@ class Handlers:
                         warning('Geen {0} voor {1} afzondering'.format(*ex), self.window)
                     self.oervoer.exceptions = []
                     d = Delivery(self.testdir, order, result)
-                    res = '''dier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\nvermijd: {5}\nmaaltijd: {6}\n{4}'''.format(row[3],row[4],row[5], row[7], d.csvout(),
-                                                                        ','.join(order.get_donts()),order.get_meal_size())
+                    res = '''datum: {7}\ndier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\nvermijd: {5}\nmaaltijd: {6}\n{4}'''.format(row[3],row[4],row[5], row[7], d.csvout(),
+                                                                        ','.join(order.get_donts()),order.get_meal_size(),
+                                                                        "{:%d %B %Y}".format(datetime.date.today() ))
                     print res
                     self.picklists[index] = res,order.get_owner(), order.get_animal()
                 else:
@@ -273,7 +274,8 @@ class Handlers:
                 if prod.get_norm_weight() >= van and\
                    prod.get_norm_weight() <= tot and\
                    not prod.smaak in self.currentorder.get_donts() and\
-                   not prod.type  in self.currentorder.get_donts():
+                   not prod.type  in self.currentorder.get_donts() and\
+                   prod.kathond[self.currentorder.ras]:
                     num2 += 1
             if len(store)<len(Globals.VLEES_TYPES):
                 store.append([t,str(num1),str(num2),num2>0])
