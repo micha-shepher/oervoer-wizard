@@ -16,9 +16,9 @@ def warning( warning, window ):
                                text=warning)
 
     dialog.set_transient_for(window)
+    dialog.modify_font(Pango.FontDescription('Monospace 9'))
     response = dialog.run()
     dialog.destroy()
-
 
 class Handlers:
     def __init__(self, store, window, builder, testdir='../test'):
@@ -55,6 +55,10 @@ class Handlers:
         self.out = None
         self.portiestore = self.builder.get_object('portiestore')
         self.portiestore.clear()
+        self.portiecombo = self.builder.get_object('portiecombostore')
+        self.portiecombo.clear()
+        for t in ('beide', 'kleine porties', 'grote porties'):
+            self.portiecombo.append([t])
 
         self.donts_or_prefer = 'donts'
 
@@ -115,6 +119,7 @@ class Handlers:
             if row[0]:
                 dieren.append(row[2])
                 order = self.find_order(index)
+                order.set_portie(row[9])
                 if order:
                     result = self.oervoer.process_order(order) #mealsize adjusted by factor
                     for ex in self.oervoer.exceptions:
@@ -135,7 +140,11 @@ class Handlers:
         
     def on_orders_row_changed(self, *args):
         pass
-        
+    
+    def on_combo_edited(self, widget, path, text):
+        print path, text
+        self.store[path][9] = text
+    
     def on_cursor_changed(self, tv):
         row = tv.get_cursor()[0]
         st = self.builder.get_object('statusbar1')
@@ -258,12 +267,44 @@ class Handlers:
         self.dialogvermijd.show_all()
         self.dialogvermijd.run()
         
+    def on_portie_selected(self, selection):
+        model, iter = selection.get_selected()
+        vlees = model[iter][0] 
+        tv = self.builder.get_object('treeview3')
+        dialog = self.builder.get_object('dialog2')
+        model = tv.get_model()
+        prodlist = self.restrictlist[vlees]
+        
+        deleterange = range(len(prodlist), len(model))
+        for i in deleterange:
+            try:
+                model.remove(model.get_iter(len(model)-1)) # pop the last one
+            except:
+                print '%%%%!!!!!!!!!!!!!!!', i, len(model), len(prodlist)
+        
+        for i, prod in enumerate(prodlist):
+            if i < len(model):
+                model[i][:] = (prod.name, str(int(prod.get_norm_weight()*1000)), str(prod.get_qty()), prod.smaak)
+            else:
+                model.append([prod.name, str(int(prod.get_norm_weight()*1000)), str(prod.get_qty()), prod.smaak])
+        
+        dialog.set_title('Geschikte producten in de categorie {} voor {}'.format(vlees,self.currentorder.get_animal()))
+        dialog.show_all()
+        dialog.run()
+            
+    def on_gezien_clicked(self, *arg):
+        tv = self.builder.get_object('treeview3')
+        dialog = self.builder.get_object('dialog2')
+        dialog.hide() 
+        
     def populate_portie(self, avan, atot, bvan, btot):
         store = self.builder.get_object('portiestore')
         #store.clear()
+        self.restrictlist = {}
         for i, t in enumerate(Globals.VLEES_TYPES):
             num2 = 0
             num1 = len(self.oervoer.prodlists[t])
+            self.restrictlist[t] = []
             if t in Globals.VLEES_DEELBAAR:
                 van = avan/1000.0
                 tot = atot/1000.0
@@ -275,7 +316,9 @@ class Handlers:
                    prod.get_norm_weight() <= tot and\
                    not prod.smaak in self.currentorder.get_donts() and\
                    not prod.type  in self.currentorder.get_donts() and\
+                   set(prod.smaak.split('.')).isdisjoint(set (self.currentorder.get_donts()) ) and\
                    prod.kathond[self.currentorder.ras]:
+                    self.restrictlist[t].append(prod)
                     num2 += 1
             if len(store)<len(Globals.VLEES_TYPES):
                 store.append([t,str(num1),str(num2),num2>0])
@@ -284,7 +327,8 @@ class Handlers:
                 #already in place
     
     def on_portie_quit(self, *arg):
-        self.portie.hide()
+        path = self.builder.get_object('treeview1').get_cursor()
+        index = path[0] if path else 0
         
     def on_include_clicked(self, *arg):
         self.portie = self.builder.get_object('dialogportie')
@@ -488,7 +532,9 @@ class BuilderApp:
                           '{0}'.format(order.get_weight()), 
                           '{0}'.format(order.get_factor()),
                           '{0}'.format(order.get_package()), 
-                          True])
+                          True,
+                          'beide'
+                          ])
     
     def about_activate(self, action):
         about_dlg = self.builder.get_object('aboutdialog1')

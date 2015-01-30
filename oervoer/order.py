@@ -38,6 +38,7 @@ class Order(object):
             self.prefers = []
         self.factor = 1.0
         self.result = None
+        self.portie = 'beide'
 
     def get_prefers(self):
         return self.prefers
@@ -93,3 +94,9 @@ class Order(object):
     
     def set_factor(self, factor):
         self.factor = factor
+        
+    def get_portie(self):
+        return self.portie
+    
+    def set_portie(self, portie):
+        self.portie = portie

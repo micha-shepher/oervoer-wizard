@@ -94,11 +94,18 @@ class Oervoer(object):
             thelist = self.prodlists[vlees]
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         for vl in thelist:
-            if vl.get_norm_weight() <= meal_size * fact1 and \
-               vl.get_norm_weight() >= meal_size * fact2 and \
+            if vlees == Globals.GEMALEN and order.get_portie() == 'grote porties':
+                condition = vl.get_norm_weight() == 0.5
+            elif vlees == Globals.GEMALEN and order.get_portie() == 'kleine porties':
+                condition = vl.get_norm_weight() == 0.25
+            else:
+                condition = vl.get_norm_weight() <= meal_size * fact1 and \
+                            vl.get_norm_weight() >= meal_size * fact2
+            if  condition and \
                not (vl.smaak in order.donts) and             \
                not (vl.smaak.split('.')[0] in order.get_donts()) and \
                not (vl.get_type() in order.get_donts()) and \
+               set(vl.smaak.split('.')).isdisjoint(set (order.get_donts()) ) and\
                vl.get_kathond(order.ras):
                 outlist.append(vl)
         if len(outlist) == 0:

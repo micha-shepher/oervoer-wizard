@@ -53,6 +53,8 @@
       <column type="gchararray"/>
       <!-- column-name Betaald -->
       <column type="gboolean"/>
+      <!-- column-name Portie -->
+      <column type="gchararray"/>
     </columns>
     <data>
       <row>
@@ -65,15 +67,22 @@
         <col id="6">1</col>
         <col id="7">10</col>
         <col id="8">False</col>
+        <col id="9" translatable="yes">kleine porties</col>
       </row>
     </data>
     <signal name="row-changed" handler="on_orders_row_changed" swapped="no"/>
   </object>
+  <object class="GtkListStore" id="portiecombostore">
+    <columns>
+      <!-- column-name portietype -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Oervoer Wizard</property>
-    <property name="default_width">800</property>
-    <property name="default_height">1000</property>
+    <property name="default_width">700</property>
+    <property name="default_height">700</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -88,13 +97,9 @@
               <object class="GtkTreeView" id="treeview1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="valign">baseline</property>
-                <property name="resize_mode">immediate</property>
-                <property name="vscroll_policy">natural</property>
                 <property name="model">orders</property>
                 <property name="rules_hint">True</property>
                 <property name="enable_grid_lines">horizontal</property>
-                <property name="enable_tree_lines">True</property>
                 <signal name="cursor-changed" handler="on_cursor_changed" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection1">
@@ -173,12 +178,7 @@
                     <property name="fixed_width">5</property>
                     <property name="title" translatable="yes">Gewicht</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext4">
-                        <property name="width">6</property>
-                        <property name="alignment">right</property>
-                        <property name="width_chars">6</property>
-                        <property name="max_width_chars">6</property>
-                      </object>
+                      <object class="GtkCellRendererText" id="cellrenderertext4"/>
                       <attributes>
                         <attribute name="text">5</attribute>
                       </attributes>
@@ -192,9 +192,6 @@
                     <signal name="clicked" handler="on_factor_clicked" swapped="no"/>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext6">
-                        <property name="alignment">right</property>
-                        <property name="width_chars">6</property>
-                        <property name="max_width_chars">6</property>
                         <signal name="edited" handler="on_factor_changed" swapped="no"/>
                       </object>
                       <attributes>
@@ -210,14 +207,10 @@
                     <property name="clickable">True</property>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext7">
-                        <property name="alignment">right</property>
-                        <property name="width_chars">6</property>
-                        <property name="max_width_chars">6</property>
                         <signal name="edited" handler="on_pakketgewicht_edited" swapped="no"/>
                       </object>
                       <attributes>
                         <attribute name="text">7</attribute>
-                        <attribute name="placeholder-text">2</attribute>
                       </attributes>
                     </child>
                   </object>
@@ -229,6 +222,23 @@
                       <object class="GtkCellRendererToggle" id="cellrenderertoggle2"/>
                       <attributes>
                         <attribute name="active">8</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn5">
+                    <property name="title" translatable="yes">Portie gemalen</property>
+                    <child>
+                      <object class="GtkCellRendererCombo" id="cellrenderercombo1">
+                        <property name="editable">True</property>
+                        <property name="has_entry">False</property>
+                        <property name="model">portiecombostore</property>
+                        <property name="text_column">0</property>
+                        <signal name="edited" handler="on_combo_edited" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="text">9</attribute>
                       </attributes>
                     </child>
                   </object>
@@ -915,11 +925,12 @@
             </child>
             <child>
               <object class="GtkButton" id="button13">
-                <property name="label" translatable="yes">geen menu</property>
+                <property name="label" translatable="yes">productlijst</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">image6</property>
+                <property name="relief">half</property>
                 <property name="yalign">0.56999999284744263</property>
               </object>
               <packing>
@@ -1251,6 +1262,7 @@
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection2">
                     <property name="mode">browse</property>
+                    <signal name="changed" handler="on_portie_selected" swapped="no"/>
                   </object>
                 </child>
                 <child>
@@ -1312,6 +1324,115 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="prodstore">
+    <columns>
+      <!-- column-name product -->
+      <column type="gchararray"/>
+      <!-- column-name gewicht -->
+      <column type="gchararray"/>
+      <!-- column-name aantal -->
+      <column type="gchararray"/>
+      <!-- column-name smaak -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkDialog" id="dialog2">
+    <property name="can_focus">False</property>
+    <property name="default_width">600</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox5">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area6">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button14">
+                <property name="label" translatable="yes">gezien</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_gezien_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTreeView" id="treeview3">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">prodstore</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="treeview-selection3"/>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="treeviewcolumn6">
+                <property name="title" translatable="yes">Product</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext11"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="treeviewcolumn7">
+                <property name="title" translatable="yes">Gewicht</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext12"/>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="treeviewcolumn8">
+                <property name="title" translatable="yes">Aantal</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext13"/>
+                  <attributes>
+                    <attribute name="text">2</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="treeviewcolumn9">
+                <property name="title" translatable="yes">Smaak</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext14"/>
+                  <attributes>
+                    <attribute name="text">3</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
