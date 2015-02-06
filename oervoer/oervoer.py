@@ -160,7 +160,7 @@ class Oervoer(object):
             # complete the filling
             else:
                 toomany = 0
-                while total_weight < weight and not toomany > 30:
+                while total_weight < weight and not toomany > Globals.maxtries:
                     toomany += 1
                     prod = prodlist[wr.rand()]
                     isfh = is_fishhead(prod)
@@ -169,8 +169,8 @@ class Oervoer(object):
                         l.append(prod)
                     if isfh:
                         fish_head_in_list = True
-                if toomany > 30:
-                    raise NoProductsException('Kan lijst {0} niet voldoen, misschien viskop beperking?'.format(vleessoort))
+                if toomany > Globals.maxtries:
+                    raise NoProductsException('Kan lijst {0} niet voldoen, misschien pakket te groot of viskop rule?'.format(vleessoort))
         except ValueError:
             print wr.weights
             raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort)    
@@ -214,8 +214,8 @@ class Oervoer(object):
         try:
             total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest * 0.15)
             package_rest -= total_vis
-        except NoProductsException:
-            self.exceptions.append(('VIS', order.get_animal()))
+        except NoProductsException, e:
+            self.exceptions.append(('VIS', order.get_animal(), e))
             
         ##############################
         # select pens if not kat
@@ -225,8 +225,8 @@ class Oervoer(object):
                 total_pens, selection = self.select_type('PENS', order, meal_size, order.get_package() * 0.15)
                 products_in_order.extend(selection)
                 package_rest -= total_pens
-            except NoProductsException:
-                self.exceptions.append(('PENS', order.get_animal()))
+            except NoProductsException, e:
+                self.exceptions.append(('PENS', order.get_animal(), e))
             
         ##############################
         # select gemalen
@@ -234,8 +234,8 @@ class Oervoer(object):
         try:
             _, selection = self.select_type('COMPLEET GEMALEN', order, meal_size, package_rest)
             products_in_order.extend(selection)
-        except NoProductsException:
-            self.exceptions.append(('COMPLEET GEMALEN', order.get_animal()))
+        except NoProductsException, e:
+            self.exceptions.append(('COMPLEET GEMALEN', order.get_animal(), e))
         return products_in_order
                      
     def update_inventory(self, result, howmuch = 1):
@@ -309,7 +309,7 @@ class Oervoer(object):
             total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*0.15)
             package_rest -= total_vis
         except NoProductsException, e:
-            self.exceptions.append(('VIS', order.get_animal()))
+            self.exceptions.append(('VIS', order.get_animal(), e))
 
         ##############################
         # select pens if not kat
@@ -320,7 +320,7 @@ class Oervoer(object):
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException, e:
-                self.exceptions.append(('PENS', order.get_animal()))
+                self.exceptions.append(('PENS', order.get_animal(), e))
                 
             
         ##############################
@@ -331,7 +331,7 @@ class Oervoer(object):
             products_in_order.extend(selection)
             package_rest -= total_ongemalen_compleet
         except NoProductsException, e:
-            self.exceptions.append(('COMPLEET KARKAS', order.get_animal()))
+            self.exceptions.append(('COMPLEET KARKAS', order.get_animal(), e))
         
         #################################
         # select ongemalen incompleet orgaan
@@ -340,7 +340,7 @@ class Oervoer(object):
             total_ongemalen_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
             products_in_order.extend(selection)
         except NoProductsException, e:
-            self.exceptions.append(('ORGAAN', order.get_animal()))
+            self.exceptions.append(('ORGAAN', order.get_animal(), e))
             total_ongemalen_orgaan = 0
         
         ###################################
@@ -349,7 +349,7 @@ class Oervoer(object):
         try:
             total_ongemalen_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
         except NoProductsException, e:
-            self.exceptions.append(('SPIERVLEES', order.get_animal()))
+            self.exceptions.append(('SPIERVLEES', order.get_animal(), e))
             total_ongemalen_spier = 0
             selection = []
         
@@ -361,7 +361,7 @@ class Oervoer(object):
         try:
             _, selection = self.select_type('BOT', order, meal_size, package_rest)
         except NoProductsException, e:
-            self.exceptions.append(('BOT', order.get_animal()))
+            self.exceptions.append(('BOT', order.get_animal(), e))
             selection = []
         
         products_in_order.extend(selection)

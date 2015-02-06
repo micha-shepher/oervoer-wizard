@@ -40,3 +40,4 @@ class Globals(object):
     VISSEN      = [VIS, VISGEMALEN]
     TESTENV     = 'OERVOERTESTENV'
     LEVERDEEL   = 0.4
+    maxtries    = 100

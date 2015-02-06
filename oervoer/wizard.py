@@ -123,7 +123,7 @@ class Handlers:
                 if order:
                     result = self.oervoer.process_order(order) #mealsize adjusted by factor
                     for ex in self.oervoer.exceptions:
-                        warning('Geen {0} voor {1} afzondering'.format(*ex), self.window)
+                        warning('Geen {0} voor {1} afzondering\n {2}'.format(*ex), self.window)
                     self.oervoer.exceptions = []
                     d = Delivery(self.testdir, order, result)
                     res = '''datum: {7}\ndier: {0}\npakket: {1}\ngewicht dier: {2}\ngewicht pakket: {3}\nvermijd: {5}\nmaaltijd: {6}\n{4}'''.format(row[3],row[4],row[5], row[7], d.csvout(),
