@@ -221,7 +221,6 @@ class Handlers:
 
     def on_uitvoeren_changed( self, widget, path ):
         self.store[path][0] = not self.store[path][0]
-        print 'include changed'
 
     def on_factor_changed( self, widget, path, value ):
         try:

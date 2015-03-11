@@ -18,7 +18,9 @@ import numpy
 from numpy.lib.function_base import median
                    
 class NoProductsException(Exception):
-    def __init__(self, desc):
+    def __init__(self, desc, l=None, weight=None):
+        self.l = l
+        self.weight = weight
         self.desc = desc
     def __str__(self):
         return self.desc
@@ -97,9 +99,9 @@ class Oervoer(object):
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         for vl in thelist:
             if vlees == Globals.GEMALEN and order.get_portie() == 'grote porties':
-                condition = vl.get_norm_weight() >= Globals.BIGMEAL
+                condition = vl.get_norm_weight() >= Globals.BIGMEAL/1000.0
             elif vlees == Globals.GEMALEN and order.get_portie() == 'kleine porties':
-                condition = vl.get_norm_weight() <= Globals.SMALLMEAL
+                condition = vl.get_norm_weight() <= Globals.SMALLMEAL/1000.0
             else:
                 condition = vl.get_norm_weight() <= meal_size * fact1 and \
                             vl.get_norm_weight() >= meal_size * fact2
@@ -150,16 +152,19 @@ class Oervoer(object):
         try:
             # force selection of liver if orgaan
             if vleessoort == Globals.ORGAAN:
-                for prod in prodlist:
-                    if prod.smaak in order.get_donts():
-                        continue
-                    liver_found = prod.smaak.find(Globals.LEVER) > -1
-                    if (total_weight <= weight * Globals.LEVERDEEL and liver_found) or\
-                       (total_weight >  weight * Globals.LEVERDEEL and not liver_found):
-                        total_weight += prod.get_weight()
-                        l.append(prod)
-                    if total_weight >= weight:
-                        break
+                tries = 0
+                maxtries = 20
+                while total_weight < weight and tries < maxtries:
+                    for prod in prodlist:
+                        if prod.smaak in order.get_donts():
+                            continue
+                        liver_found = prod.smaak.find(Globals.LEVER) > -1
+                        if (total_weight <= weight * Globals.LEVERDEEL and liver_found) or\
+                            (total_weight >  weight * Globals.LEVERDEEL and not liver_found):
+                            total_weight += prod.get_weight()
+                            l.append(prod)
+                        if total_weight >= weight:
+                            break
                         
             # complete the filling
             else:
@@ -174,10 +179,12 @@ class Oervoer(object):
                     if isfh:
                         fish_head_in_list = True
                 if toomany > Globals.maxtries:
-                    raise NoProductsException('Kan lijst {0} niet voldoen, misschien pakket te groot of viskop rule?'.format(vleessoort))
+                    print 'failed to fill {}, w {}, len {}'.format(vleessoort, total_weight, len(l))
+                    raise NoProductsException('Kan lijst {0} niet voldoen, misschien pakket te groot of viskop rule?'.format(vleessoort),
+                                              l, total_weight)
         except ValueError:
-            print wr.weights
-            raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort)    
+            raise NoProductsException('Niet genoeg producten voor type %s' % vleessoort,
+                                      l, total_weight)    
             #print 'selected %s, total=%s, %s to go' % (prod.name, total_weight, minimum_items-len(l))
         return total_weight, l
      
@@ -224,6 +231,7 @@ class Oervoer(object):
         
         if len(final) == 0:
             print '''something wrong happened when looking for best selection, resulting in no solutions.'''
+            print 'original length: {}'.format(len(tlist))
             print 'deviation:', weightdev
             print 'median:', median
             
@@ -266,6 +274,9 @@ class Oervoer(object):
             package_rest -= total_vis
         except NoProductsException, e:
             self.exceptions.append(('VIS', order.get_animal(), e))
+            if e.l:
+                total_vis = e.weight
+                products_in_order = e.l
             
         ##############################
         # select pens if not kat
@@ -277,6 +288,10 @@ class Oervoer(object):
                 package_rest -= total_pens
             except NoProductsException, e:
                 self.exceptions.append(('PENS', order.get_animal(), e))
+                if e.l:
+                    total_pens = e.weight
+                    products_in_order = e.l
+            
             
         ##############################
         # select gemalen
@@ -355,12 +370,16 @@ class Oervoer(object):
         ##############################
         products_in_order = []
         
+        total_vis = 0.0
         try:
             total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*0.15)
             package_rest -= total_vis
         except NoProductsException, e:
             self.exceptions.append(('VIS', order.get_animal(), e))
-
+            if e.l:
+                total_vis = e.weight
+                products_in_order = e.l
+            
         ##############################
         # select pens if not kat
         ##############################
@@ -377,6 +396,7 @@ class Oervoer(object):
         ##############################
         # select ongemalen compleet
         ##############################
+        total_compleet_karkas = 0.0
         try:
             total_compleet_karkas, selection = self.select_type('COMPLEET KARKAS', order, meal_size, package_rest/2.0)
             products_in_order.extend(selection)
@@ -387,6 +407,7 @@ class Oervoer(object):
         #################################
         # select ongemalen incompleet orgaan
         #################################
+        total_orgaan = 0.0
         try:
             total_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
             products_in_order.extend(selection)
@@ -397,6 +418,7 @@ class Oervoer(object):
         ###################################
         # select ongemalen incompleet spier
         ###################################
+        total_spier = 0.0
         try:
             total_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
         except NoProductsException, e:
@@ -409,16 +431,19 @@ class Oervoer(object):
         ####################################
         # select ongemalen incompleet bot
         ####################################
+        total_bot = 0.0
         try:
-            _, selection = self.select_type('BOT', order, meal_size, package_rest)
+            total_bot, selection = self.select_type('BOT', order, meal_size, package_rest)
         except NoProductsException, e:
             self.exceptions.append(('BOT', order.get_animal(), e))
             selection = []
         
         products_in_order.extend(selection)
         pkg = order.get_package()/100.0
-        print 'vis,pens,kark,spier,orgaan', total_vis, total_pens, total_compleet_karkas, total_spier, total_orgaan
-        print 'vis,pens,kark,spier,orgaan', total_vis/pkg, total_pens/pkg, total_compleet_karkas/pkg, total_spier/pkg, total_orgaan/pkg
+        print 'vis,pens,kark,spier,orgaan,bot', total_vis, total_pens, total_compleet_karkas, total_spier,\
+                                                total_orgaan, total_bot
+        print 'vis,pens,kark,spier,orgaan,bot', total_vis/pkg, total_pens/pkg, total_compleet_karkas/pkg,\
+                                                total_spier/pkg, total_orgaan/pkg, total_bot/pkg
         return products_in_order
         
     def write_inventory(self):
