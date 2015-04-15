@@ -1,0 +1,45 @@
+VIS,HARING/100,Haring - 2 stuks - 100 gram,Binnencel,1,100.0
+VIS,HARING/250,Haring - 5 stuks - 250 gram,Binnencel,1,250.0
+VIS,KABE0001,Kabeljauw - Kop,Binnencel,1,750.0
+VIS,KABE0003,Kabeljauw - Lijf - middel - 250g,Binnencel,1,225.0
+VIS,KABE0004,Kabeljauw - Lijf - klein - 100g,Binnencel,2,125.0
+VIS,SARDIEN/1,Sardien - per stuk,,3,80.0
+VIS,SARDIEN/3,Sardien - per 3 stuks,,3,240.0
+VIS,SPROT/150,Sprot - 150 gram,,2,150.0
+VIS,SPROT/250,Sprot - 250 gram,,2,250.0
+VIS,ZALM0003,Zalm - Lijf - middel - 250g,Binnencel,1,250.0
+GEMALEN VIS,HEEKZUIVER/250,Heek - OerVoer Zuiver - 250 gram,,2,250.0
+GEMALEN VIS,ZUIVERZALM/250,Zalm - Gemalen - OerVoer Zuiver,Binnencel,2,250.0
+PENS,GEITPENSSTUK/250,Geitpens - Stuk -250 gram,,2,250.0
+PENS,LAMPENSGEMALEN/500,Lamspens - Gemalen - OerVoer Zuiver - 50,Orgaanbank,1,500.0
+PENS,OZGEITENPENS/250,Geitenpens - Gemalen - OerVoer Zuiver - ,Binnencel,2,250.0
+PENS,OZGEITENPENS/500,Geitenpens - Gemalen - OerVoer Zuiver - ,Binnencel,2,500.0
+PENS,RUNDPENS/250,Rundpens - Gemalen - OerVoer Zuiver - 25,Binnencel,4,250.0
+PENS,RUNDPENS/500,Rundpens - Gemalen - OerVoer Zuiver - 50,Orgaanbank,2,500.0
+SPIERVLEES,HERT250GRAM,Hert spiervlees - 250 gram,Binnencel,1,250.0
+SPIERVLEES,HERT500GRAM,Hert spiervlees - 500 gram,Binnencel,5,500.0
+SPIERVLEES,RUNDERKOPHUID,Runderkopsvlees,Binnencel,5,250.0
+SPIERVLEES,RUNDHALS,Rund - gemalen halsvlees,Binnencel,3,150.0
+ZACHT BOT,EEND0011,Eendenkarkas - half - 240 gram,Binnencel,2,240.0
+ZACHT BOT,EENDBOTMALING/250,Eend - Botmaling,Binnencel,3,250.0
+ZACHT BOT,KIP0004,Kipkarkas - groot- 300 gram,Binnencel,3,300.0
+HARD BOT,GEITKARKAS,Geitkarkas,Binnencel,2,250.0
+HARD BOT,HAASKARKAS,OerVoer - Haaskarkas,Binnencel,4,200.0
+HARD BOT,HERTNEK,Hertennekken,Binnencel,1,300.0
+HARD BOT,REENEK/200,Reenekken,Binnencel,2,200.0
+COMPLEET KARKAS.ZACHT,KWARTEL-01,Kwartelkarkas met orgaan - per stuk,Binnencel,3,80.0
+COMPLEET KARKAS.ZACHT,KWARTEL-05,Kwartelkarkas met orgaan - per 5 stuks,Binnencel,4,100.0
+COMPLEET KARKAS.ZACHT,asdf,asdf,Binnencel,1,200.0
+COMPLEET KARKAS.ZACHT,qwer,qwer,Binnencel,4,400.0
+COMPLEET KARKAS.ZACHT,zxcv,zxcv,Binnencel,4,400.0
+COMPLEET KARKAS.MIDDE,DUIF-01,Duifkarkas met orgaan,Binnencel,4,140.0
+COMPLEET KARKAS.MIDDE,DUIF-05,Duifkarkas met orgaan - per 3 stuks,Binnencel,4,400.0
+COMPLEET KARKAS.MIDDE,KONIJN0002,Konijn karkas- half,binnencel,5,350.0
+COMPLEET KARKAS.MIDDE,PARELHOENKARKAS,Parelhoenkarkas,Binnencel,7,200.0
+COMPLEET KARKAS.MIDDE,PATRIJSKARKAS,Patrijs - Karkas met orgaan,Binnencel,1,225.0
+COMPLEET KARKAS.HARD ,EEND0014,Wilde eendenkarkas met organen,Binnencel,3,350.0
+ORGAAN,GEITORGAANMIX,Geitorgaan - Gemalen - OerVoer Zuiver,Paris,1,150.0
+ORGAAN,LAMSHART/150,Lam - Hart,Orgaanbank,1,150.0
+ORGAAN,RUNDERHART,Runderhart,Orgaanbank,1,500.0
+ORGAAN,RUNDERLEVER,Runderlever,Orgaanbank,5,150.0
+ORGAAN,RUNDHART,Runderhart,Orgaanbank,1,150.0

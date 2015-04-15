@@ -1,0 +1,36 @@
+{% extends 'wizard.html' %}
+{% load render_table from django_tables2 %}
+
+{% block headline %}
+<h2>{{title}} </h2>
+{% endblock %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% block content %}
+    datum:	<strong>{{datum}}</strong>
+    dier: 	<strong>{{dier}}</strong><br> 
+    pakket: <strong>{{pakket}}</strong>
+    gewicht: <strong>{{gewicht_dier}} kg</strong><br>
+    gewicht pakket: <strong>{{gewicht_pakket}} kg</strong>
+    vermijd: <strong>{{vermijd}}</strong><br>
+    maaltijd: <strong>{{maaltijd}} gram</strong>
+    eigenaar: <strong>{{eigenaar}}</strong>
+    diernaam: <strong>{{diernaam}}</strong><hr>   
+{% render_table table %}<br>
+    Totaal gram: <strong>{{totaal}}</strong>
+
+{% endblock %}
+{% block css %}
+<style>
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 5px;
+} 
+</style>
+{% endblock css %}

@@ -1,0 +1,5 @@
+{% extends 'wizard.html' %}
+{% block headline %}<h1>Oervoer Wizard</h1>{% endblock headline %}
+{% block content %}
+<p>Howdy{% if user.is_authenticated %} {{ user.username }}{% endif %}!</p>
+{% endblock %}
