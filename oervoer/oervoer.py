@@ -80,7 +80,7 @@ class Oervoer(object):
             fact2 = Globals.MEALFACTOR2
         else:
             fact1 = Globals.MEALFACTOR3
-            fact2 = 1.0/Globals.MEALFACTOR3
+            fact2 = 0.0
         if vlees == Globals.BOT:
             if order.ras == 'HOND':
                 thelist = []
@@ -98,9 +98,9 @@ class Oervoer(object):
             thelist = self.prodlists[vlees]
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         for vl in thelist:
-            if vlees == Globals.GEMALEN and order.get_portie() == 'grote porties':
+            if vlees in Globals.PORTIETYPEN and order.get_portie() == 'grote porties':
                 condition = vl.get_norm_weight() >= Globals.BIGMEAL/1000.0
-            elif vlees == Globals.GEMALEN and order.get_portie() == 'kleine porties':
+            elif vlees in Globals.PORTIETYPEN and order.get_portie() == 'kleine porties':
                 condition = vl.get_norm_weight() <= Globals.SMALLMEAL/1000.0
             else:
                 condition = vl.get_norm_weight() <= meal_size * fact1 and \
