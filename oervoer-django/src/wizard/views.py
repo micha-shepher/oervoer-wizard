@@ -1,21 +1,22 @@
 
-import datetime
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.views import generic
-from django_tables2   import RequestConfig, SingleTableView
-import pprint
+from django_tables2   import RequestConfig
 import time
 import traceback
 
+from oervoerexception import OervoerException
 from wizard.brains.oervoer.oervoer import Delivery as oervoerdelivery
 from wizard.brains.oervoer.oervoer import Oervoer
 from wizard.forms import PetForm
-from wizard.models import PickList, Ras, Package, Order, Delivery, Pet, Product, Owner, Globals, Taste, Donts, prefers
-from wizard.tables import TasteTable, ProductTable, OrderTable, OrderTable2, PetTable
+from wizard.models import PickList, Ras, Order, Delivery, Pet, Product, Taste, Donts, prefers
+from wizard.tables import TasteTable, ProductTable, OrderTable, OrderTable2, PetTable, \
+    PickListTable, BriefTable
 
 from . import importoervoer
 
@@ -33,75 +34,6 @@ class HomePageView(generic.TemplateView):
     def get_oervoer(self):
         return self.oervoer
 
-class ImportOrders(SingleTableView):
-    table_class = OrderTable
-
-    def __init__(self, *args, **kwargs):
-        super(ImportOrders, self).__init__()
-        user = 'bvdheide_micha'
-        pw = 'lelijkgedrocht'
-        self.orders = []
-        imp = importoervoer.ImportOrders(user, pw)
-        if imp.connect():
-            self.orders = imp.importtable()
-        
-    def get_table_data(self):
-        return self.orders
-    
-    def get_queryset(self):
-        return self.orders
-    
-    def get_template_names(self):
-        return ('importorders.html')
-    
-    def get_context_data(self, **kwargs):
-        context = super(ImportOrders, self).get_context_data(**kwargs)
-        context.update({'table': OrderTable(self.get_table_data()), 'title:': 'Order List'})
-        return context
-    
-    def post(self, request, *args, **kwargs):
-        #print request
-        profile=Globals.objects.get(DESC='Standaard') # get the standard profile
-        for order in self.orders:
-            #pprint.pprint(order)
-            if not order['customer_id']:
-                order['customer_id'] = 9999
-                owner=Owner(id=9999, name=order['customer_name']) # fake owner!!
-                owner.save()
-                print 'renegate owner {}{} generated!'.format(owner.pk,owner.name)
-            else:
-                try:
-                    owner = Owner.objects.get(id=order['customer_id']) # get the owner or create
-                except Owner.DoesNotExist:
-                    owner = Owner(id=order['customer_id'], name=order['customer_name'])
-                    pprint.pprint(owner)
-                    owner.save()
-            try: 
-                ras = Ras.objects.get(ras=order['ras']) # get the pet race or HOND
-            except Ras.DoesNotExist:
-                ras = Ras.objects.get(ras='HOND')
-                print 'order with bad pet.'
-            try:                                        # get the pet or create
-                pet = Pet.objects.get(name=order['name'])
-            except Pet.DoesNotExist:
-                pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile)
-                pet.save()
-             #{'id','status','customer_id','customer_name','pakket','ras','gewicht_pak','name','weight'})
-            try:                                        #get the package or create          
-                package = Package.objects.get(type=order['pakket'])
-            except Package.DoesNotExist:
-                package = Package.objects.get(id=0)
-                print 'order with bad package.'
-            try:
-                o = Order.objects.get(pk=int(order['id']))
-            except Order.DoesNotExist:
-                o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.datetime.now() )
-                o.save()   
-            #o = Order( id=order.order_id, owner=order.custid, pet=pet_id, package=package, weight=order_weight, date=today, status=order.status)
-        return HttpResponseRedirect(reverse('index'))
-        #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
-        
-    
 def index(request):
     latest_order_list = Order.objects.filter(status__in = ('processing','pending'))
     template = loader.get_template('index.html')
@@ -140,43 +72,93 @@ def order(request, order_id):
 
 def get_delivery(order):
     global oervoer
-    if not oervoer:
-        try:
-            print 'initializing oervoer'
-            oervoer = Oervoer(None,None,None)
-            oervoer.parse_products()
-            print 'success!'
-        except:
-            print 'can\'t init oervoer!'
-            traceback.print_exc()
     try:
-        print 'oervoer {}'.format(oervoer)
-        result = oervoer.process_order(order)
-        d = oervoerdelivery('', order, result)
-        table = d.bol()
-        print 'table for order {} generated'.format(order)
-    except:
-        print 'cannot process order'
-        traceback.print_exc()
-    else:
-        return table
+        # try to get the existing delivery and recreate a table with it
+        print 'get delivery for order{}'.format(order.id)
+        delivery = Delivery.objects.get(order=order)
+        picklist = delivery.picklist_set.all()
+        table = []
+        #vleestype = tables.Column()
+        #sku = tables.Column()
+        #name = tables.Column()
+        #shelf = tables.Column()
+        #aantal = tables.Column()
+        #gram = tables.Column()
+
+        for pl in picklist:
+            table.append({'vleestype':pl.product.vlees,
+                          'sku':      pl.product.sku,
+                          'name':     pl.product.name,
+                          'shelf':    pl.product.shelf,
+                          'aantal':   pl.number,
+                          'gram':     pl.product.weight})
+        return delivery, PickListTable(table)
     
+    except Delivery.DoesNotExist:
+        print 'making new delivery for {}'.format(order)    
+        if not oervoer:
+            try:
+                print 'initializing oervoer'
+                oervoer = Oervoer(None,None,None)
+                oervoer.parse_products()
+                print 'success!'
+            except:
+                print 'can\'t init oervoer!'
+                traceback.print_exc()
+                raise OervoerException("Unable to start oervoer brain.")
+        try:
+            print 'oervoer {}'.format(oervoer)
+            result = oervoer.process_order(order)
+            d = oervoerdelivery('', order, result)
+            table = d.bol()
+            print 'table for order {} generated'.format(order)
+        except:
+            print 'cannot process order'
+            traceback.print_exc()
+            raise OervoerException("Unable to process order {}".format(order))
+        else:
+            delivery = Delivery(order = order, status = 'PRE', date = time.strftime('%Y-%m-%d'), brief = getBrief(order))
+            delivery.save()
+            return delivery, table
+        
+def getBrief(order):
+    '''get the template for a brief from the data dir'''
+    filename = 'data/brief-{}-{}.txt'.format(order.pet.ras, order.package)
+    return file(filename,'r').read()
+
 def picklist(request, order_id):
     try:
         order = Order.objects.get(id=order_id)
     except Order.DoesNotExist:
         raise Http404('no such order {}'.format(order_id))
-    table = get_delivery(order)
-    if table:
-        RequestConfig(request).configure(table)
-        print time.strftime('%x')
-        return render(request, 'picklist.html', {'title': 'Picklist voor {}'.format(order.pet), 'table': table,
-                                                 'datum': time.strftime('%x'), 'dier':order.pet.ras.ras, 'pakket':order.package,
-                                                 'gewicht_dier': order.pet.weight, 'gewicht_pakket':order.weight, 'vermijd': 'asdf',
-                                                 'maaltijd': order.pet.get_meal_size(), 'eigenaar':order.owner, 'diernaam':order.pet.name,
-                                                 'totaal': sum([i.record['gram']*i.record['aantal'] for i in table.rows])})
-    else:
-        raise Http404('Cannot produce the delivery for order {}'.format(order_id))
+    if request.method == 'POST':
+        # OK, change and update the delivery!
+        try:
+            delivery = Delivery.objects.get(order=order)
+            delivery.status = 'DELIVERED'
+            delivery.save()
+        except Delivery.DoesNotExist:
+            print 'delivery does not exist'
+        return HttpResponseRedirect(reverse('index'))
+    else:    
+        delivery, table = get_delivery(order)
+        if table:
+            for row in table.rows:
+                product = Product.objects.get(sku=row.record['sku'])
+                picklist = PickList( delivery=delivery, product=product, number=row.record['aantal'])
+                picklist.save()
+
+            RequestConfig(request, paginate=False).configure(table)
+            
+            return render(request, 'picklist.html', {'delivery_id': delivery.id, 
+                                                     'title': 'Picklist voor {}'.format(order.pet), 
+                                                     'order_id': order_id, 'table': table,
+                                                     'datum': time.strftime('%Y-%m-%d'), 'dier':order.pet.ras.ras, 'pakket':order.package,
+                                                     'gewicht_dier': order.pet.weight, 'gewicht_pakket':order.weight, 'vermijd': 'asdf',
+                                                     'maaltijd': order.pet.get_meal_size(), 'eigenaar':order.owner, 'diernaam':order.pet.name,
+                                                     'totaal': sum([i.record['gram']*i.record['aantal'] for i in table.rows])})
+        else:
+            raise Http404('Cannot produce the delivery for order {}'.format(order_id))
 
 def productlist(request):
     latest_order_list = Product.objects.all()
@@ -186,13 +168,27 @@ def productlist(request):
                   
 def brief(request, delivery_id):
     
-    delivery = Delivery.objects.get(pk=delivery_id)
-    order = Order.objects.get(pk=delivery.order)
-    pet = Pet.objects.get(pk=order.pet)
-    template = loader.get_template('brief.html')
-    context = RequestContext(request, {'pet':pet})
-    
-    
+    try:
+        # try to get the existing delivery and recreate a table with it
+        print 'get delivery {}'.format(delivery_id)
+        delivery = Delivery.objects.get(pk=delivery_id)
+        picklist = delivery.picklist_set.all()
+        order = Order.objects.get(id=delivery.order.id)
+        pet = order.pet
+        template = loader.get_template('brief.html')
+        table = []
+        for pl in picklist:
+            table.append({'vleestype':pl.product.vlees,
+                          'name':     pl.product.name,
+                          'aantal':   pl.number})
+        table = BriefTable(table)
+    except Delivery.DoesNotExist:
+        raise Http404('Can\'t find delivery {}'.format(delivery_id))
+    RequestConfig(request, paginate=False).configure(table)
+    context = RequestContext(request, {'datum': time.strftime('%d-%m-%Y'), 
+                                       'brief_template': 'brief-{}-{}.html'.format(order.pet.ras, order.package), 
+                                       'delivery':delivery,'order': order, 'pet':pet, 'table':table, 
+                                       'maaltijd':pet.profile.get_factor(pet.ras.ras)*float(pet.weight)*1000})
     return HttpResponse(template.render(context))
 
 def maketable(request, donts, obj):

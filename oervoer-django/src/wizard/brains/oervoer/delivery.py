@@ -17,7 +17,7 @@ class Delivery(object):
     def bol(self, csv=False, brieven=False):
         
         def seq(vleestype):
-            return ['VIS', 'VIS GEMALEN', 'PENS', 'SPIERVLEES', 'ZACHT BOT', 
+            return ['VIS', 'GEMALEN VIS', 'PENS', 'SPIERVLEES', 'ZACHT BOT', 
                     'MIDDEL BOT', 'HARD BOT', 'KARKAS', 
                     'COMPLEET KARKAS.ZACHT BOT', 'COMPLEET KARKAS.MIDDEL BOT', 'COMPLEET KARKAS.HARD BOT', 
                     'ORGAAN', 'COMPLEET GEMALEN'].index(vleestype)
@@ -34,7 +34,6 @@ class Delivery(object):
         #name = tables.Column()
         #shelf = tables.Column()
         #aantal = tables.Column()
-        #x = tables.Column()
         #gram = tables.Column()
         tab = deliv.values()
         tab = sorted(tab, key=itemgetter('seq'))

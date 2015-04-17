@@ -14,7 +14,7 @@
 	<a href="#sectionorgan" class="btn btn-default navbar-btn">Orgaan</a>
 	<a href="#sectionother" class="btn btn-default navbar-btn">Anderen</a>
 	<a href="{% url 'pet_likes' pet_id %}" class="btn btn-default navbar-btn">Dier voorkeurlijst</a>
-	<a href="{% url 'pet' %}" class="btn btn-default navbar-btn">Terug naar pet lijst</a>
+	<a href="{% url 'pet' pet_id %}" class="btn btn-default navbar-btn">Terug naar pet lijst</a>
 	
 	
 {% endblock %}

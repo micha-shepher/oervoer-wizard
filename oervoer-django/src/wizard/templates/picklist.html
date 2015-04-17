@@ -3,11 +3,16 @@
 
 {% block headline %}
 <h2>{{title}} </h2>
+<a href="{% url 'brief' delivery_id %}" class="btn btn-default navbar-btn">Brief</a>
+
 {% endblock %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% block content %}
+<form action="{% url 'picklist' order_id=order_id %}" method="POST">
+	{% csrf_token %}
+
     datum:	<strong>{{datum}}</strong>
     dier: 	<strong>{{dier}}</strong><br> 
     pakket: <strong>{{pakket}}</strong>
@@ -19,6 +24,8 @@
     diernaam: <strong>{{diernaam}}</strong><hr>   
 {% render_table table %}<br>
     Totaal gram: <strong>{{totaal}}</strong>
+	<input type="submit" value="save" />
+</form>
 
 {% endblock %}
 {% block css %}

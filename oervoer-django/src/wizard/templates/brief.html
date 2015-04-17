@@ -1,0 +1,31 @@
+{% extends 'wizard.html' %}
+{% load render_table from django_tables2 %}
+
+{% block headline %}
+<h2>{{title}} </h2>
+{% endblock %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% block content %}
+   <p>
+   {% include brief_template %}
+   </p>
+	<hr>   
+	{% render_table table %}
+
+{% endblock %}
+
+{% block css %}
+<style>
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 5px;
+} 
+</style>
+{% endblock css %}
