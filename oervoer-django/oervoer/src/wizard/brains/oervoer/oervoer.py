@@ -101,16 +101,17 @@ class Oervoer(object):
             thelist = self.prodlists[MeatType.objects.get(meat_type=vlees)]
             
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
-        print 'donts: {}'.format([t.taste for t in donts])
         print 'total products {}:{}'.format(vlees, len(thelist))
         for pr in thelist:
-            #if deelbaar and profile.MEAL == profile.BIGMEAL:
-            #    condition = pr.get_norm_weight() >= profile.BIGMEAL/1000.0
-            #elif deelbaar and profile.MEAL == profile.SMALLMEAL:
-            #    condition = pr.get_norm_weight() <= profile.SMALLMEAL/1000.0
-            #else:
-            condition = pr.get_norm_weight() <= meal_size * fact1 and \
-                            pr.get_norm_weight() >= meal_size * fact2
+            if pr.vlees in MeatType.objects.filter(meat_type__contains='GEMALEN') and \
+                abs(profile.MEAL - profile.BIGMEAL) < 50:
+                condition = pr.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0
+            elif pr.vlees in MeatType.objects.filter(meat_type__contains='GEMALEN') and \
+                abs(profile.MEAL - profile.SMALLMEAL) < 50:
+                condition = pr.get_norm_weight() <= (profile.SMALLMEAL+50)/1000.0
+            else:
+                condition = pr.get_norm_weight() <= meal_size * fact1 and \
+                        pr.get_norm_weight() >= meal_size * fact2
             
             print vlees, pr.sku, pr.smaak, pr.get_norm_weight()
             print 'deelbaar ', deelbaar

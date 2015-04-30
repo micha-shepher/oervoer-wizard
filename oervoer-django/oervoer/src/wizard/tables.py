@@ -73,6 +73,7 @@ class PickListTable(tables.Table):
     class Meta:
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
+        orderable = False
 
 class BriefTable(tables.Table):
     vleestype = tables.Column()
@@ -82,6 +83,7 @@ class BriefTable(tables.Table):
     class Meta:
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
+        orderable = False
 
 class TasteTable(tables.Table):
     check1 = tables.CheckBoxColumn(accessor='check1')
@@ -121,3 +123,4 @@ class TasteTable(tables.Table):
     class Meta:
         # model = Taste
         attrs = {"class": "paleblue"}
+        orderable = False

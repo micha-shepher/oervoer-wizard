@@ -6,13 +6,13 @@ Created on Jan 31, 2015
 
 from django.conf.urls import patterns, url
 
-from wizard import views
+from wizard import views, importorderview
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^home$', views.HomePageView.as_view(), name='home'),
     url(r'^(?P<order_id>\d+)/$', views.order, name='order'),
-    url(r'^importorders$', views.ImportOrders.as_view(), name='importorders'),
+    url(r'^importorders$', importorderview.ImportOrders.as_view(), name='importorders'),
     url(r'^importproducts$', views.order, name='importproducts'),
     url(r'^importpets$', views.order, name='importpets'),
     url(r'^orders$', views.order, name='orders'),

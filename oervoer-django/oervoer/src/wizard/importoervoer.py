@@ -1,10 +1,10 @@
+'''utility to import Magento stuff into wizard.'''
 
 import pymysql
 import phpserialize
 import re
 import string
 import pprint
-
 
 def override(f):
     return f
@@ -159,7 +159,7 @@ class ImportOrders(ImportOervoer):
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE item.product_id in (58,60,85,125,126,127)
+        WHERE item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
         '''
         self.set_query(query)
     
@@ -170,13 +170,13 @@ class ImportOrders(ImportOervoer):
         adjusted_results = []
         for r in results:
             pakket = r[5] # actually product_id
-            if pakket in (58,125):   # hard coded
+            if pakket in (58,125,193,424,426):   # hard coded
                 pak = 'PLUS'
-            elif pakket in (85,126):
+            elif pakket in (85,126,187,428):
                 pak = 'COMBI'
             else:
                 pak = '100'
-            if pakket in (58,60,85): # hard coded(!)
+            if pakket in (58,60,85,187,192,193): # hard coded(!)
                 kh = 'HOND'
             else:
                 kh = 'KAT'
