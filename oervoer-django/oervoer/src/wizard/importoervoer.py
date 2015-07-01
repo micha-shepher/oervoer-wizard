@@ -5,6 +5,7 @@ import phpserialize
 import re
 import string
 import pprint
+from wizard.models import Taste, MeatType, Product
 
 def override(f):
     return f
@@ -60,8 +61,9 @@ class ImportProds(ImportOervoer):
     
     @override
     def importtable(self):
+        #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
         query = '''
-        SELECT DISTINCT inv.qty, p.weight, p.sku, p.name, eav.value, eav2.value, p.verpakt_per, p.geschikt
+        SELECT DISTINCT p.entity_id, p.name, p.sku, inv.qty, eav.value, eav2.value, p.shelf, p.weight, p.verpakt_per, p.geschikt
         FROM  `catalog_product_flat_1` AS p
         INNER JOIN cataloginventory_stock_item AS inv
         ON inv.product_id = p.entity_id
@@ -73,34 +75,69 @@ class ImportProds(ImportOervoer):
         WHERE p.geschiktmenu =1 AND inv.is_in_stock = 1 AND eav.store_id=0
         '''
         self.set_query(query)
-        results = [list(i) for i in super(ImportProds, self).importtable()]
+        self.results = [list(i) for i in super(ImportProds, self).importtable()]
         query3 = '''SELECT DISTINCT option_id, value FROM eav_attribute_option_value AS eav 
-                    WHERE eav.option_id in (136,137,138) AND
+                    WHERE eav.option_id in (135,136,137,138,147,148) AND
                           eav.store_id=0'''
         self.set_query(query3)
         if self.execute():
             cat_dog = dict(self.cur.fetchall())
-            print cat_dog
-        for prod in results:
+
+        for prod in self.results:
             kat = False
             hond = False
             try:
                 geschikt = [int(i) for i in prod[-1].split(',')]
+                print prod[2], geschikt
                 for ind in geschikt:
                 
                     ind = int(ind)
                     if cat_dog.has_key(ind):    
-                        kat = kat or 'Kat' in cat_dog[ind]
-                        hond = hond or 'Hond' in cat_dog[ind]
+                        kat = kat or 'KAT' in cat_dog[ind].upper()
+                        hond = hond or 'HOND' in cat_dog[ind].upper()
                     else:
                         print 'no key {}'.format(ind)
             except ValueError:
                 pass
             prod[-1] = (hond,kat,)
-        return results
+        return self.processresults()
             
-        
-              
+    def processresults(self):
+        adjusted = []
+        #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
+        for rec in self.results:
+            if rec[3] == '0':
+                print 'discarded geen voorraad {}'.format(rec[2])
+                continue
+            try:
+                smaak = Taste.objects.get(taste=rec[4].strip().upper())
+            except Taste.DoesNotExist:
+                print 'discarded geen smaak {} {}'.format(rec[2], rec[4])
+                continue # dont bother with this product
+            try:
+                vlees = MeatType.objects.get(meat_type=rec[5].strip().upper())
+            except MeatType.DoesNotExist:
+                print 'discarded geen vlees type {} {}'.format(rec[2], rec[5])
+                continue
+            hond, kat = rec[9]
+            if rec[6] is None:
+                rec[6] = 'MYSTERIE'
+            if kat:
+                if hond:
+                    rec[9] = Product.KATHOND[-1][0]
+                else:
+                    rec[9] = Product.KATHOND[0][0]
+            else:
+                if hond:
+                    rec[9] = Product.KATHOND[1][0]
+                else:
+                    print 'strange product niet geschikt noch kat noch hond {}'.format(rec[2])
+                    continue
+            adjusted.append({'id': rec[0], 'name': rec[1], 'sku': rec[2],
+                 'qty': rec[3],'smaak':smaak, 'vlees':vlees, 'shelf':rec[6],
+                 'weight':rec[7], 'verpakking':rec[8], 'kat_hond':rec[9]})
+
+        return adjusted
     
 class ImportOrders(ImportOervoer):
     
@@ -141,11 +178,11 @@ class ImportOrders(ImportOervoer):
     @override
     def importtable(self):
         query ='''
-        SELECT sal.entity_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.product_options
+        SELECT item.item_id, sal.entity_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127)
+        WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
         '''
         self.set_query(query)
     
@@ -155,7 +192,7 @@ class ImportOrders(ImportOervoer):
     def importallorders(self):
         #      0              1           2                3                       4                      5                6            7(=-1)  
         query ='''
-        SELECT item.order_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.product_options
+        SELECT item.item_id, sal.entity_id, item.order_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
@@ -169,8 +206,10 @@ class ImportOrders(ImportOervoer):
     def processResults(self, results):
         adjusted_results = []
         for r in results:
-            pakket = r[5] # actually product_id
-            if pakket in (58,125,193,424,426):   # hard coded
+            for x,i in enumerate(r[:-1]):
+                print '{}: {}'.format(x,i)
+            pakket = r[6] # actually product_id
+            if pakket in (58,125,193,426):   # hard coded
                 pak = 'PLUS'
             elif pakket in (85,126,187,428):
                 pak = 'COMBI'
@@ -180,23 +219,22 @@ class ImportOrders(ImportOervoer):
                 kh = 'HOND'
             else:
                 kh = 'KAT'
-            r[5] = pak
         
-            s=filter(lambda x: x in string.printable, r[-1]) # last field is options field, where the owner, 
+            s=filter(lambda x: x in string.printable, r[-1]) # last field is options field, where the owner,
                                                              # pet name and weight are stored.
             try:
                 d = phpserialize.loads(self.correct_string_len(s))    # this string (s) is already without strange characters
             except ValueError:
                 d={}
-                print 'bad options voor {}'.format(str(r[:-1]))
+                print 'bad options voor {}'.format(str(r[-1]))
     #    pprint.pprint (d)
             weight=10
             name='onbekend'
             if d.has_key('options'):
                 name, weight = self.get_name_and_weight(d['options'])
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet
-            adjusted_results.append({'id':r[0],'status':r[1],'customer_id':r[2],'customer_name':' '.join((r[3], r[4])),
-                              'pakket':pak, 'ras':kh, 'gewicht_pak': r[6], 'name':name, 'weight':weight})
+            adjusted_results.append({'id':r[0],'status':r[2],'customer_id':r[3],'customer_name':' '.join((r[4], r[5])),
+                              'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1]})
             #adjusted_results[r[0]] = r[1], r[2], ' '.join((r[3], r[4])), pak, kh,      r[6],         name, weight
         
         return adjusted_results

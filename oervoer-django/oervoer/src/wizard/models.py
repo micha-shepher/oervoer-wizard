@@ -148,6 +148,8 @@ class Donts(models.Model):
         return '{0} is allergisch voor {1}'.format(self.pet,self.taste)
     
 class Product(models.Model):
+    #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
+
     id = IntegerField(primary_key=True)
     SHELVES = (('BINNENCELL','Binnencell'),
                ('BUITENCELL','Buitencell'),
@@ -169,6 +171,8 @@ class Product(models.Model):
         return self.name
     
     def get_norm_weight(self):
+        if self.verpakking == 0:
+            self.verpakking = 1
         return self.weight/self.verpakking
 
     def get_kathond(self, kathond):

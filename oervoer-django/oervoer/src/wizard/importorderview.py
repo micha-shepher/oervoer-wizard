@@ -10,8 +10,8 @@ from django_tables2.views import SingleTableView
 from pprint import pprint
 
 from wizard import importoervoer
-from wizard.models import Globals, Owner, Ras, Pet, Package, Order
-from wizard.tables import OrderTable
+from wizard.models import Globals, Owner, Ras, Pet, Package, Order, Product
+from wizard.tables import OrderTable, ProductTable
 
 
 class ImportOrders(SingleTableView):
@@ -37,7 +37,7 @@ class ImportOrders(SingleTableView):
     
     def get_context_data(self, **kwargs):
         context = super(ImportOrders, self).get_context_data(**kwargs)
-        context.update({'table': OrderTable(self.get_table_data()), 'title:': 'Order List'})
+        context.update({'table': OrderTable(self.get_table_data()), 'title': 'Order List'})
         return context
     
     def post(self, request, *args, **kwargs):
@@ -76,10 +76,55 @@ class ImportOrders(SingleTableView):
             try:
                 o = Order.objects.get(pk=int(order['id']))
             except Order.DoesNotExist:
-                o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.datetime.now() )
+                o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.now() )
                 o.save()   
             #o = Order( id=order.order_id, owner=order.custid, pet=pet_id, package=package, weight=order_weight, date=today, status=order.status)
         return HttpResponseRedirect(reverse('index'))
         #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
         
-    
+
+class ImportProducts(SingleTableView):
+    table_class = OrderTable
+
+    def __init__(self, *args, **kwargs):
+        super(ImportProducts, self).__init__()
+        user = 'bvdheide_micha'
+        pw = 'lelijkgedrocht'
+        self.products = []
+        imp = importoervoer.ImportProds(user, pw)
+        if imp.connect():
+            self.products = imp.importtable()
+
+    def get_table_data(self):
+        return self.products
+
+    def get_queryset(self):
+        return self.products
+
+    def get_template_names(self):
+        return ('importproducts.html')
+
+    def get_context_data(self, **kwargs):
+        context = super(ImportProducts, self).get_context_data(**kwargs)
+        context.update({'table': ProductTable(self.get_table_data()), 'title': 'Product List'})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        #print request
+        profile=Globals.objects.get(DESC='Standaard') # get the standard profile
+        for product in self.products:
+            pprint(product)
+            #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
+            try:
+                p = Product.objects.get(pk=int(product['id']))
+                p.delete()
+            except Product.DoesNotExist:
+                p = Product(id=product['id'], name=product['name'],
+                            sku=product['sku'], qty=product['qty'],
+                            smaak=product['smaak'], vlees=product['vlees'],
+                            shelf=product['shelf'], weight=product['weight'],
+                            verpakking=product['verpakking'], kat_hond=product['kat_hond'] )
+                p.save()
+        return HttpResponseRedirect(reverse('productlist'))
+        #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
+

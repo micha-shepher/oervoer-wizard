@@ -56,8 +56,6 @@ class Oervoer(object):
         '''prove that there is a picklist'''
         for i in self.prodlists.keys():
             print "produkt klasse: %s, aantal produkten: %d" % (i,len(self.prodlists[i]))
-        for i in self.ordlist:
-            print i.owner, i.pet.ras.ras, i.pet.name, i.package, i.weight
 
     def product_ok_for_catdog(self, pr, catdog):
         return pr.kat_hond in ['Beide', catdog]
@@ -102,23 +100,30 @@ class Oervoer(object):
             
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         print 'total products {}:{}'.format(vlees, len(thelist))
+        print [t.taste for t in donts]
         for pr in thelist:
-            if pr.vlees in MeatType.objects.filter(meat_type__contains='GEMALEN') and \
-                abs(profile.MEAL - profile.BIGMEAL) < 50:
-                condition = pr.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0
-            elif pr.vlees in MeatType.objects.filter(meat_type__contains='GEMALEN') and \
-                abs(profile.MEAL - profile.SMALLMEAL) < 50:
-                condition = pr.get_norm_weight() <= (profile.SMALLMEAL+50)/1000.0
-            else:
-                condition = pr.get_norm_weight() <= meal_size * fact1 and \
+            condition = pr.get_norm_weight() <= meal_size * fact1 and \
                         pr.get_norm_weight() >= meal_size * fact2
-            
-            print vlees, pr.sku, pr.smaak, pr.get_norm_weight()
-            print 'deelbaar ', deelbaar
-            print order.pet.ras.ras, pr.kat_hond
-            print 'cond:', condition, 'donts:', not pr.smaak in donts, 'subdonts:', set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), 'kathond:', self.product_ok_for_catdog(pr, order.pet.ras.ras) 
+            if pr.vlees.is_gemalen:
+                print pr.sku, profile.MEAL, profile.BIGMEAL, profile.SMALLMEAL, pr.get_norm_weight()
+                if abs(profile.MEAL - profile.BIGMEAL) < 50:
+
+                    condition = pr.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0
+                    print 'condition big ', condition
+                elif abs(profile.MEAL - profile.SMALLMEAL) < 50:
+                    condition = pr.get_norm_weight() <= (profile.SMALLMEAL+50)/1000.0
+                    print 'condition small ', condition
+                else:
+                    print 'not small not big', condition
+                    pass
+            else:
+                pass
+
+            #print vlees, pr.sku, pr.smaak, pr.get_norm_weight()
+            #print order.pet.ras.ras, pr.kat_hond
+            #print 'cond:', condition, 'donts:', not (pr.smaak in [t.taste for t in donts]), 'subdonts:', set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), 'kathond:', self.product_ok_for_catdog(pr, order.pet.ras.ras)
             if  condition and \
-               not (pr.smaak in donts) and \
+               not (pr.smaak in [t.taste for t in donts]) and \
                set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])) and\
                self.product_ok_for_catdog(pr, order.pet.ras.ras):
                 outlist.append(pr)
@@ -126,12 +131,12 @@ class Oervoer(object):
             # try again, choose products smaller than or greater than...
             print "no products found for {0}".format(vlees)
             if meal_size * fact1 < thelist[0].get_norm_weight(): # too small!
-                thelist = [p for p in thelist if p.get_norm_weight() <= profile.SMALLMEAL]
+                thelist = [p for p in thelist if p.get_norm_weight() <= (profile.SMALLMEAL+50)/1000.0]
             else:
-                thelist = [p for p in thelist if p.get_norm_weight() >= profile.BIGMEAL]
+                thelist = [p for p in thelist if p.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0]
                 
             for pr in thelist:
-                if not (pr.smaak in donts) and \
+                if not (pr.smaak in [t.taste for t in donts]) and \
                    not (pr.smaak.taste.split('.')[0] in [t.taste for t in donts]):
                         outlist.append(pr)
                 
@@ -310,10 +315,10 @@ class Oervoer(object):
         # select gemalen
         ##############################
         try:
-            _, selection = self.select_type('COMPLEET GEMALEN', order, meal_size, package_rest)
+            _, selection = self.select_type('GEMALEN', order, meal_size, package_rest)
             products_in_order.extend(selection)
         except NoProductsException, e:
-            self.exceptions.append(('COMPLEET GEMALEN', order.pet, e))
+            self.exceptions.append(('GEMALEN', order.pet, e))
         return products_in_order
                      
     def update_inventory(self, result, howmuch = 1):
@@ -374,6 +379,7 @@ class Oervoer(object):
         '''
         
         #days = order.get_days()
+        self.dump()
         meal_size = order.pet.get_meal_size()
         #days_met_vis = round(days / 7)  # wat gebeurt als days<7???
         package_rest = float(order.weight)

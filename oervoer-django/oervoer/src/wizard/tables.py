@@ -35,7 +35,8 @@ class OrderTable2(tables.Table):
         attrs = {"class": "paleblue"}
     
 class OrderTable(tables.Table):
-    id = tables.LinkColumn('picklist', args=[A('id')])
+    item_id = tables.LinkColumn('picklist', args=[A('id')])
+    id = tables.Column()
     status = tables.Column()
     customer_id = tables.Column(visible=False)
     customer_name = tables.Column()

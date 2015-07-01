@@ -67,7 +67,7 @@ SELECT sal.entity_id, sal.status, sal.customer_id, item.sku, item.product_id, it
 FROM  `sales_flat_order` AS sal
 INNER JOIN sales_flat_order_item AS item
 ON sal.entity_id=item.order_id
-WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127)
+WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
 '''
 cur.execute(query)
 query_results = cur.fetchall()
@@ -81,13 +81,13 @@ of = csv.DictWriter(orderfile, delimiter=',',fieldnames=fieldnames)
 of.writerow({'owner':'owner', 'dier':'dier', 'gewicht':'gewicht','kilo pakket':'kilo pakket','soort pakket':'soort pakket','hond/poes':'HOND of KAT'})
 for r in query_results:
     pakket = r[3]
-    if pakket in (58,125):
+    if pakket in (58,125,193,426):
         pak = 'PLUS'
-    elif pakket in (85,126):
+    elif pakket in (85,126,187,428):
         pak = 'COMBI'
     else:
         pak = '100'
-    if pakket in (58,60,85):
+    if pakket in (58,60,85,187,192,193):
         kh = 'HOND'
     else:
         kh = 'KAT'
