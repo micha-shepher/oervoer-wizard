@@ -95,9 +95,18 @@ class Oervoer(object):
                         pass
             else:
                 thelist += self.prodlists[MeatType.objects.get(meat_type='COMPLEET KARKAS.ZACHT BOT')]    
+        elif vlees == 'GEMALEN':
+            for _vlees in MeatType.objects.all():
+                if _vlees.is_gemalen:
+                    thelist = self.prodlists[MeatType.objects.get(meat_type=_vlees)]
+        elif vlees == 'PENS':
+            thelist = self.prodlists[MeatType.objects.get(meat_type='PENS')]
+        elif vlees == 'ORGAAN':
+            thelist = self.prodlists[MeatType.objects.get(meat_type='ORGAAN')]
         else:
             thelist = self.prodlists[MeatType.objects.get(meat_type=vlees)]
-            
+
+
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         print 'total products {}:{}'.format(vlees, len(thelist))
         print [t.taste for t in donts]
