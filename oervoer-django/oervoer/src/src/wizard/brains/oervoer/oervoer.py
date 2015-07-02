@@ -122,13 +122,13 @@ class Oervoer(object):
         for pr in thelist:
             condition = pr.get_norm_weight() <= meal_size * fact1 and \
                         pr.get_norm_weight() >= meal_size * fact2
-            if pr.vlees.is_gemalen:
-                print pr.sku, profile.MEAL, profile.BIGMEAL, profile.SMALLMEAL, pr.get_norm_weight()
-                if abs(profile.MEAL - profile.BIGMEAL) < 50 or abs(profile.MEAL - profile.SMALLMEAL) < 50:
-                    condition = abs(pr.get_norm_weight() - Decimal(profile.MEAL/1000.0)) < 0.05
-                    print 'condition ', condition
-                else:
-                    print 'not small not big', condition
+            #if pr.vlees.is_gemalen:
+            #    print pr.sku, profile.MEAL, profile.BIGMEAL, profile.SMALLMEAL, pr.get_norm_weight()
+            #    if abs(profile.MEAL - profile.BIGMEAL) < 50 or abs(profile.MEAL - profile.SMALLMEAL) < 50:
+            #        condition = abs(pr.get_norm_weight() - Decimal(profile.MEAL/1000.0)) < 0.05
+            #        print 'condition ', condition
+            #    else:
+            #        print 'not small not big', condition
 
             print condition, not (pr.smaak in [t.taste for t in donts]), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
             if condition and \
