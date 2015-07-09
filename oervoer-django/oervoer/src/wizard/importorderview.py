@@ -63,7 +63,7 @@ class ImportOrders(SingleTableView):
                 ras = Ras.objects.get(ras='HOND')
                 print 'order with bad pet.'
             try:                                        # get the pet or create
-                pet = Pet.objects.get(name=order['name'])
+                pet = Pet.objects.get(name=order['name'], owner=owner)
             except Pet.DoesNotExist:
                 pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile)
                 pet.save()
