@@ -150,8 +150,8 @@ def picklist(request, order_id):
     # save pressed
     if request.method == 'POST':
         # OK, change and update the delivery!
+        retry = True
         try:
-
             delivery = Delivery.objects.get(order=order)
             if request.POST.get('save'):
                 delivery.status = 'DELIVERED'

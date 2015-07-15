@@ -112,11 +112,19 @@ class ImportProducts(SingleTableView):
     def post(self, request, *args, **kwargs):
         #print request
         profile=Globals.objects.get(DESC='Standaard') # get the standard profile
-        Product.objects.all().delete()
+
         for product in self.products:
-            pprint(product)
+            if Product.objects.filter(id=product['id']).exists():
+                p = Product.objects.get(product['id'])
+                p.smaak = product['smaak']
+                p.vlees = product['vlees']
+                p.weight = product['weight']
+                p.kat_hond = product['kat_hond']
+                p.verpakking = product['verpakking']
+                p.qty = product['qty']
+            else:
             #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
-            p = Product(id=product['id'], name=product['name'],
+                p = Product(id=product['id'], name=product['name'],
                         sku=product['sku'], qty=product['qty'],
                         smaak=product['smaak'], vlees=product['vlees'],
                         shelf=product['shelf'], weight=product['weight'],

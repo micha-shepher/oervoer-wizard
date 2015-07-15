@@ -20,6 +20,7 @@ class ImportOervoer(object):
         self.pw = pw
         self.cur = cur
         self.conn = None
+        self.package_ids = (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         
         if not cur:
             self.connect()
@@ -182,8 +183,7 @@ class ImportOrders(ImportOervoer):
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
-        '''
+        WHERE sal.status in ('processing','pending') AND item.product_id in {}'''.format(self.package_ids)
         self.set_query(query)
     
         results = [list(i) for i in super(ImportOrders, self).importtable()]
@@ -196,8 +196,8 @@ class ImportOrders(ImportOervoer):
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
-        '''
+        WHERE item.product_id in {}
+        '''.format(self.package_ids)
         self.set_query(query)
     
         results = [list(i) for i in super(ImportOrders, self).importtable()]
@@ -209,9 +209,9 @@ class ImportOrders(ImportOervoer):
             for x,i in enumerate(r[:-1]):
                 print '{}: {}'.format(x,i)
             pakket = r[6] # actually product_id
-            if pakket in (58,125,193,426):   # hard coded
+            if pakket in (58,125,193,425,426):   # hard coded
                 pak = 'PLUS'
-            elif pakket in (85,126,187,428):
+            elif pakket in (85,126,187,427,428):
                 pak = 'COMBI'
             else:
                 pak = '100'
@@ -286,8 +286,7 @@ if __name__ == '__main__':
 
     imp = ImportSmaak(user, pw, savecur)
     imp.importtable()
-    
-        
+
     imp = ImportVlees(user, pw, savecur)
     imp.importtable()
     
