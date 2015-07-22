@@ -181,16 +181,16 @@ class Oervoer(object):
                 tries = 0
                 while total_weight < weight and tries < profile.tries:
                     tries += 1
-                    for prod in prodlist:
-                        if prod.smaak in donts:
-                            continue
-                        
-                        if (total_weight <= weight * profile.LEVERDEEL and prod.smaak.is_liver) or\
-                            (total_weight >  weight * profile.LEVERDEEL and not prod.smaak.is_liver):
-                            total_weight += float(prod.weight)
-                            l.append(prod)
-                        if total_weight >= weight:
-                            break
+                    prod = prodlist[wr.rand()]
+                    if prod.smaak in donts:
+                        continue
+
+                    if (total_weight <= weight * profile.LEVERDEEL and prod.smaak.is_liver) or\
+                        (total_weight >  weight * profile.LEVERDEEL and not prod.smaak.is_liver):
+                        total_weight += float(prod.weight)
+                        l.append(prod)
+                    if total_weight >= weight:
+                        break
                         
             # complete the filling
             else:

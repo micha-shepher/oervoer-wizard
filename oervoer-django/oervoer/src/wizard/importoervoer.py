@@ -206,8 +206,6 @@ class ImportOrders(ImportOervoer):
     def processResults(self, results):
         adjusted_results = []
         for r in results:
-            for x,i in enumerate(r[:-1]):
-                print '{}: {}'.format(x,i)
             pakket = r[6] # actually product_id
             if pakket in (58,125,193,425,426):   # hard coded
                 pak = 'PLUS'
@@ -233,7 +231,9 @@ class ImportOrders(ImportOervoer):
             if d.has_key('options'):
                 name, weight = self.get_name_and_weight(d['options'])
             else:
+
                 print r[0],r[1],r[7],' does not have options!'
+                print d.keys()
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet
             adjusted_results.append({'id':r[0],'status':r[2],'customer_id':r[3],'customer_name':' '.join((r[4], r[5])),
                               'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1]})
