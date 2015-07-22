@@ -148,9 +148,9 @@ class ImportOrders(ImportOervoer):
     
         for option in options.keys():
             
-            if options[option]['label'].startswith('Wat is de naam'):
+            if options[option]['label'].find('Wat is de naam') > -1:
                 name = options[option]['option_value']
-            if options[option]['label'].startswith('Wat is het gewicht'):
+            if options[option]['label'].find('Wat is het gewicht') > -1:
                 weight = options[option]['option_value']
                 weight = weight.replace(',','.')
                 m = re.search(pat, weight)
@@ -182,7 +182,7 @@ class ImportOrders(ImportOervoer):
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
+        WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
         self.set_query(query)
     
@@ -196,7 +196,7 @@ class ImportOrders(ImportOervoer):
         FROM  `sales_flat_order` AS sal
         INNER JOIN sales_flat_order_item AS item
         ON sal.entity_id=item.order_id
-        WHERE item.product_id in (58,60,85,125,126,127,187,192,193,424,426,428)
+        WHERE item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
         self.set_query(query)
     
@@ -209,9 +209,9 @@ class ImportOrders(ImportOervoer):
             for x,i in enumerate(r[:-1]):
                 print '{}: {}'.format(x,i)
             pakket = r[6] # actually product_id
-            if pakket in (58,125,193,426):   # hard coded
+            if pakket in (58,125,193,425,426):   # hard coded
                 pak = 'PLUS'
-            elif pakket in (85,126,187,428):
+            elif pakket in (85,126,187,427,428):
                 pak = 'COMBI'
             else:
                 pak = '100'
@@ -227,11 +227,13 @@ class ImportOrders(ImportOervoer):
             except ValueError:
                 d={}
                 print 'bad options voor {}'.format(str(r[-1]))
-    #    pprint.pprint (d)
+
             weight=10
             name='onbekend'
             if d.has_key('options'):
                 name, weight = self.get_name_and_weight(d['options'])
+            else:
+                print r[0],r[1],r[7],' does not have options!'
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet
             adjusted_results.append({'id':r[0],'status':r[2],'customer_id':r[3],'customer_name':' '.join((r[4], r[5])),
                               'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1]})
