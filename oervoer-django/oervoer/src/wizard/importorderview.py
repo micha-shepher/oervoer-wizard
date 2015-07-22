@@ -115,7 +115,7 @@ class ImportProducts(SingleTableView):
 
         for product in self.products:
             if Product.objects.filter(id=product['id']).exists():
-                p = Product.objects.get(product['id'])
+                p = Product.objects.get(id=product['id'])
                 p.smaak = product['smaak']
                 p.vlees = product['vlees']
                 p.weight = product['weight']
