@@ -130,10 +130,13 @@ class Oervoer(object):
                 else:
                     print 'not small not big', condition
 
-            print condition, not (pr.smaak in [t.taste for t in donts]), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
+            dontslist = [t.taste for t in donts]
+            print condition, not (pr.smaak in dontslist), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
             if condition and \
-               not (pr.smaak in [t.taste for t in donts]) and \
-               set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])) and\
+               not (pr.smaak in dontslist) and \
+               pr.qty > 0 and \
+               set(pr.smaak.taste.split('.')).isdisjoint(set (dontslist)) and\
+               not pr.vlees.meat_type in dontslist and\
                self.product_ok_for_catdog(pr, order.pet.ras.ras):
                 outlist.append(pr)
 
@@ -146,9 +149,11 @@ class Oervoer(object):
                 thelist = [p for p in thelist if p.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0]
                 
             for pr in thelist:
-                if not (pr.smaak in [t.taste for t in donts]) and \
-                   not (pr.smaak.taste.split('.')[0] in [t.taste for t in donts]):
-                        outlist.append(pr)
+                if not (pr.smaak in dontslist) and \
+                   not (pr.smaak.taste.split('.')[0] in dontslist) and \
+                   pr.qty > 0 and \
+                   not pr.vlees.meat_type in dontslist:
+                    outlist.append(pr)
                 
         quantities = []
         for p in outlist:

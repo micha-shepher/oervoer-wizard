@@ -43,6 +43,7 @@ class ImportOrders(SingleTableView):
     def post(self, request, *args, **kwargs):
         #print request
         profile=Globals.objects.get(DESC='Standaard') # get the standard profile
+        errors = []
         for order in self.orders:
             #pprint.pprint(order)
             if not order['customer_id']:
@@ -66,7 +67,10 @@ class ImportOrders(SingleTableView):
                 pet = Pet.objects.get(name=order['name'], owner=owner)
             except Pet.DoesNotExist:
                 pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile)
-                pet.save()
+                try:
+                    pet.save()
+                except:
+                    errors.append('kan pet {0} niet bewaren, want gewicht {1} wordt geweigerd.'.format(pet.name, pet.weight))
              #{'id','status','customer_id','customer_name','pakket','ras','gewicht_pak','name','weight'})
             try:                                        #get the package or create          
                 package = Package.objects.get(type=order['pakket'])
@@ -76,9 +80,14 @@ class ImportOrders(SingleTableView):
             try:
                 o = Order.objects.get(pk=int(order['id']))
             except Order.DoesNotExist:
-                o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.now() )
-                o.save()   
+                try:
+                    o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.now() )
+                    o.save()
+                except ValueError:
+                    errors.append('kan order niet bewaren omdat pet {0} is niet in database.'.format(pet.name))   
             #o = Order( id=order.order_id, owner=order.custid, pet=pet_id, package=package, weight=order_weight, date=today, status=order.status)
+        
+        print errors
         return HttpResponseRedirect(reverse('index'))
         #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
         
@@ -122,6 +131,7 @@ class ImportProducts(SingleTableView):
                 p.kat_hond = product['kat_hond']
                 p.verpakking = product['verpakking']
                 p.qty = product['qty']
+                p.shelf = product['shelf']
             else:
             #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
                 p = Product(id=product['id'], name=product['name'],
