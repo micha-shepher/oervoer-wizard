@@ -119,22 +119,24 @@ class Oervoer(object):
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         print 'total products in list for{} = {}'.format(vlees, len(thelist))
 
+        print 'prod, condition, not in dontslist, is disjoint, ras OK'
         for pr in thelist:
             condition = pr.get_norm_weight() <= meal_size * fact1 and \
                         pr.get_norm_weight() >= meal_size * fact2
             if pr.vlees.is_gemalen:
-                print pr.sku, profile.MEAL, profile.BIGMEAL, profile.SMALLMEAL, pr.get_norm_weight()
                 if abs(profile.MEAL - profile.BIGMEAL) < 50 or abs(profile.MEAL - profile.SMALLMEAL) < 50:
                     condition = abs(pr.get_norm_weight() - Decimal(profile.MEAL/1000.0)) < 0.05
                     print 'condition ', condition
                 else:
                     print 'not small not big', condition
 
-            print condition, not (pr.smaak in [t.taste for t in donts]), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
+            dontslist = [t.taste for t in donts]
+            print pr.sku, condition, not (pr.smaak in dontslist), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
             if condition and \
+               not (pr.smaak in dontslist) and \
                pr.qty > 0 and \
-               not (pr.smaak in [t.taste for t in donts]) and \
-               set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])) and\
+               set(pr.smaak.taste.split('.')).isdisjoint(set (dontslist)) and\
+               not pr.vlees.meat_type in dontslist and\
                self.product_ok_for_catdog(pr, order.pet.ras.ras):
                 outlist.append(pr)
 
@@ -147,9 +149,11 @@ class Oervoer(object):
                 thelist = [p for p in thelist if p.get_norm_weight() >= (profile.BIGMEAL-50)/1000.0]
                 
             for pr in thelist:
-                if not (pr.smaak in [t.taste for t in donts]) and \
-                   not (pr.smaak.taste.split('.')[0] in [t.taste for t in donts]):
-                        outlist.append(pr)
+                if not (pr.smaak in dontslist) and \
+                   not (pr.smaak.taste.split('.')[0] in dontslist) and \
+                   pr.qty > 0 and \
+                   not pr.vlees.meat_type in dontslist:
+                    outlist.append(pr)
                 
         quantities = []
         for p in outlist:
@@ -184,12 +188,14 @@ class Oervoer(object):
                     tries += 1
                     prod = prodlist[wr.rand()]
                     if prod.smaak in donts:
+                        print '{0} in donts, isliver={1}, rejected!'.format(prod.sku, prod.smaak.is_liver)
                         continue
 
                     if (total_weight <= weight * profile.LEVERDEEL and prod.smaak.is_liver) or\
                         (total_weight >  weight * profile.LEVERDEEL and not prod.smaak.is_liver):
                         total_weight += float(prod.weight)
                         l.append(prod)
+                        print 'appended {0}'.format('prod.sku')
                     if total_weight >= weight:
                         break
                         
