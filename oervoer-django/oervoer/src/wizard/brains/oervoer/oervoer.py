@@ -132,6 +132,7 @@ class Oervoer(object):
 
             print condition, not (pr.smaak in [t.taste for t in donts]), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
             if condition and \
+               pr.qty > 0 and \
                not (pr.smaak in [t.taste for t in donts]) and \
                set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])) and\
                self.product_ok_for_catdog(pr, order.pet.ras.ras):

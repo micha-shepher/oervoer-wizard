@@ -15,13 +15,12 @@ class WeightedRandom(object):
         Constructor
         '''
         self.weights = weights
-        self.sum = []
+        self.sum = [0]
         sig = 0
         for i in xrange(0, len(weights)):
             sig += weights[i]
             self.sum.append(sig)
-        #self.sum.append(20*sig)
-    
+
     def rand(self):
         try:
             r = random.randint(0, self.sum[-1])
@@ -29,7 +28,7 @@ class WeightedRandom(object):
             while r > self.sum[i]:
                 i += 1
         except:
-            print 'lege lijst!'
+            print 'rand functie fail {0}, lege lijst!'.format(self.sum)
             raise ValueError, 'empty list'
-        return i
+        return i-1
         
