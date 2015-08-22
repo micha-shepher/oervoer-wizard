@@ -126,7 +126,7 @@ def get_delivery(order):
         
 def getBrief(order):
     '''get the template for a brief from the data dir'''
-    filename = 'data/brief-{}-{}.txt'.format(order.pet.ras, order.package)
+    filename = '/home/mshepher/oervoer-wizard/oervoer-django/oervoer/src/data/brief-{}-{}.txt'.format(order.pet.ras, order.package)
     return file(filename,'r').read()
 
 def picklist(request, order_id):
