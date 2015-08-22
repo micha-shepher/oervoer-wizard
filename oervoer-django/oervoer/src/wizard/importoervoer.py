@@ -106,9 +106,6 @@ class ImportProds(ImportOervoer):
         adjusted = []
         #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
         for rec in self.results:
-            if rec[3] == '0':
-                print 'discarded geen voorraad {}'.format(rec[2])
-                continue
             try:
                 smaak = Taste.objects.get(taste=rec[4].strip().upper())
             except Taste.DoesNotExist:

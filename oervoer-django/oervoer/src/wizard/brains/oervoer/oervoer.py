@@ -23,6 +23,8 @@ class NoProductsException(Exception):
         self.desc = desc
     def __str__(self):
         return self.desc
+    def __desc__(self):
+        return self.desc
                 
 class Oervoer(object):
     def __init__(self,productname, ordername, picklistname):
@@ -117,7 +119,7 @@ class Oervoer(object):
 
 
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
-        print 'total products in list for{} = {}'.format(vlees, len(thelist))
+        print 'total products in list for {} = {}'.format(vlees, len(thelist))
 
         print 'prod, condition, not in dontslist, is disjoint, ras OK'
         for pr in thelist:
@@ -126,12 +128,15 @@ class Oervoer(object):
             if pr.vlees.is_gemalen:
                 if abs(profile.MEAL - profile.BIGMEAL) < 50 or abs(profile.MEAL - profile.SMALLMEAL) < 50:
                     condition = abs(pr.get_norm_weight() - Decimal(profile.MEAL/1000.0)) < 0.05
-                    print 'condition ', condition
                 else:
-                    print 'not small not big', condition
+                    pass
 
             dontslist = [t.taste for t in donts]
-            print pr.sku, condition, not (pr.smaak in dontslist), set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), self.product_ok_for_catdog(pr, order.pet.ras.ras)
+            print '{:>25}{:>6}{:>6}{:>6}{:>6}'.format(pr.sku, 
+                condition, 
+                not (pr.smaak in dontslist), 
+                set(pr.smaak.taste.split('.')).isdisjoint(set ([t.taste for t in donts])), 
+                self.product_ok_for_catdog(pr, order.pet.ras.ras))
             if condition and \
                not (pr.smaak in dontslist) and \
                pr.qty > 0 and \
@@ -156,6 +161,8 @@ class Oervoer(object):
                     outlist.append(pr)
                 
         quantities = []
+        if len(outlist) == 0:
+            raise NoProductsException('Lijst van potentieele {} producten voor {} is leeg.'.format(vlees, order.pet))
         for p in outlist:
             if self.random:
                 quant = p.get_qty()
@@ -195,9 +202,11 @@ class Oervoer(object):
                         (total_weight >  weight * profile.LEVERDEEL and not prod.smaak.is_liver):
                         total_weight += float(prod.weight)
                         l.append(prod)
-                        print 'appended {0}'.format('prod.sku')
+                        print 'appended {0} weight {1}'.format(prod.sku, total_weight)
                     if total_weight >= weight:
                         break
+                if tries >= profile.tries:
+                    print 'orgaan error! cant fulfill requirements for {}'.format(order.pet)
                         
             # complete the filling
             else:
