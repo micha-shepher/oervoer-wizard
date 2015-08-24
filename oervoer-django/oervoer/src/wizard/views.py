@@ -126,7 +126,7 @@ def get_delivery(order):
         
 def getBrief(order):
     '''get the template for a brief from the data dir'''
-    filename = '/home/mshepher/oervoer-wizard/oervoer-django/oervoer/src/data/brief-{}-{}.txt'.format(order.pet.ras, order.package)
+    filename = 'data/brief-{}-{}.txt'.format(order.pet.ras, order.package)
     return file(filename,'r').read()
 
 def picklist(request, order_id):
@@ -175,7 +175,11 @@ def picklist(request, order_id):
         if table:
             picklists = delivery.picklist_set.all()
             for row in table.rows:
-                product = Product.objects.get(sku=row.record['sku'])
+                try:
+                    product = Product.objects.get(sku=row.record['sku'])
+                except Product.DoesNotExist:
+                    print 'DB error, cannot fetch product {} {} {}'.format(row.record['sku'], order_id, delivery.id)
+                    continue
                 # try to get the picklist:
                 if not picklistfound(row, delivery, picklists):
                     picklist = PickList( delivery=delivery, product=product, number=row.record['aantal'])
