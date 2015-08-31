@@ -110,7 +110,8 @@ def get_delivery(order):
                 traceback.print_exc()
                 raise OervoerException("Unable to start oervoer brain.")
         try:
-            print 'oervoer {}'.format(oervoer)
+            oervoer.prodlists = {}
+            oervoer.parse_products()
             result = oervoer.process_order(order)
             d = oervoerdelivery('', order, result)
             table = d.bol()
