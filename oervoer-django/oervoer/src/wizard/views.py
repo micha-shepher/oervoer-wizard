@@ -131,7 +131,7 @@ def getBrief(order):
     return file(filename,'r').read()
 
 def picklist(request, order_id):
-
+    global oervoer
     def picklistfound(row, delivery, picklists):
         '''try to locate the picklist before trying an add.'''
 
@@ -157,6 +157,8 @@ def picklist(request, order_id):
             if request.POST.get('save'):
                 delivery.status = 'DELIVERED'
                 delivery.save()
+                if oervoer is not None:
+                    oervoer.update_inventory(delivery)
                 retry = False
             elif request.POST.get('andere'):
                 delivery.delete()

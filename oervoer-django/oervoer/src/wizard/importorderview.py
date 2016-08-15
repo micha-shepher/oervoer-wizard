@@ -64,7 +64,7 @@ class ImportOrders(SingleTableView):
                 ras = Ras.objects.get(ras='HOND')
                 print 'order with bad pet.'
             try:                                        # get the pet or create
-                pet = Pet.objects.get(name=order['name'], owner=owner)
+                pet = Pet.objects.get(name__iexact=order['name'], owner=owner)
             except Pet.DoesNotExist:
                 pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile)
                 try:
@@ -119,8 +119,6 @@ class ImportProducts(SingleTableView):
         return context
 
     def post(self, request, *args, **kwargs):
-        #print request
-        profile=Globals.objects.get(DESC='Standaard') # get the standard profile
 
         for product in self.products:
             if Product.objects.filter(id=product['id']).exists():
@@ -140,6 +138,15 @@ class ImportProducts(SingleTableView):
                         shelf=product['shelf'], weight=product['weight'],
                         verpakking=product['verpakking'], kat_hond=product['kat_hond'] )
             p.save()
+        # now zero the quantity of all products in the database who are not imported.
+        imported = [p['id'] for p in self.products]
+        for p in Product.objects.all():
+            if not p.id in imported:
+                print 'zeroing qty old product ', p.id, p.name, p.qty
+                p.qty = 0
+                p.save()
+
+
         return HttpResponseRedirect(reverse('productlist'))
         #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
 

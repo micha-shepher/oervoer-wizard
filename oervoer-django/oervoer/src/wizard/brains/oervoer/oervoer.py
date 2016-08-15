@@ -14,7 +14,7 @@ from weighted_random import WeightedRandom
 import csv
 import numpy
 from numpy.lib.function_base import median
-from wizard.models import Order, Globals, MeatType, Product, Taste
+from wizard.models import Order, Globals, MeatType, Product, Taste, PickList
                    
 class NoProductsException(Exception):
     def __init__(self, desc, l=None, weight=None):
@@ -139,13 +139,19 @@ class Oervoer(object):
                 not (pr.vlees.meat_type in dontslist),
                 self.product_ok_for_catdog(pr, order.pet.ras.ras),
                 pr.qty)
-            if condition and \
-               (not (pr.smaak in donts)) and \
-               (pr.qty > 0) and \
-               set(pr.smaak.taste.split('.')).isdisjoint(set (dontslist)) and\
-               (not (pr.vlees.meat_type in dontslist)) and\
-               self.product_ok_for_catdog(pr, order.pet.ras.ras):
-                outlist.append(pr)
+            if condition:
+                if not pr.vlees.meat_type in dontslist:
+                    if (not (pr.smaak in donts)) and \
+                        (pr.qty > 0) and \
+                        set(pr.smaak.taste.split('.')).isdisjoint(set (dontslist)) and\
+                        self.product_ok_for_catdog(pr, order.pet.ras.ras):
+                        outlist.append(pr)
+                    else:
+                        print '{} failed qty or dog-cat or taste'.format(pr)
+                else:
+                    print '{} failed meat type condition, meat type {}'.format(pr, pr.vlees)
+            else:
+                print '{} failed mealsize {}'.format(pr, pr.get_norm_weight())
 
         if len(outlist) == 0:
             # try again, choose products smaller than or greater than...
@@ -349,12 +355,12 @@ class Oervoer(object):
             self.exceptions.append(('GEMALEN', order.pet, e))
         return products_in_order
                      
-    def update_inventory(self, result, howmuch = 1):
-        for resprod in result:
-            for prod in self.prodlists[resprod.get_type()]:
-                if resprod.sku == prod.sku:
-                    prod.qty -= howmuch
-                    # print '%s was %d, now %d' %(prod.sku, prod.qty+1, prod.qty)b
+    def update_inventory(self, delivery):
+        for picklist in PickList.objects.filter(delivery=delivery):
+            was = picklist.product.qty
+            picklist.product.qty -= picklist.number
+            picklist.product.save()
+            print '%s was %d, now %d' %(picklist.product.sku, was, picklist.product.qty)
  
     def correct_result(self, order, result):
         '''try to fix the result by removing products that are not unique and make the package too heavy.
