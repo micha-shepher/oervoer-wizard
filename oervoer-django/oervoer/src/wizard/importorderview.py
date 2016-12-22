@@ -22,6 +22,7 @@ class ImportOrders(SingleTableView):
         user = 'bvdheide_micha'
         pw = 'lelijkgedrocht'
         self.orders = []
+        self.newpets = []
         imp = importoervoer.ImportOrders(user, pw)
         if imp.connect():
             self.orders = imp.importtable()
@@ -46,6 +47,7 @@ class ImportOrders(SingleTableView):
         errors = []
         for order in self.orders:
             #pprint.pprint(order)
+            isnewpet = False
             if not order['customer_id']:
                 order['customer_id'] = 9999
                 owner=Owner(id=9999, name=order['customer_name']) # fake owner!!
@@ -66,9 +68,12 @@ class ImportOrders(SingleTableView):
             try:                                        # get the pet or create
                 pet = Pet.objects.get(name__iexact=order['name'], owner=owner)
             except Pet.DoesNotExist:
-                pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile)
+                pet = Pet(name=order['name'], weight=order['weight'], ras=ras, owner=owner, factor=1.0, profile=profile,
+                          birthdate=order['date'])
                 try:
                     pet.save()
+                    self.newpets.append(pet)
+                    isnewpet = True
                 except:
                     errors.append('kan pet {0} niet bewaren, want gewicht {1} wordt geweigerd.'.format(pet.name, pet.weight))
              #{'id','status','customer_id','customer_name','pakket','ras','gewicht_pak','name','weight'})
@@ -79,15 +84,23 @@ class ImportOrders(SingleTableView):
                 print 'order with bad package.'
             try:
                 o = Order.objects.get(pk=int(order['id']))
+                o.status=order['status']
+                o.save()
             except Order.DoesNotExist:
                 try:
-                    o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'], status=order['status'], date = datetime.now() )
+                    o = Order(id=order['id'],owner=owner, pet=pet, package=package,weight=order['gewicht_pak'],
+                              status=order['status'], date = datetime.now(), newpet = isnewpet )
                     o.save()
                 except ValueError:
                     errors.append('kan order niet bewaren omdat pet {0} is niet in database.'.format(pet.name))   
             #o = Order( id=order.order_id, owner=order.custid, pet=pet_id, package=package, weight=order_weight, date=today, status=order.status)
         
         print errors
+        #if len(self.newpets) > 0:
+            # there are new pets
+            #qs = Pets.objects.filter(pk__in=[p.pk for p in self.newpets])
+            #return HttpResponseRedirect(reverse('pets'))
+
         return HttpResponseRedirect(reverse('index'))
         #return HttpResponse(loader.get_template('index.html').render(self.get_context_data()))
         

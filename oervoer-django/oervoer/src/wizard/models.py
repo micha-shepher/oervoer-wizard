@@ -64,6 +64,7 @@ class Pet(models.Model):
     ras = models.ForeignKey(Ras)
     owner= models.ForeignKey(Owner)
     factor = models.FloatField(default=1.0)
+    birthdate = models.DateField(default='1999-01-01')
     profile = models.ForeignKey(Globals)
 
     def __unicode__(self):
@@ -90,6 +91,7 @@ class Order(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     date = models.DateField()
     status = models.CharField(max_length=10, choices = STATUS)
+    newpet = models.BooleanField(default=False)
 
     def __unicode__(self):
         return 'order {0}-{1}-{2}'.format(self.package,self.owner,self.pet)
@@ -178,6 +180,7 @@ class Product(models.Model):
     def get_kathond(self, kathond):
         
         return kathond == 'Beide' or kathond in self.kat_hond
+
     
 class Delivery(models.Model):
     STATUS = (('PRE','PRE'),

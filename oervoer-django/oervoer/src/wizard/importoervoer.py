@@ -1,4 +1,6 @@
 '''utility to import Magento stuff into wizard.'''
+from time import strptime
+from datetime import datetime
 
 import pymysql
 import phpserialize
@@ -14,8 +16,7 @@ class ImportOervoer(object):
     '''connect to the oervoer mysql server and import the stuff we need for the wizard.
     these are: orders, products, owners, pets, tastes and meattypes.
     owners and pets are gathered from the order table.'''
-    
-    def __init__(self, user, pw, cur=None):
+    def __init__(self, user='bvdheide_micha', pw='lelijkgedrocht', cur=None):
         self.user = user
         self.pw = pw
         self.cur = cur
@@ -29,7 +30,9 @@ class ImportOervoer(object):
             return True
         try:
             print 'connecting to {}@{}'.format(self.user, 'oervoer.com')
-            self.conn = pymysql.connect(host='oervoer.com', port=3306,
+#            self.conn = pymysql.connect(host='oervoer.com', port=3306,
+#                                        user=self.user, passwd=self.pw, db='bvdheide_magento')
+            self.conn = pymysql.connect(host='46.19.33.91', port=3306,
                                         user=self.user, passwd=self.pw, db='bvdheide_magento')
             print 'connected'
         except pymysql.err.OperationalError:
@@ -59,8 +62,38 @@ class ImportOervoer(object):
 
 class ImportProds(ImportOervoer):
     
+    def updateqty(self, prod):
+        # first trying to read actual qty from magento,
+        # because someone might have used this prod in the meantime.
+        query1 = '''
+        SELECT inv.qty FROM cataloginventory_stock_item as inv
+        WHERE {} = inv.product_id
+        '''.format(prod.pk)
+
+        self.set_query(query1)
+        self.execute()
+        results = self.cur.fetchall()
+        try:
+            newqty = int(results[0][0])
+            print 'read from magento {}, ours {}'.format(newqty,prod.qty)
+
+        except (TypeError, ValueError):
+            print 'unable to read actual qty from magento {0}'.format(results)
+
+        query = '''
+        UPDATE cataloginventory_stock_item AS inv
+        SET inv.qty = {}
+        WHERE {} = inv.product_id
+        '''.format(prod.qty, prod.pk)
+        self.set_query(query)
+        self.execute()
+        self.conn.commit()
+        print 'setting qty of {} to {} in magento'.format(prod.sku, prod.qty)
+
+
     @override
     def importtable(self):
+
         #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
         query = '''
         SELECT DISTINCT p.entity_id, p.name, p.sku, inv.qty, eav.value, eav2.value, p.shelf, p.weight, p.verpakt_per, p.geschikt
@@ -141,10 +174,17 @@ class ImportOrders(ImportOervoer):
     def get_name_and_weight(self, options):
         name = 'niet bekend'
         weight = '10'
+        date = datetime.strptime('2000-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
         pat = re.compile('(\d+\.{0,1}\d*)')
-    
+
         for option in options.keys():
-            
+
+            if options[option]['label'].find('Geboortedatum') > -1:
+                date = options[option]['option_value']
+                try:
+                    date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+                except ValueError:
+                    print 'unable to format {}'.format(date)
             if options[option]['label'].find('Wat is de naam') > -1:
                 name = options[option]['option_value']
             if options[option]['label'].find('Wat is het gewicht') > -1:
@@ -154,7 +194,7 @@ class ImportOrders(ImportOervoer):
                 if m:
                     weight = m.group(0)
                 
-        return name, weight
+        return name, weight, date
  
     def lengthreplace(self, matchobj):
         '''replace badly generated string length to fix PHP serialize bug.
@@ -219,21 +259,23 @@ class ImportOrders(ImportOervoer):
                                                              # pet name and weight are stored.
             try:
                 d = phpserialize.loads(self.correct_string_len(s))    # this string (s) is already without strange characters
+                #file('/tmp/junk1', 'a').write(str(d))
             except ValueError:
                 d={}
                 print 'bad options voor {}'.format(str(r[-1]))
 
             weight=10
             name='onbekend'
+            date=datetime(2000,1,1) # fake date
             if d.has_key('options'):
-                name, weight = self.get_name_and_weight(d['options'])
+                name, weight, date = self.get_name_and_weight(d['options'])
             else:
-
+                file('{0}.deb'.format(r[0]),'w').write(d)
                 print r[0],r[1],r[7],' does not have options!'
                 print d.keys()
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet
             adjusted_results.append({'id':r[0],'status':r[2],'customer_id':r[3],'customer_name':' '.join((r[4], r[5])),
-                              'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1]})
+                              'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1], 'date':date})
             #adjusted_results[r[0]] = r[1], r[2], ' '.join((r[3], r[4])), pak, kh,      r[6],         name, weight
         
         return adjusted_results

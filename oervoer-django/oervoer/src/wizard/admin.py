@@ -13,7 +13,7 @@ class PickListAdmin(admin.ModelAdmin):
 admin.site.register(PickList, PickListAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
-    fields = ['id', 'owner', 'pet', 'package', 'weight', 'date', 'status']
+    fields = ['id', 'owner', 'pet', 'package', 'weight', 'date', 'status', 'newpet']
     list_filter = ['owner', 'status']
     search_fields = ['id', 'owner__name', 'status']
     
@@ -27,7 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 
 class PetAdmin(admin.ModelAdmin):
-    fields = ['name', 'weight', 'ras', 'owner', 'factor', 'profile']
+    fields = ['name', 'weight', 'ras', 'owner', 'factor', 'profile', 'birthdate']
     list_filter = ['name', 'owner']
     search_fields = ['name', 'owner__name']
     

@@ -18,8 +18,8 @@ class Delivery(object):
         
         def seq(vleestype):
             return ['VIS', 'GEMALEN VIS', 'PENS', 'SPIERVLEES', 'ZACHT BOT', 
-                    'MIDDEL BOT', 'HARD BOT', 'KARKAS', 
-                    'COMPLEET KARKAS.ZACHT BOT', 'COMPLEET KARKAS.MIDDEL BOT', 'COMPLEET KARKAS.HARD BOT', 
+                    'MIDDEL BOT', 'HARD BOT',
+                    'COMPLEET KARKAS', 'COMPLEET KARKAS.ZACHT BOT', 'COMPLEET KARKAS.MIDDEL BOT', 'COMPLEET KARKAS.HARD BOT',
                     'ORGAAN', 'COMPLEET GEMALEN'].index(vleestype)
                     
         profile = self.order.pet.profile

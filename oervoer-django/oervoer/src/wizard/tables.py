@@ -28,7 +28,10 @@ class ProductTable(tables.Table):
         attrs = {"class": "paleblue"}
 
 class OrderTable2(tables.Table):
-    id = tables.LinkColumn('picklist', args=[A('id')])
+    id  = tables.LinkColumn('picklist', args=[A('id')])
+    pet = tables.LinkColumn('pet', args=[A('pet.pk')])
+    birthdate = tables.DateColumn()
+    jonkie = tables.BooleanColumn()
     delivery_status = tables.Column()
     ras = tables.Column()
     class Meta:

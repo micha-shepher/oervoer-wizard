@@ -14,8 +14,9 @@ from weighted_random import WeightedRandom
 import csv
 import numpy
 from numpy.lib.function_base import median
+import wizard.importoervoer
 from wizard.models import Order, Globals, MeatType, Product, Taste, PickList
-                   
+
 class NoProductsException(Exception):
     def __init__(self, desc, l=None, weight=None):
         self.l = l
@@ -48,7 +49,9 @@ class Oervoer(object):
     def parse_products(self):
         '''get the products in the lists
         '''
+        self.products = Product.objects.all()
         for prod in self.products:
+            prod.ordered = 0
             if self.prodlists.has_key(prod.vlees):
                 self.prodlists[prod.vlees].append(prod)
             else:
@@ -118,7 +121,7 @@ class Oervoer(object):
         else:
             thelist = self.prodlists[MeatType.objects.get(meat_type=vlees)]
 
-
+        #
         thelist.sort(key=lambda prod: prod.get_norm_weight()) # work with products sorted by normalized weight
         print 'total products in list for {} = {}'.format(vlees, len(thelist))
 
@@ -209,7 +212,10 @@ class Oervoer(object):
                     if (total_weight <= weight * profile.LEVERDEEL and prod.smaak.is_liver) or\
                         (total_weight >  weight * profile.LEVERDEEL and not prod.smaak.is_liver):
                         total_weight += float(prod.weight)
-                        l.append(prod)
+                        if prod.qty - prod.ordered > 0:
+                            prod.ordered = prod.ordered + 1
+                            l.append(prod)
+
                         #print 'appended {0} weight {1}'.format(prod.sku, total_weight)
                     if total_weight >= weight:
                         break
@@ -225,7 +231,9 @@ class Oervoer(object):
                     isfh = is_fishhead(prod)
                     if not (isfh and fish_head_in_list):
                         total_weight += float(prod.weight)
-                        l.append(prod)
+                        if prod.qty - prod.ordered > 0:
+                            prod.ordered = prod.ordered + 1
+                            l.append(prod)
                     if isfh:
                         fish_head_in_list = True
                 if toomany > profile.REPEATS:
@@ -356,10 +364,14 @@ class Oervoer(object):
         return products_in_order
                      
     def update_inventory(self, delivery):
+        print 'in update inventory'
+        importobj = wizard.importoervoer.ImportProds()
         for picklist in PickList.objects.filter(delivery=delivery):
             was = picklist.product.qty
+            print picklist.product, picklist.product.qty
             picklist.product.qty -= picklist.number
             picklist.product.save()
+            importobj.updateqty(picklist.product)
             print '%s was %d, now %d' %(picklist.product.sku, was, picklist.product.qty)
  
     def correct_result(self, order, result):

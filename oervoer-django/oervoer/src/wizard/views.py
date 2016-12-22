@@ -1,18 +1,21 @@
-
+from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http.response import Http404, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import RequestContext, loader
+from django.utils.timezone import now
 from django.views import generic
+from django.views.generic import View
 from django_tables2   import RequestConfig
 import time
+from datetime import date, timedelta
 import traceback
 
 from oervoerexception import OervoerException
 from wizard.brains.oervoer.oervoer import Delivery as oervoerdelivery
 from wizard.brains.oervoer.oervoer import Oervoer
-from wizard.forms import PetForm
+from wizard.forms import PetForm, LoginForm
 from wizard.models import PickList, Ras, Order, Delivery, Pet, Product, Taste, Donts, prefers
 from wizard.tables import TasteTable, ProductTable, OrderTable, OrderTable2, PetTable
 from wizard.tables import PickListTable, BriefTable
@@ -34,22 +37,29 @@ class HomePageView(generic.TemplateView):
         return self.oervoer
 
 def index(request):
-    latest_order_list = Order.objects.filter(status__in = ('processing','pending'))
-    template = loader.get_template('index.html')
-    table = []
-    for order in latest_order_list:
-        try:
-            Delivery.objects.get(order=order)
-            st = Delivery.objects.get(order=order).status
-        except Delivery.DoesNotExist:
-            st = 'geen'
-        table.append({'id': order.id, 'owner': order.owner, 'pet': order.pet, 'package':order.package,
-             'weight': order.weight, 'date': order.date, 'status': order.status, 'delivery_status': st, 'ras': order.pet.ras})
+    if request.user.is_authenticated():
+        latest_order_list = Order.objects.filter(status__in = ('processing','pending'))
+        template = loader.get_template('index.html')
+        table = []
+        for order in latest_order_list:
 
-    context = RequestContext(request, {
-        'latest_order_list': latest_order_list,'table': OrderTable2(table),
-        'title':'Order List'})
-    return HttpResponse(template.render(context))
+            try:
+                Delivery.objects.get(order=order)
+                st = Delivery.objects.get(order=order).status
+            except Delivery.DoesNotExist:
+                st = 'geen'
+            ispuppy = date.today()-order.pet.birthdate < timedelta(365)
+            table.append({'id': order.id, 'owner': order.owner, 'pet': order.pet, 'package':order.package,
+                          'weight': order.weight, 'date': order.date, 'status': order.status,
+                          'delivery_status':st, 'jonkie': ispuppy, 'ras': order.pet.ras, 'birthdate': order.pet.birthdate,
+                          'newpet': order.newpet})
+
+        context = RequestContext(request, {
+            'latest_order_list': latest_order_list,'table': OrderTable2(table),
+            'title':'Order List'})
+        return HttpResponse(template.render(context))
+    else:
+        return HttpResponseRedirect(reverse('login'))
 
 def pets(request):
     pet_list = Pet.objects.all()
@@ -159,6 +169,9 @@ def picklist(request, order_id):
                 delivery.save()
                 if oervoer is not None:
                     oervoer.update_inventory(delivery)
+                else:
+                    print 'inventory not updated!'
+
                 retry = False
             elif request.POST.get('andere'):
                 delivery.delete()
@@ -250,6 +263,37 @@ def maketable(request, donts, obj):
             
     return tb
 
+class LoginView(View):
+    form_class = LoginForm
+    template_name = 'login.html'
+
+    def get(self, request):
+        print 'in get'
+        form = self.form_class(None)
+        return render(request, self.template_name, {'form':form, 'errors':''})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                print 'user {} authenticated {}'.format(username, request.user.is_authenticated())
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                print 'user {} not active'.format(username)
+        else:
+            print 'user {} not authenticated'.format(username)
+
+        return render(request, self.template_name, {'form':form,
+                                                        'errors': 'user {} is not registered or password wrong'.format(request.POST['username'])})
+
+
 def pet(request, pet_id):
     try:
         pet = Pet.objects.get(pk=pet_id)
@@ -271,7 +315,7 @@ def pet(request, pet_id):
                     dont = Donts(pet=pet, taste=taste)
                     dont.save()
                 except Taste.DoesNotExist:
-                    print 'can\'t save the taste {} for pet {}'.format(taste, pet)
+                    print 'can\'t save the taste {} for pet {}'.format(taste_id, pet)
         for taste in donts:
             if not taste.id in taste_ids_from_post:
                 try:

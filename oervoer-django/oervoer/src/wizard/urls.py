@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^(?P<delivery_id>\d+)/brief/$', views.brief, name='brief'),
     url(r'^(?P<pet_id>\d+)/pet/$', views.pet, name='pet'),
     url(r'^(?P<pet_id>\d+)/pet_likes/$', views.pet_likes, name='pet_likes'),
+    url(r'^login$', views.LoginView.as_view(), name='login'),
     
 )
