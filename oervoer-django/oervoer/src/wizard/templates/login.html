@@ -1,0 +1,30 @@
+{% extends 'wizard.html' %}
+{% block headline %}
+	<h2 id=sectionhome>{{title}}</h2>
+	<img style="height:70px;width:70px;float:left" alt="kat" src="http://www.oervoer.com/media/wysiwyg/oervoer/hond-icoon.png">
+	<img height="70" width="70" style="float:left" alt="kat" src="http://www.oervoer.com/media/wysiwyg/oervoer/kat-icoon.png">
+{% endblock %}
+{% block css %}
+<style>
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 5px;
+} 
+</style>
+{% endblock css %}
+{% if errors %}<p><strong>{{ errors }}</strong></p>{% endif %}
+
+{% block content %}
+	<form action="" method="POST">
+		{% csrf_token %}
+		
+		{{ form.as_table }}
+
+	<input type="submit" value="login" />
+	</form>
+{% endblock %}

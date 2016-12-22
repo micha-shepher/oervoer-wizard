@@ -38,10 +38,16 @@
 				<a href="{% url 'picklist' 2740 %}" class="btn btn-primary navbar-btn">Picklists</a>
 				<a href="{% url 'brief' 2740 %}" class="btn btn-primary navbar-btn">Brieven</a>
 				<a href="{% url 'pet' 9 %}" class="btn btn-primary navbar-btn">Pet</a>
-				<a href="http://84.22.97.188/admin" class="btn btn-primary navbar-btn" target="_blank">Admin</a>
+                {% if user.is_authenticated %}
+                <div class="btn btn-success">welkom {{user.username}}</div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-default navbar-btn">Login</a>
+                {% endif %}
+    			<a href="http://84.22.97.188/admin" class="btn btn-primary navbar-btn" target="_blank">Admin</a>
 			</div><!--/.navbar-collapse -->
 		</div>
 	</div>
+
 	<div class=navbar style="background-color:#ddd">
 		<div class="container">
 		  <img  style="float:right;width:175px;height:60px" src="http://www.oervoer.com/skin/frontend/ultimo/oervoer/images/logo7.png" alt="OerVoer">
