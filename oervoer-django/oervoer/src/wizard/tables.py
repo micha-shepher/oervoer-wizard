@@ -27,6 +27,18 @@ class ProductTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
 
+class Comments(tables.Table):
+    type = tables.Column()
+    order = tables.Column()
+    pet = tables.Column()
+    time = tables.DateTimeColumn()
+    text = tables.Column()
+    products = tables.Column()
+    desc = tables.Column()
+    weight = tables.Column()
+    class Meta:
+        attrs = {"class": "paleblue"}
+
 class OrderTable2(tables.Table):
     id  = tables.LinkColumn('picklist', args=[A('id')])
     pet = tables.LinkColumn('pet', args=[A('pet.pk')])

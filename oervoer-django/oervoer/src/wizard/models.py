@@ -8,27 +8,34 @@ class Globals(models.Model):
     HOND = 'HOND'
     HEAD = 'KOP'
     DESC = models.CharField(max_length=50)
-    MEALFACTOR  = models.FloatField (default=4.0) # included products that are bigger than meal size by this factor
-    MEALFACTOR2 = models.FloatField (default=0.2) # included products smaller than meal size by this factor
-    MEALFACTOR3 = models.FloatField (default=1.5)
-    CATFACTOR   = models.FloatField (default=0.035) # 0.035 # 35 gram / kg / day
-    DOGFACTOR   = models.FloatField (default=0.025) #0.025 # 25 gram / kg / day
-    
+    MEALFACTOR  = models.FloatField (default=4.0, verbose_name='deelbaar factor1',
+                                     help_text='<strong>Deelbare</strong> producten <strong>groter</strong> dan factor*maaltijd worden niet geselecteerd.') # included products that are bigger than meal size by this factor
+    MEALFACTOR2 = models.FloatField (default=0.2, verbose_name='deelbaar factor2',
+                                     help_text='<strong>Deelbare</strong> producten <strong>kleiner</strong> dan factor*maaltijd worden niet geselecteerd.') # included products smaller than meal size by this factor
+    MEALFACTOR3 = models.FloatField (default=1.5, verbose_name='ondeelbaar factor1',
+                                     help_text='<strong>Ondeelbare</strong> producten <strong>groter</strong> dan factor*maaltijd worden niet geselecteerd.')
+    CATFACTOR   = models.FloatField (default=0.035,
+                                     help_text='Voor een kat, factor*kilo gewicht/#maaltijden = maaltijd') # 0.035 # 35 gram / kg / day
+    DOGFACTOR   = models.FloatField (default=0.025,
+                                     help_text='Voor een hond, factor*kilo gewicht/#maaltijden = maaltijd') #0.025 # 25 gram / kg / day
     tries       = models.IntegerField(default=20) # 10
     LIKEFACTOR  = models.FloatField (default=4.0) #4.0 # sets the selection likelihood to be times this factor.
-    SMALLMEAL   = models.IntegerField(default = 250) #250
-    BIGMEAL     = models.IntegerField(default = 500) #500
-    
-    TESTENV     = models.CharField(max_length=50) #'OERVOERTESTENV'
-    LEVERDEEL   = models.FloatField(default=0.4)
-    VISFACTOR   = models.FloatField(default=0.15)
-    PENSFACTOR  = models.FloatField(default=0.15)
-    KARKASFACTOR = models.FloatField(default=0.7*0.5)
-    ORGAANFACTOR = models.FloatField(default=0.7*0.5*0.15)
-    SPIERFACTOR  = models.FloatField(default=0.7*0.5*0.4)
-    BOTFACTOR = models.FloatField(default=0.7*0.5*0.45)
-    REPEATS   = models.IntegerField(default=150)
-    MEAL      = models.IntegerField(default=500)
+    SMALLMEAL   = models.IntegerField(default = 250,
+                                      help_text='Bepaalt normale kleinportie groote') #250
+    BIGMEAL     = models.IntegerField(default = 500,
+                                      help_text='Bepaalt normale grootportie groote') #500
+    TESTENV     = models.CharField(max_length=50, default='') #'OERVOERTESTENV'
+    LEVERDEEL   = models.FloatField(default=0.4, help_text='Deel van lever in <strong>orgaan</strong>groep.')
+    VISFACTOR   = models.FloatField(default=0.15, help_text='Deel van VIS in totaal menu.')
+    PENSFACTOR  = models.FloatField(default=0.15, help_text='Deel van PENS in totaal menu.')
+    KARKASFACTOR = models.FloatField(default=0.7*0.5, help_text='Deel van KARKAS in totaal menu.')
+    ORGAANFACTOR = models.FloatField(default=0.7*0.5*0.15, help_text='Deel van ORGAAN in <strong>overgeblevende stuk</strong><p>Orgaan+Spier+Bot=1.0.')
+    SPIERFACTOR  = models.FloatField(default=0.7*0.5*0.4, help_text='Deel van SPIER in <strong>overgeblevende stuk</strong><p>Orgaan+Spier+Bot=1.0.')
+    BOTFACTOR = models.FloatField(default=0.7*0.5*0.45, help_text='Deel van BOT in <strong>overgeblevende stuk</strong><p>Orgaan+Spier+Bot=1.0.')
+    REPEATS   = models.IntegerField(default=150, help_text="Aantal gegenereerde menu's waarvan de beste is gekozen." )
+    MEAL      = models.IntegerField(default=500, verbose_name='Maaltijdgrootte voor gemalen',
+                                    help_text='Verschil tussen deze en BIGMEAL of SMALLMEAL bepaalt de geprefereede portiegroote.')
+    NRMEALS   = models.IntegerField(default=2, verbose_name='aantal maaltijden')
     
     def get_factor(self, kathond):
         return  {Globals.KAT:self.CATFACTOR, Globals.HOND:self.DOGFACTOR}[kathond]
@@ -76,8 +83,9 @@ class Pet(models.Model):
     def is_hond(self):
         return self.ras.ras == 'HOND'
     
-    def get_meal_size(self):        
-        return float(self.weight) * self.factor * self.profile.get_factor(self.ras.ras) / 2
+    def get_meal_size(self):
+        print self.weight, self.is_hond(), self.profile.NRMEALS
+        return float(self.weight) * self.factor * self.profile.get_factor(self.ras.ras) / self.profile.NRMEALS
     
     
 class Order(models.Model):
@@ -94,7 +102,15 @@ class Order(models.Model):
     newpet = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return 'order {0}-{1}-{2}'.format(self.package,self.owner,self.pet)
+        return 'order {0}-{1}-{2}'.format(self.package, self.owner, self.pet)
+
+class Comment(models.Model):
+    when = models.DateTimeField()
+    what = models.CharField(max_length=20)
+    desc = models.CharField(max_length=512)
+    weight = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True)
+    order = models.ForeignKey(Order, blank=True, null=True)
+    desc2 = models.CharField(max_length=512)
 
     
 class Taste(models.Model):

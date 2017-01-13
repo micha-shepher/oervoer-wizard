@@ -105,7 +105,7 @@ def get_delivery(order):
                           'shelf':    pl.product.shelf,
                           'aantal':   pl.number,
                           'gram':     pl.product.weight})
-        return delivery, PickListTable(table)
+        return delivery, PickListTable(table), []
     
     except Delivery.DoesNotExist:
         print 'making new delivery for {}'.format(order)    
@@ -133,7 +133,7 @@ def get_delivery(order):
         else:
             delivery = Delivery(order = order, status = 'PRE', date = time.strftime('%Y-%m-%d'), brief = getBrief(order))
             delivery.save()
-            return delivery, table
+            return delivery, table, oervoer.exceptions
         
 def getBrief(order):
     '''get the template for a brief from the data dir'''
@@ -167,10 +167,17 @@ def picklist(request, order_id):
             if request.POST.get('save'):
                 delivery.status = 'DELIVERED'
                 delivery.save()
-                if oervoer is not None:
-                    oervoer.update_inventory(delivery)
-                else:
-                    print 'inventory not updated!'
+                if not oervoer:
+                    try:
+                        print 'initializing oervoer'
+                        oervoer = Oervoer(None,None,None)
+                        oervoer.parse_products()
+                        print 'success!'
+                    except:
+                        print 'can\'t init oervoer!'
+                        traceback.print_exc()
+                        raise OervoerException("Unable to start oervoer brain.")
+                oervoer.update_inventory(delivery)
 
                 retry = False
             elif request.POST.get('andere'):
@@ -187,19 +194,23 @@ def picklist(request, order_id):
 
     # first GET
     else:
-        delivery, table = get_delivery(order)
+        delivery, table, exceptions = get_delivery(order)
+        #request.session['comments'] = exceptions
         if table:
             picklists = delivery.picklist_set.all()
             for row in table.rows:
-                try:
-                    product = Product.objects.get(sku=row.record['sku'])
-                except Product.DoesNotExist:
-                    print 'DB error, cannot fetch product {} {} {}'.format(row.record['sku'], order_id, delivery.id)
-                    continue
                 # try to get the picklist:
                 if not picklistfound(row, delivery, picklists):
-                    picklist = PickList( delivery=delivery, product=product, number=row.record['aantal'])
-                    picklist.save()
+                    try:
+                        product = Product.objects.get(sku=row.record['sku'])
+                        picklist = PickList( delivery=delivery, product=product, number=row.record['aantal'])
+                        picklist.save()
+                    except Product.DoesNotExist:
+                        print 'DB error, cannot fetch product {} {} {}'.format(row.record['sku'], order_id, delivery.id)
+                        continue
+                    except Product.MultipleObjectsReturned:
+                        print 'DB error, double product with sku {}'.format(row.record['sku'])
+                        continue
 
             RequestConfig(request, paginate=False).configure(table)
 
@@ -210,9 +221,9 @@ def picklist(request, order_id):
                                                      'order_id': order_id, 'table': table,
                                                      'datum': time.strftime('%Y-%m-%d'), 'dier':order.pet.ras.ras, 'pakket':order.package,
                                                      'gewicht_dier': order.pet.weight, 'gewicht_pakket':order.weight, 'vermijd': vermijdlijst,
-                                                     'maaltijd': order.pet.get_meal_size(), 'eigenaar':order.owner, 'diernaam':order.pet.name,
+                                                     'maaltijd': order.pet.get_meal_size()*1000, 'eigenaar':order.owner, 'diernaam':order.pet.name,
                                                      'totaal': sum
-                                                     ([i.record['gram'] *i.record['aantal'] for i in table.rows])})
+                                                     ([i.record['gram'] * i.record['aantal'] for i in table.rows])})
         else:
             raise Http404('Cannot produce the delivery for order {}'.format(order_id))
 
@@ -244,7 +255,7 @@ def brief(request, delivery_id):
     context = RequestContext(request, {'datum': time.strftime('%d-%m-%Y'), 
                                        'brief_template': 'brief-{}-{}.html'.format(order.pet.ras, order.package), 
                                        'delivery':delivery,'order': order, 'pet':pet, 'table':table,
-                                       'maaltijd':pet.profile.get_factor(pet.ras.ras) *float(pet.weight) *1000})
+                                       'maaltijd':pet.get_meal_size() *pet.profile.NRMEALS*1000})
     return HttpResponse(template.render(context))
 
 def maketable(request, donts, obj):
@@ -346,6 +357,9 @@ def pet(request, pet_id):
             'form': form, 'title': 'Pet form voor {}'.format(pet.name), 
             'fish':fish, 'fowl':fowl, 'big':big, 'small':small, 'organ':organ, 'other':other
         })
+
+def comments(request):
+    return HttpResponseRedirect(reverse('pets'))
 
 def pet_likes(request, pet_id):
     try:

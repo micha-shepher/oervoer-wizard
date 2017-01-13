@@ -24,5 +24,6 @@ urlpatterns = patterns('',
     url(r'^(?P<pet_id>\d+)/pet/$', views.pet, name='pet'),
     url(r'^(?P<pet_id>\d+)/pet_likes/$', views.pet_likes, name='pet_likes'),
     url(r'^login$', views.LoginView.as_view(), name='login'),
-    
+    url(r'^comments$', views.comments, name='comments'),
+
 )

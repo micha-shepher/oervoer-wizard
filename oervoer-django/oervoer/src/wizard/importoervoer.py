@@ -62,34 +62,30 @@ class ImportOervoer(object):
 
 class ImportProds(ImportOervoer):
     
-    def updateqty(self, prod):
-        # first trying to read actual qty from magento,
-        # because someone might have used this prod in the meantime.
+    def updateqty(self, prod, used):
+        query = '''
+        UPDATE cataloginventory_stock_item AS inv
+        SET inv.qty = inv.qty - {0}
+        WHERE {1} = inv.product_id
+        '''.format(used, prod.pk)
+        self.set_query(query)
+        self.execute()
+        self.conn.commit()
+        print 'setting qty of {0} to {1} in magento'.format(prod.sku, prod.qty-used)
+
+
+    def readqty(self, prod):
         query1 = '''
         SELECT inv.qty FROM cataloginventory_stock_item as inv
-        WHERE {} = inv.product_id
-        '''.format(prod.pk)
+        WHERE {0} = inv.product_id
+        '''.format(prod)
 
         self.set_query(query1)
         self.execute()
         results = self.cur.fetchall()
-        try:
-            newqty = int(results[0][0])
-            print 'read from magento {}, ours {}'.format(newqty,prod.qty)
+        print 'reading back qty of {0}: {1} from magento'.format(prod, results[0][0])
 
-        except (TypeError, ValueError):
-            print 'unable to read actual qty from magento {0}'.format(results)
-
-        query = '''
-        UPDATE cataloginventory_stock_item AS inv
-        SET inv.qty = {}
-        WHERE {} = inv.product_id
-        '''.format(prod.qty, prod.pk)
-        self.set_query(query)
-        self.execute()
-        self.conn.commit()
-        print 'setting qty of {} to {} in magento'.format(prod.sku, prod.qty)
-
+        return int(results[0][0])
 
     @override
     def importtable(self):
@@ -270,7 +266,7 @@ class ImportOrders(ImportOervoer):
             if d.has_key('options'):
                 name, weight, date = self.get_name_and_weight(d['options'])
             else:
-                file('{0}.deb'.format(r[0]),'w').write(d)
+                file('{0}.deb'.format(r[0]),'w').write(str(d))
                 print r[0],r[1],r[7],' does not have options!'
                 print d.keys()
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet

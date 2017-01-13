@@ -52,11 +52,23 @@ class ImportOervoer(object):
         return query_results
 
 
+def readqty(prod):
+    x=ImportOervoer()
+    query = '''
+    SELECT inv.qty FROM cataloginventory_stock_item AS inv
+    WHERE {0} = inv.product_id
+    '''.format(prod)
+
+    x.set_query(query)
+    x.execute()
+    results = x.cur.fetchall()
+    print results
+
 def updateqty(prod, qty):
     x=ImportOervoer()
     query = '''
     UPDATE cataloginventory_stock_item AS inv
-    SET inv.qty = {0},
+    SET inv.qty = inv.qty - {0},
     is_in_stock = 1
     WHERE {1} = inv.product_id
     '''.format(qty, prod)
@@ -66,28 +78,15 @@ def updateqty(prod, qty):
     inv.stock_status = 1
     WHERE {1} = inv.product_id
     '''.format(qty, prod)
-    query1 = '''
-    SELECT inv.qty FROM cataloginventory_stock_item as inv
-    WHERE {0} = inv.product_id
-    '''.format(prod)
-    print query
-    print 'setting qty of {0} to {1} in magento'.format(prod, qty)
 
-    #x.set_query(query)
-    #x.execute()
-    #print x.get_cur().rowcount
-    #x.set_query(query_)
-    #x.execute()
-    #print x.get_cur().rowcount
-    x.set_query(query1)
+    x.set_query(query)
     x.execute()
-    #x.conn.commit()
-    #print x.get_cur().rowcount
     results = x.cur.fetchall()
-    #print x.get_cur().rowcount
     print int(results[0][0])
     print type(results[0][0])
+    x.conn.commit()
 
 
 if __name__ == '__main__':
-    updateqty(236, 50)
+    # updateqty(236, -2)
+    readqty(236)

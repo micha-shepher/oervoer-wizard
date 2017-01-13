@@ -6,7 +6,7 @@ Created on 21 sep. 2014
 prototype of a picklist wizard for www.oervoer.nl
 '''
 import os
-
+from django.utils.timezone import now
 
 from delivery import Delivery
 from decimal import Decimal
@@ -22,6 +22,7 @@ class NoProductsException(Exception):
         self.l = l
         self.weight = weight
         self.desc = desc
+        self.time = now()
     def __str__(self):
         return self.desc
     def __desc__(self):
@@ -106,7 +107,9 @@ class Oervoer(object):
                     except KeyError:
                         pass
             else:
-                thelist += self.prodlists[MeatType.objects.get(meat_type='COMPLEET KARKAS.ZACHT BOT')]    
+                for _vlees in MeatType.objects.filter(meat_type__in = ('COMPLEET KARKAS.ZACHT BOT',
+                                                                       'COMPLEET KARKAS.MIDDEL BOT',)):
+                    thelist += self.prodlists[_vlees]
         elif vlees == 'GEMALEN':
             for _vlees in MeatType.objects.all():
                 if _vlees.is_gemalen:
@@ -323,17 +326,21 @@ class Oervoer(object):
         meal_size = order.pet.get_meal_size()
         #days_met_vis = round(days / 7)  # wat gebeurt als days<7???
         package_rest = float(order.weight)
-        
+        vis_factor = order.pet.profile.VISFACTOR
+        pens_factor = order.pet.profile.PENSFACTOR
+
         donts = order.pet.donts_set.all()
         ##############################
         # select vis
         ##############################
         products_in_order = []
         try:
-            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest * 0.15)
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest * vis_factor)
+            print 'vis factor {0}, total vis {1}'.format(vis_factor, total_vis)
             package_rest -= total_vis
         except NoProductsException, e:
-            self.exceptions.append(('VIS', order.pet, e))
+            print 'no vis! vis factor {0},  {1}'.format(vis_factor, e.message)
+            self.exceptions.append(('VIS', order, e))
             if e.l:
                 total_vis = e.weight
                 products_in_order = e.l
@@ -343,11 +350,13 @@ class Oervoer(object):
         ##############################
         if order.pet.is_hond() and not 'PENS' in [d.taste for d in donts]:
             try:
-                total_pens, selection = self.select_type('PENS', order, meal_size, float(order.weight) * 0.15)
+                total_pens, selection = self.select_type('PENS', order, meal_size, float(order.weight) * pens_factor)
+                print 'pens factor {0}, total pens {1}'.format(pens_factor, total_pens)
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException, e:
-                self.exceptions.append(('PENS', order.pet, e))
+                self.exceptions.append(('PENS', order, e))
+                print 'no pens! pens factor {0},  {1}'.format(pens_factor, e.message)
                 if e.l:
                     total_pens = e.weight
                     products_in_order = e.l
@@ -360,19 +369,23 @@ class Oervoer(object):
             _, selection = self.select_type('GEMALEN', order, meal_size, package_rest)
             products_in_order.extend(selection)
         except NoProductsException, e:
-            self.exceptions.append(('GEMALEN', order.pet, e))
+            self.exceptions.append(('GEMALEN', order, e))
         return products_in_order
-                     
+
+
     def update_inventory(self, delivery):
         print 'in update inventory'
         importobj = wizard.importoervoer.ImportProds()
         for picklist in PickList.objects.filter(delivery=delivery):
             was = picklist.product.qty
-            print picklist.product, picklist.product.qty
-            picklist.product.qty -= picklist.number
+            importobj.updateqty(picklist.product, picklist.number)
+            try:
+                picklist.product.qty = importobj.readqty(picklist.product)
+            except:
+                print 'error reading back qty {0}'.format(picklist.product)
+                picklist.product.qty = picklist.product.qty - picklist.number
             picklist.product.save()
-            importobj.updateqty(picklist.product)
-            print '%s was %d, now %d' %(picklist.product.sku, was, picklist.product.qty)
+            print '{0} was {1}, now {2}, used: {3}'.format(picklist.product.sku, was, picklist.product.qty, picklist.number)
  
     def correct_result(self, order, result):
         '''try to fix the result by removing products that are not unique and make the package too heavy.
@@ -423,7 +436,13 @@ class Oervoer(object):
         5/14 of 6/14 ongemalen incompleet
         5/14 of 6/14 ongemalen compleet
         '''
-        
+
+        vis_factor = order.pet.profile.VISFACTOR        # fixed factor
+        pens_factor = order.pet.profile.PENSFACTOR      # fixed factor
+        karkas_factor = order.pet.profile.KARKASFACTOR  # fixed factor
+        orgaan_factor = order.pet.profile.ORGAANFACTOR  # relative factor
+        spier_factor = order.pet.profile.SPIERFACTOR    # relative factor
+
         #days = order.get_days()
         self.dump()
         meal_size = order.pet.get_meal_size()
@@ -436,10 +455,10 @@ class Oervoer(object):
         
         total_vis = 0.0
         try:
-            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*0.15)
+            total_vis, products_in_order = self.select_type('VIS', order, meal_size, package_rest*vis_factor)
             package_rest -= total_vis
         except NoProductsException, e:
-            self.exceptions.append(('VIS', order.pet, e))
+            self.exceptions.append(('VIS', order, e))
             if e.l:
                 total_vis = e.weight
                 products_in_order = e.l
@@ -450,11 +469,11 @@ class Oervoer(object):
         total_pens = 0.0
         if (not order.pet.is_kat()) and not 'PENS' in order.pet.donts_set.all():
             try:
-                total_pens, selection = self.select_type('PENS', order, meal_size, float(order.weight)*0.15)
+                total_pens, selection = self.select_type('PENS', order, meal_size, float(order.weight)*pens_factor)
                 products_in_order.extend(selection)
                 package_rest -= total_pens
             except NoProductsException, e:
-                self.exceptions.append(('PENS', order.pet, e))
+                self.exceptions.append(('PENS', order, e))
                 
             
         ##############################
@@ -462,21 +481,26 @@ class Oervoer(object):
         ##############################
         total_compleet_karkas = 0.0
         try:
-            total_compleet_karkas, selection = self.select_type('COMPLEET KARKAS', order, meal_size, package_rest/2.0)
+            total_compleet_karkas, selection = self.select_type('COMPLEET KARKAS', order, meal_size,
+                                                                float(order.weight)*karkas_factor)
             products_in_order.extend(selection)
             package_rest -= total_compleet_karkas
         except NoProductsException, e:
-            self.exceptions.append(('COMPLEET KARKAS', order.pet, e))
+            self.exceptions.append(('COMPLEET KARKAS', order, e))
         
         #################################
         # select ongemalen incompleet orgaan
         #################################
         total_orgaan = 0.0
+        relative_part = package_rest
+        print 'relative part after vis, pens and karkas {0}'.format(relative_part)
         try:
-            total_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
+            #total_orgaan, selection = self.select_type('ORGAAN', order, meal_size, package_rest*0.15)
+            total_orgaan, selection = self.select_type('ORGAAN', order, meal_size, relative_part*orgaan_factor)
             products_in_order.extend(selection)
+            package_rest -= total_orgaan
         except NoProductsException, e:
-            self.exceptions.append(('ORGAAN', order.pet, e))
+            self.exceptions.append(('ORGAAN', order, e))
             total_orgaan = 0
         
         ###################################
@@ -484,14 +508,15 @@ class Oervoer(object):
         ###################################
         total_spier = 0.0
         try:
-            total_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
+            #total_spier, selection = self.select_type('SPIERVLEES', order, meal_size, package_rest*0.4)
+            total_spier, selection = self.select_type('SPIERVLEES', order, meal_size, relative_part*spier_factor)
+            package_rest -= total_spier
         except NoProductsException, e:
-            self.exceptions.append(('SPIERVLEES', order.pet, e))
+            self.exceptions.append(('SPIERVLEES', order, e))
             total_spier = 0
             selection = []
         
         products_in_order.extend(selection)
-        package_rest -= (total_spier+total_orgaan)
         ####################################
         # select ongemalen incompleet bot
         ####################################
@@ -499,7 +524,7 @@ class Oervoer(object):
         try:
             total_bot, selection = self.select_type('BOT', order, meal_size, package_rest)
         except NoProductsException, e:
-            self.exceptions.append(('BOT', order.pet, e))
+            self.exceptions.append(('BOT', order, e))
             selection = []
         
         products_in_order.extend(selection)
@@ -509,19 +534,7 @@ class Oervoer(object):
         print 'vis,pens,kark,spier,orgaan,bot', total_vis/pkg, total_pens/pkg, total_compleet_karkas/pkg,\
                                                 total_spier/pkg, total_orgaan/pkg, total_bot/pkg
         return products_in_order
-        
-    def write_inventory(self):
-        import csv
-        name = '.'.join(self.productname.split('.')[:-1])+'.new.csv'
-        
-        f = file(name, 'w')
-        fcsv = csv.writer(f)
-        fcsv.writerow('store sku qty is_in_stock geschiktmenu name smaak type_vlees shelf weight'.split())
-        
-        for prodtype in self.prodlists.values():
-            for prod in prodtype:
-                fcsv.writerow (['admin', prod.sku, prod.qty, 1, 'Ja', prod.name, prod.smaak, prod.type, prod.shelf, prod.weight])
-             
+
                 
 if __name__ == '__main__':
     import django
@@ -531,13 +544,10 @@ if __name__ == '__main__':
         testdir = '../test/'
     oervoer = Oervoer(testdir+'products.csv',testdir+'orders.csv',testdir+'picklists.csv')
     oervoer.parse_products()
-    oervoer.parse_orders()
     for order in oervoer.ordlist:
         try:
             result = oervoer.process_order(order)
             d = Delivery(testdir, order, result)
-            print d.csvout()
-            oervoer.write_inventory()
         except NoProductsException,e:
             print e
             print '%s\nKan order %s-%s niet vervullen.\n%s\n' % ('^'*70, order.owner, order.animal,'#$'*35 )
