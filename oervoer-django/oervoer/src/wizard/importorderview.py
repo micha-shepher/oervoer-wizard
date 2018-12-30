@@ -19,11 +19,9 @@ class ImportOrders(SingleTableView):
 
     def __init__(self, *args, **kwargs):
         super(ImportOrders, self).__init__()
-        user = 'bvdheide_micha'
-        pw = 'lelijkgedrocht'
         self.orders = []
         self.newpets = []
-        imp = importoervoer.ImportOrders(user, pw)
+        imp = importoervoer.ImportOrders()
         if imp.connect():
             self.orders = imp.importtable()
         
@@ -110,10 +108,8 @@ class ImportProducts(SingleTableView):
 
     def __init__(self, *args, **kwargs):
         super(ImportProducts, self).__init__()
-        user = 'bvdheide_micha'
-        pw = 'lelijkgedrocht'
         self.products = []
-        imp = importoervoer.ImportProds(user, pw)
+        imp = importoervoer.ImportProds()
         if imp.connect():
             self.products = imp.importtable()
 

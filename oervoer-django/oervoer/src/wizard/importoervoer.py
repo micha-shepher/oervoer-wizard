@@ -1,39 +1,63 @@
 '''utility to import Magento stuff into wizard.'''
+import os
 from time import strptime
 from datetime import datetime
 
+import django
 import pymysql
 import phpserialize
 import re
 import string
 import pprint
+
+from django.conf import settings
+
 from wizard.models import Taste, MeatType, Product
 
 def override(f):
     return f
 
+
+class Credentials:
+    host = '164.138.31.102'
+    user = 'b380yghh_bojan23'
+    pw = r'NM#M[%AXR8{QvMKI'
+    db = r'b380yghh_devsub227'
+
+class Old:
+    host = '46.19.33.91'
+    user = 'bvdheide_micha'
+    pw = r'lelijkgedrocht'
+    db = r'bvdheide_magento'
+
 class ImportOervoer(object):
-    '''connect to the oervoer mysql server and import the stuff we need for the wizard.
+    ''' connect to the oervoer mysql server and import the
+    stuff we need for the wizard.
     these are: orders, products, owners, pets, tastes and meattypes.
-    owners and pets are gathered from the order table.'''
-    def __init__(self, user='bvdheide_micha', pw='lelijkgedrocht', cur=None):
+    owners and pets are gathered from the order table.
+    '''
+    #    def __init__(self, user='bvdheide_micha', pw='lelijkgedrocht', cur=None):
+    def __init__(self, user=Credentials.user, pw=Credentials.pw, cur=None):
         self.user = user
         self.pw = pw
         self.cur = cur
         self.conn = None
-        
+
         if not cur:
             self.connect()
-    
+
     def connect(self):
         if self.conn:
             return True
         try:
             print 'connecting to {}@{}'.format(self.user, 'oervoer.com')
-#            self.conn = pymysql.connect(host='oervoer.com', port=3306,
-#                                        user=self.user, passwd=self.pw, db='bvdheide_magento')
-            self.conn = pymysql.connect(host='46.19.33.91', port=3306,
-                                        user=self.user, passwd=self.pw, db='bvdheide_magento')
+            #            self.conn = pymysql.connect(host='oervoer.com', port=3306,
+            #                                        user=self.user, passwd=self.pw, db='bvdheide_magento')
+
+            # self.conn = pymysql.connect(host='46.19.33.91', port=3306,
+            #                            user=self.user, passwd=self.pw, db='bvdheide_magento')
+            self.conn = pymysql.connect(host=Credentials.host, port=3306, user=self.user, passwd=self.pw,
+                                        db=Credentials.db)
             print 'connected'
         except pymysql.err.OperationalError:
             print 'no connection'
@@ -212,8 +236,8 @@ class ImportOrders(ImportOervoer):
     def importtable(self):
         query ='''
         SELECT item.item_id, sal.entity_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
-        FROM  `sales_flat_order` AS sal
-        INNER JOIN sales_flat_order_item AS item
+        FROM  `sales_order` AS sal
+        INNER JOIN sales_order_item AS item
         ON sal.entity_id=item.order_id
         WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
@@ -226,8 +250,8 @@ class ImportOrders(ImportOervoer):
         #      0              1           2                3                       4                      5                6            7(=-1)  
         query ='''
         SELECT item.item_id, sal.entity_id, item.order_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
-        FROM  `sales_flat_order` AS sal
-        INNER JOIN sales_flat_order_item AS item
+        FROM  `sales_order` AS sal
+        INNER JOIN sales_order_item AS item
         ON sal.entity_id=item.order_id
         WHERE item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
@@ -310,22 +334,20 @@ class ImportVlees(ImportOervoer):
         
     
 if __name__ == '__main__':
-    user = 'bvdheide_micha'
-    pw = 'lelijkgedrocht'
-    
-    imp = ImportOrders(user, pw)
+
+    imp = ImportOrders(Credentials.user, Credentials.pw)
     if imp.connect():
         savecur = imp.get_cur()
     imp.importtable()
     
-    imp = ImportProds(user, pw, savecur)
+    imp = ImportProds(Credentials.user, Credentials.pw, savecur)
     pprint.pprint( imp.importtable())
 
-    imp = ImportSmaak(user, pw, savecur)
+    imp = ImportSmaak(Credentials.user, Credentials.pw, savecur)
     imp.importtable()
     
         
-    imp = ImportVlees(user, pw, savecur)
+    imp = ImportVlees(Credentials.user, Credentials.pw, savecur)
     imp.importtable()
     
 

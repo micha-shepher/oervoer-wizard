@@ -16,10 +16,10 @@ import string
 
 #user = 'bvdheide_oervoer'
 #pw = '{0%M5s7Xs3gL(,_N'
-user = 'bvdheide_micha'
-pw = 'lelijkgedrocht'
-usercpanel = 'bvdheide'
-pwcpanel= 'p1fN7k<cG;r/-5x'
+#user = 'bvdheide_micha'
+#pw = 'lelijkgedrocht'
+#usercpanel = 'bvdheide'
+#pwcpanel= 'p1fN7k<cG;r/-5x'
 
 def get_name_and_weight(options):
     name = 'niet bekend'
@@ -55,12 +55,12 @@ def correct_string_len(s):
     pat = re.compile(r's:(\d*?):"(.*?)"')
     return re.sub(pat, lengthreplace, s)
     
-print 'connecting to {}@{}'.format(user, 'oervoer.com')
-conn = pymysql.connect(host='oervoer.com', port=3306, user=user, passwd=pw, db='bvdheide_magento')
-if conn:
-    print 'connected'
+#print 'connecting to {}@{}'.format(user, 'oervoer.com')
+#conn = pymysql.connect(host='oervoer.com', port=3306, user=user, passwd=pw, db='bvdheide_magento')
+#if conn:
+#    print 'connected'
    
-cur = conn.cursor()
+#cur = conn.cursor()
 
 query ='''
 SELECT sal.entity_id, sal.status, sal.customer_id, item.sku, item.product_id, item.weight, item.product_options
@@ -111,6 +111,6 @@ orderfile.close()
 #        f.write('\n')
 
 
-
-cur.close()
-conn.close()
+#
+#cur.close()
+#conn.close()
