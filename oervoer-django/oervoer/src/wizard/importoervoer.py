@@ -5,10 +5,11 @@ from datetime import datetime
 
 import django
 import pymysql
-import phpserialize
 import re
 import string
 import pprint
+import tempfile
+import json
 
 from django.conf import settings
 
@@ -19,10 +20,10 @@ def override(f):
 
 
 class Credentials:
-    host = '164.138.31.102'
-    user = 'b380yghh_bojan23'
-    pw = r'NM#M[%AXR8{QvMKI'
-    db = r'b380yghh_devsub227'
+    host = '37.252.127.41'
+    user = 'bvdhe1de_QmboIMy'
+    pw = r't[2LNcd.9;bwCOIa'
+    db = r'bvdhe1de_mg2v2019reo31lMv23'
 
 class Old:
     host = '46.19.33.91'
@@ -51,11 +52,6 @@ class ImportOervoer(object):
             return True
         try:
             print 'connecting to {}@{}'.format(self.user, 'oervoer.com')
-            #            self.conn = pymysql.connect(host='oervoer.com', port=3306,
-            #                                        user=self.user, passwd=self.pw, db='bvdheide_magento')
-
-            # self.conn = pymysql.connect(host='46.19.33.91', port=3306,
-            #                            user=self.user, passwd=self.pw, db='bvdheide_magento')
             self.conn = pymysql.connect(host=Credentials.host, port=3306, user=self.user, passwd=self.pw,
                                         db=Credentials.db)
             print 'connected'
@@ -77,15 +73,15 @@ class ImportOervoer(object):
 
     def set_query(self, query):
         self.query = query
-            
+
     def importtable(self):
-        
+
         self.execute()
         query_results = self.cur.fetchall()
         return query_results
 
 class ImportProds(ImportOervoer):
-    
+
     def updateqty(self, prod, used):
         query = '''
         UPDATE cataloginventory_stock_item AS inv
@@ -143,9 +139,9 @@ class ImportProds(ImportOervoer):
                 geschikt = [int(i) for i in prod[-1].split(',')]
                 print prod[2], geschikt
                 for ind in geschikt:
-                
+
                     ind = int(ind)
-                    if cat_dog.has_key(ind):    
+                    if cat_dog.has_key(ind):
                         kat = kat or 'KAT' in cat_dog[ind].upper()
                         hond = hond or 'HOND' in cat_dog[ind].upper()
                     else:
@@ -154,7 +150,7 @@ class ImportProds(ImportOervoer):
                 pass
             prod[-1] = (hond,kat,)
         return self.processresults()
-            
+
     def processresults(self):
         adjusted = []
         #{'id','name','sku','qty','smaak','vlees','shelf','weight', 'verpakking', kat_hond})
@@ -188,78 +184,84 @@ class ImportProds(ImportOervoer):
                  'weight':rec[7], 'verpakking':rec[8], 'kat_hond':rec[9]})
 
         return adjusted
-    
+
 class ImportOrders(ImportOervoer):
-    
+
     def get_name_and_weight(self, options):
         name = 'niet bekend'
         weight = '10'
         date = datetime.strptime('2000-01-01 00:00:00', '%Y-%m-%d %H:%M:%S')
         pat = re.compile('(\d+\.{0,1}\d*)')
 
-        for option in options.keys():
+        for option in options:
 
-            if options[option]['label'].find('Geboortedatum') > -1:
-                date = options[option]['option_value']
+            if option['label'].find('Geboortedatum') > -1:
+                date = option['option_value']
                 try:
                     date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
                 except ValueError:
                     print 'unable to format {}'.format(date)
-            if options[option]['label'].find('Wat is de naam') > -1:
-                name = options[option]['option_value']
-            if options[option]['label'].find('Wat is het gewicht') > -1:
-                weight = options[option]['option_value']
+            if option['label'].find('Wat is de naam') > -1:
+                name = option['option_value']
+            if option['label'].find('Wat is het gewicht') > -1:
+                weight = option['option_value']
                 weight = weight.replace(',','.')
                 m = re.search(pat, weight)
                 if m:
                     weight = m.group(0)
-                
+
         return name, weight, date
- 
+
     def lengthreplace(self, matchobj):
         '''replace badly generated string length to fix PHP serialize bug.
-        '''   
+        '''
         a = matchobj.group(1)
         b = matchobj.group(2)
         if not int(a) == len(b):
             return 's:{}:"{}"'.format(len(b),b)
         else:
             return matchobj.group(0)
-     
+
     def correct_string_len(self, s):
         '''example: "s:17:bla bla bla bla bla b"
                      matches. group 1 is '17' and group 2 is "bla bla bla bla bla b" '''
         pat = re.compile(r's:(\d*?):"(.*?)"')
         return re.sub(pat, self.lengthreplace, s)
-    
+
     @override
     def importtable(self):
         query ='''
-        SELECT item.item_id, sal.entity_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
+        SELECT DISTINCT item.item_id, sal.entity_id, sal.status, sal.customer_id, firstname, lastname, item.product_id, 
+        item.weight, item.qty_ordered, item.product_options
         FROM  `sales_order` AS sal
         INNER JOIN sales_order_item AS item
         ON sal.entity_id=item.order_id
+        INNER JOIN sales_order_address
+        ON parent_id = item.order_id
         WHERE sal.status in ('processing','pending') AND item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
         self.set_query(query)
-    
+
         results = [list(i) for i in super(ImportOrders, self).importtable()]
         return self.processResults(results)
 
     def importallorders(self):
-        #      0              1           2                3                       4                      5                6            7(=-1)  
+        #      0              1           2                3                       4                      5                6            7(=-1)
         query ='''
-        SELECT item.item_id, sal.entity_id, item.order_id, sal.status, sal.customer_id, sal.customer_firstname, sal.customer_lastname, item.product_id, item.weight, item.qty_ordered, item.product_options
+        SELECT DISTINCT item.item_id, sal.entity_id, sal.status, sal.customer_id, firstname, lastname, item.product_id, 
+        item.weight, item.qty_ordered, item.product_options
         FROM  `sales_order` AS sal
         INNER JOIN sales_order_item AS item
         ON sal.entity_id=item.order_id
+        INNER JOIN sales_order_address
+        ON parent_id = item.order_id
         WHERE item.product_id in (58,60,85,125,126,127,187,192,193,423,424,425,426,427,428)
         '''
         self.set_query(query)
-    
+
         results = [list(i) for i in super(ImportOrders, self).importtable()]
         return self.processResults(results)
-                
+
     def processResults(self, results):
         adjusted_results = []
         for r in results:
@@ -274,12 +276,11 @@ class ImportOrders(ImportOervoer):
                 kh = 'HOND'
             else:
                 kh = 'KAT'
-        
+
             s=filter(lambda x: x in string.printable, r[-1]) # last field is options field, where the owner,
                                                              # pet name and weight are stored.
             try:
-                d = phpserialize.loads(self.correct_string_len(s))    # this string (s) is already without strange characters
-                #file('/tmp/junk1', 'a').write(str(d))
+                d = json.loads(self.correct_string_len(s))    # this string (s) is already without strange characters
             except ValueError:
                 d={}
                 print 'bad options voor {}'.format(str(r[-1]))
@@ -290,19 +291,20 @@ class ImportOrders(ImportOervoer):
             if d.has_key('options'):
                 name, weight, date = self.get_name_and_weight(d['options'])
             else:
-                file('{0}.deb'.format(r[0]),'w').write(str(d))
+                tempdir = tempfile.gettempdir()
+                file('{0}/{1}.deb'.format(tempdir, r[0]),'w').write(str(d))
                 print r[0],r[1],r[7],' does not have options!'
                 print d.keys()
             # .......      order_id | sts | custid | customer name |  pakket | kat/hond | gewicht pak | pet | gewicht pet
             adjusted_results.append({'id':r[0],'status':r[2],'customer_id':r[3],'customer_name':' '.join((r[4], r[5])),
                               'pakket':pak, 'ras':kh, 'gewicht_pak': float(r[7]*r[8]), 'name':name, 'weight':weight, 'item_id':r[1], 'date':date})
             #adjusted_results[r[0]] = r[1], r[2], ' '.join((r[3], r[4])), pak, kh,      r[6],         name, weight
-        
+
         return adjusted_results
-    
-    
+
+
 class ImportSmaak(ImportOervoer):
-    
+
     @override
     def importtable(self):
         query ='''
@@ -317,9 +319,9 @@ class ImportSmaak(ImportOervoer):
 
         #query2='''
         #SELECT * FROM smaken WHERE 1'''
-    
+
 class ImportVlees(ImportOervoer):
-    
+
     @override
     def importtable(self):
         query ='''
@@ -331,25 +333,22 @@ class ImportVlees(ImportOervoer):
         '''
         self.set_query(query)
         return dict(super(ImportVlees, self).importtable())
-        
-    
+
+
 if __name__ == '__main__':
 
     imp = ImportOrders(Credentials.user, Credentials.pw)
     if imp.connect():
         savecur = imp.get_cur()
     imp.importtable()
-    
+
     imp = ImportProds(Credentials.user, Credentials.pw, savecur)
     pprint.pprint( imp.importtable())
 
     imp = ImportSmaak(Credentials.user, Credentials.pw, savecur)
     imp.importtable()
-    
-        
+
+
     imp = ImportVlees(Credentials.user, Credentials.pw, savecur)
     imp.importtable()
-    
 
-    
-    
