@@ -1,0 +1,14 @@
+{0} 
+
+Beste {1},
+
+Hierbij ontvang je je {2} OerVoer pakket.
+{3} weegt {4:.2f} kg en heeft gemiddeld {5:.0f} gram verse voeding per dag nodig
+verdeeld over 1 of 2 maaltijden.
+In je OerVoer gemalen Plus pakket vind je verschillende smaken enkelvoudige malingen, 
+pens en hele stukjes vis.
+Ga uit van één pens dag en één vis dag per week.
+
+
+Dit {2} OerVoer pakket bevat: 
+

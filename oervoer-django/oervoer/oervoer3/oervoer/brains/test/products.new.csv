@@ -1,0 +1,96 @@
+store,sku,qty,is_in_stock,geschiktmenu,name,smaak,type_vlees,shelf,weight
+admin,RUNDHALS,79,1,Ja,Rund - gemalen halsvlees,RUND,SPIERVLEES,Binnencel,0.15
+admin,GEITENVLEES/150,12,1,Ja,Geitenvlees,GEIT,SPIERVLEES,,0.15
+admin,REE0001,20,1,Ja,Ree spiervlees - 250 gram,REE,SPIERVLEES,Binnencel,0.25
+admin,RUNDERKOPHUID,80,1,Ja,Runderkop vlees,RUND,SPIERVLEES,Binnencel,0.25
+admin,HERT250GRAM,20,1,Ja,Hert spiervlees - 250 gram,HERT,SPIERVLEES,Binnencel,0.25
+admin,REE0002,60,1,Ja,Ree spiervlees - 500 gram,REE,SPIERVLEES,Binnencel,0.5
+admin,HERT500GRAM,31,1,Ja,Hert spiervlees - 500 gram,HERT,SPIERVLEES,Binnencel,0.5
+admin,SCHAAPVLEES/500,98,1,Ja,Schapenvlees,SCHAAP,SPIERVLEES,,0.5
+admin,KONIJN0002,63,1,Ja,Konijn karkas- half,KONIJN,COMPLEET KARKAS.MIDDEL BOT,binnencel,0.35
+admin,KONIJN0003,41,1,Ja,Konijn karkas-Heel- 550 gram,KONIJN,COMPLEET KARKAS.MIDDEL BOT,Binnencel,0.55
+admin,PARELHOENKARKAS,48,1,Ja,Parelhoenkarkas,PARELHOEN,COMPLEET KARKAS.MIDDEL BOT,Binnencel,0.2
+admin,PATRIJSKARKAS,97,1,Ja,Patrijs - Karkas met orgaan,PATRIJS,COMPLEET KARKAS.MIDDEL BOT,Binnencel,0.225
+admin,DUIF-01,20,1,Ja,Duifkarkas met orgaan,DUIF,COMPLEET KARKAS.MIDDEL BOT,Binnencel,0.14
+admin,DUIF-05,100,1,Ja,Duifkarkas met orgaan - per 3 stuks,DUIF,COMPLEET KARKAS.MIDDEL BOT,Binnencel,0.4
+admin,KIPHART/50,80,1,Ja,Kippenhartjes - 50 gram,KIP.HART,ORGAAN,,0.05
+admin,KIPMAAG/50,80,1,Ja,Kippenmaagjes - 50 gram,KIP.MAAG,ORGAAN,,0.05
+admin,EENDMAAG/50,80,1,Ja,Eendenmaagjes - 50 gram,EEND.MAAG,ORGAAN,,0.05
+admin,EENDHART/50,50,1,Ja,Eendenhartjes - 50 gram,EEND.HART,ORGAAN,,0.05
+admin,KIPLEVER/60,97,1,Ja,Kip - Lever,KIP.LEVER,ORGAAN,Orgaanbank,0.06
+admin,LAMLEVER/100,10,1,Ja,Lam - Lever,LAM,ORGAAN,Orgaanbank,0.1
+admin,HERTLEVER,-2,1,Ja,Hert - Lever,HERT.LEVER,ORGAAN,Orgaanbank,0.125
+admin,KIP0002,58,1,Ja,Kippenmaagjes - 150 gram,KIP.MAAG,ORGAAN,Orgaanbank,0.15
+admin,KIPPENMAAGJES,65,1,Ja,Kippenmaagjes,KIP.MAAG,ORGAAN,Orgaanbank,0.15
+admin,KIPPENHARTJES,100,1,Ja,Kippenhartjes,KIP.HART,ORGAAN,Orgaanbank,0.15
+admin,EENDENHARTEN,40,1,Ja,Eendenhartjes,EEND.HART,ORGAAN,Orgaanbank,0.15
+admin,EENDENMAGEN,15,1,Ja,Eendenmaagjes,EEND.MAAG,ORGAAN,Orgaanbank,0.15
+admin,RUNDERLEVER,92,1,Ja,Runderlever,RUND.LEVER,ORGAAN,Orgaanbank,0.15
+admin,RUNDHART,74,1,Ja,Runderhart,RUND,ORGAAN,Orgaanbank,0.15
+admin,LAMSHART/150,48,1,Ja,Lam - Hart,LAM,ORGAAN,Orgaanbank,0.15
+admin,GEITORGAANMIX,99,1,Ja,"Geitorgaan, maling",GEIT,ORGAAN,Paris,0.15
+admin,SCHAAPHART,7,1,Ja,Schapenhart,SCHAAP.HART,ORGAAN,,0.15
+admin,SCHAAPLEVER,6,1,Ja,Schapenlever,SCHAAP.LEVER,ORGAAN,,0.15
+admin,SCHAAPNIER,7,1,Ja,Schapennieren,SCHAAP.NIER,ORGAAN,,0.17
+admin,RUNDERHART,46,1,Ja,Runderhart,RUND.HART,ORGAAN,Orgaanbank,0.5
+admin,KWARTEL-01,-2,1,Ja,Kwartelkarkas met orgaan - per stuk,KWARTEL,COMPLEET KARKAS.ZACHT BOT,Binnencel,0.08
+admin,KWARTEL-05,81,1,Ja,Kwartelkarkas met orgaan - per 5 stuks,KWARTEL,COMPLEET KARKAS.ZACHT BOT,Binnencel,0.4
+admin,KIP0010,77,1,Ja,Kippennekken - 6 stuks,KIP,ZACHT BOT,Binnencel,0.25
+admin,KIPBORREL,74,1,Ja,Kip - Borrelpootjes,KIP,ZACHT BOT,binnencel,0.18
+admin,KIP0003,71,1,Ja,Kipkarkas - kwart - 75- 100 gram,KIP,ZACHT BOT,Binnencel,0.075
+admin,EEND0002,28,1,Ja,Eendennekken,EEND,ZACHT BOT,Binnencel,0.25
+admin,KIP0005,44,1,Ja,Kipkarkas - heel (klein) - 100- 120 g,KIP,ZACHT BOT,Binnencel,0.15
+admin,EEND0011,58,1,Ja,Eendenkarkas - half - 240 gram,EEND,ZACHT BOT,Binnencel,0.24
+admin,EENDBOTMALING/250,78,1,Ja,Eend - Botmaling,EEND,ZACHT BOT,Binnencel,0.25
+admin,KIP0004,5,1,Ja,Kipkarkas - groot- 300 gram,KIP,ZACHT BOT,Binnencel,0.3
+admin,EEND0012,9,1,Ja,Eendenkarkas - heel,EEND,ZACHT BOT,Binnencel,1.2
+admin,ZALM0001,19,1,Ja,Zalm - Kop,ZALM.KOP,VIS,Binnencel,0.5
+admin,ZALM0003,99,1,Ja,Zalm - Lijf - middel - 250g,ZALM,VIS,Binnencel,0.25
+admin,ZALM0004,16,1,Ja,Zalm - Lijf - klein - 125g,ZALM,VIS,Binnencel,0.125
+admin,KABE0003,20,1,Ja,Kabeljauw - Lijf - middel - 250g,KABELJAUW,VIS,Binnencel,0.225
+admin,KABE0004,10,1,Ja,Kabeljauw - Lijf - klein - 100g,KABELJAUW,VIS,Binnencel,0.125
+admin,KABE0001,16,1,Ja,Kabeljauw - Kop,KABELJAUW.KOP,VIS,Binnencel,0.75
+admin,HARING/100,-18,1,Ja,Haring - 2 stuks - 100 gram,HARING,VIS,Binnencel,0.1
+admin,HARING/250,16,1,Ja,Haring - 5 stuks - 250 gram,HARING,VIS,Binnencel,0.25
+admin,ROODBAARS/KOP,20,1,Ja,Roodbaars - Kop,ROODBAARS.KOP,VIS,,0.5
+admin,SARDIEN/1,39,1,Ja,Sardien - per stuk,SARDIEN,VIS,,0.08
+admin,SARDIEN/3,45,1,Ja,Sardien - per 3 stuks,SARDIEN,VIS,,0.24
+admin,PUURZALM,-8,1,Ja,Puur zalm - Petsfish,ZALM,GEMALEN VIS,Binnencel,0.5
+admin,ZUIVERZALM/250,97,1,Ja,Zalm - OerVoer Zuiver,ZALM,GEMALEN VIS,Binnencel,0.25
+admin,HEEKZUIVER/250,78,1,Ja,Heek - OerVoer Zuiver - 250 gram,HEEK,GEMALEN VIS,,0.25
+admin,EENDENKARKAS,97,1,Ja,Eendenkarkas (tam),EEND,MIDDEL BOT,Binnencel,0.13
+admin,LAMPENSGEMALEN/250,86,1,Ja,OerVoer Lamspens - Gemalen - 250 gram,LAM.PENS,PENS,Orgaanbank,0.25
+admin,OZGEITENPENS/250,70,1,Ja,Geitenpens - OerVoer Zuiver,GEIT.PENS,PENS,Binnencel,0.25
+admin,RUNDPENS/250,64,1,Ja,OerVoer Rundpens - 250,RUND.PENS,PENS,Binnencel,0.25
+admin,LAMPENSGEMALEN/500,45,1,Ja,OerVoer Lamspens - Gemalen - 500 gram,LAM.PENS,PENS,Orgaanbank,0.5
+admin,RUNDPENS/500,53,1,Ja,OerVoer Rundpens - 500 ,RUND.PENS,PENS,Orgaanbank,0.5
+admin,OZGEITENPENS/500,95,1,Ja,Geitenpens - OerVoer Zuiver - 500 gram,GEIT.PENS,PENS,Binnencel,0.5
+admin,FAZANT0001,19,1,Ja,Fazant karkas met organen,FAZANT,COMPLEET KARKAS.HARD BOT,Binnencel,0.8
+admin,HAASKARKAS,96,1,Ja,OerVoer - Haaskarkas,HAAS,HARD BOT,Binnencel,0.2
+admin,FAZANTSTICKS,75,1,Ja,Fazant Drumsticks,FAZANT,HARD BOT,Binnencel,0.18
+admin,GEITKARKAS,59,1,Ja,Geitkarkas,GEIT,HARD BOT,Binnencel,0.25
+admin,HERTNEK,14,1,Ja,Hertennekken,HERT,HARD BOT,Binnencel,0.3
+admin,REENEK/200,53,1,Ja,Reenekken,REE,HARD BOT,Binnencel,0.2
+admin,BOSDUIFZUIVER,161,1,Ja,Bosduif  - enkelvoudige maling,DUIF,COMPLEET GEMALEN,Paris,0.25
+admin,EENDMALING/250,72,1,Ja,Eend - enkelvoudige maling - 250 gram,EEND,COMPLEET GEMALEN,Paris,0.25
+admin,KIPMALING/250,73,1,Ja,Zuiver Kip  - enkelvoudige maling - 250 gram,KIP,COMPLEET GEMALEN,Paris,0.25
+admin,FAZANTMIX/250,69,1,Ja,Fazant - enkelvoudige maling - 250 gram,FAZANT,COMPLEET GEMALEN,Paris,0.25
+admin,GEITMALING/250,175,1,Ja,Geit - Enkelvoudige maling - 250 gram,GEIT,COMPLEET GEMALEN,Paris,0.25
+admin,KALKOENZUIVER/250,77,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 250 gram,KALKOEN,COMPLEET GEMALEN,Paris,0.25
+admin,HAASMALING/250,693,1,Ja,Haas - OerVoer Zuiver - enkelvoudige maling,HAAS,COMPLEET GEMALEN,Paris,0.25
+admin,ZUIVERLAM/250,82,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 250 gram,LAM,COMPLEET GEMALEN,Paris,0.25
+admin,KONIJNZUIVER/250,85,1,Ja,Zuiver Konijn - enkelvoudige maling - 250 gram,KONIJN,COMPLEET GEMALEN,Paris,0.25
+admin,RUNDZUIVER/250,36,1,Ja,Rund - Zuiver - OerVoer - 250 gram,RUND,COMPLEET GEMALEN,Paris,0.25
+admin,WGANSZUIVER/250,88,1,Ja,Gans (Wild) - OerVoer Zuiver - 250 gram,GANS,COMPLEET GEMALEN,Paris,0.25
+admin,DARFKATZALM/1,19,1,Ja,DARF - ZALM - KAT,VIS,COMPLEET GEMALEN,Binnencel,0.3
+admin,DARFKATPER1,40,1,Ja,DARF - KAT - PER 1,"KIP , RUND",COMPLEET GEMALEN,Binnencel,0.3
+admin,HAASMALING/500,23,1,Ja,Zuiver Haas - enkelvoudige maling,HAAS,COMPLEET GEMALEN,Paris,0.5
+admin,KONIJNMALING/500,95,1,Ja,Zuiver Konijn - enkelvoudige maling,KONIJN,COMPLEET GEMALEN,Paris,0.5
+admin,EENDMALING/500,75,1,Ja,Eend - enkelvoudige maling - 500 gram,EEND,COMPLEET GEMALEN,Paris,0.5
+admin,KIPMALING/500,296,1,Ja,Zuiver Kip  - enkelvoudige maling - 500 gram,KIP,COMPLEET GEMALEN,Paris,0.5
+admin,FAZANTMIX/500,80,1,Ja,Fazant - enkelvoudige maling - 500 gram,FAZANT,COMPLEET GEMALEN,Paris,0.5
+admin,GEITMIX/500,18,1,Ja,Geit - OerVoer Zuiver - enkelvoudige maling - 500 gram,GEIT,COMPLEET GEMALEN,Paris,0.5
+admin,KALKOENZUIVER/500,53,1,Ja,Kalkoen - OerVoer Zuiver - Enkelvoudige maling - 500 gram,KALKOEN,COMPLEET GEMALEN,Paris,0.5
+admin,ZUIVERLAM/500,53,1,Ja,Lam - OerVoer Zuiver - Enkelvoudige maling - 500 gram,LAM,COMPLEET GEMALEN,Paris,0.5
+admin,RUNDZUIVER/500,98,1,Ja,Rund - Zuiver - OerVoer - 500 gram,RUND,COMPLEET GEMALEN,Paris,0.5
+admin,HAASHERT/500,98,1,Ja,Haas/Hert - OerVoer Zuiver -500 gram,"HAAS , HERT",COMPLEET GEMALEN,Paris,0.5
