@@ -7,7 +7,6 @@ prototype of a picklist wizard for www.oervoer.nl
 '''
 import os
 from django.utils.timezone import now
-from numpy.core import std
 
 from oervoer.importoervoer import ImportProds
 from ... import logger
@@ -316,7 +315,7 @@ class Oervoer(object):
                     weightdev <= to_reach_weight * 0.25:
                 final.append(sel)
         for selection in final:
-            st = std(list(selection[1].values()))
+            st = numpy.std(list(selection[1].values()))
             selection[2] = st
 
         final.sort(key=lambda x: x[2])
